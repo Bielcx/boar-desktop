@@ -11,7 +11,10 @@ async function extract(): Promise<string> {
   // @ts-expect-error: pdf.js ships no types for its worker module.
   (globalThis as any).pdfjsWorker = await import("pdfjs-dist/legacy/build/pdf.worker.mjs");
   const data = new Uint8Array(await readFile(file));
-  const task = pdfjs.getDocument({ data, cMapUrl, cMapPacked: true, verbosity: 0 });
+  // This thread has Node's full access and the PDF may be hostile (a watched folder imports whatever lands there): no
+  // font loading and no system fonts, which text extraction doesn't need. (pdf.js 6 has no eval path for fonts any
+  // more, the route of CVE-2024-4367.)
+  const task = pdfjs.getDocument({ data, cMapUrl, cMapPacked: true, verbosity: 0, disableFontFace: true, useSystemFonts: false });
   try {
     const doc = await task.promise;
     if (doc.numPages > maxPages) throw Object.assign(new Error(`it has ${doc.numPages} pages; the limit is ${maxPages}`), { code: "TOO_LARGE" });

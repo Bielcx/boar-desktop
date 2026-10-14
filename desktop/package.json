@@ -1,7 +1,7 @@
 {
   "name": "boar-desktop",
   "productName": "BOAR",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "BOAR desktop: the Expo web build of the app inside Electron, native packages served by the main process.",
   "author": "Bielcx",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@playwright/test": "^1.64.0",
     "@types/node": "^26.6.4",
-    "electron": "^40.10.2",
+    "electron": "^44.7.2",
     "electron-builder": "26.15.3",
     "typescript": "~6.0.3"
   },

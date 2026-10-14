@@ -6,15 +6,23 @@ on:
   push:
     tags: ["v*"]
 
-permissions:
-  contents: write
+# Actions are pinned to a commit (the tag in the comment), so a moved tag upstream can't change what builds a release.
+permissions: {}
 
 jobs:
   windows:
     runs-on: windows-latest
+    permissions:
+      contents: write # the release
+      id-token: write # the provenance attestation (Sigstore)
+      attestations: write
+      artifact-metadata: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # No token left in .git/config: the install scripts of the dependencies run in this job.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
@@ -32,15 +40,25 @@ jobs:
         working-directory: desktop
       - run: npm run dist
         working-directory: desktop
-      - name: Draft release
+      # BOAR-Setup.exe too: a link that never changes, for the website
+      # (https://github.com/<owner>/<repo>/releases/latest/download/BOAR-Setup.exe).
+      - name: Installer copies and checksums
         shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
+        working-directory: desktop/release
         run: |
-          # BOAR-Setup.exe too: a link that never changes, for the website
-          # (https://github.com/<owner>/<repo>/releases/latest/download/BOAR-Setup.exe).
-          cd desktop/release
           cp BOAR-Setup-*.exe BOAR-Setup.exe
           sha256sum BOAR-Setup*.exe > SHA256SUMS.txt
+      # Anyone can check an installer was built here, from this commit:
+      #   gh attestation verify BOAR-Setup.exe --repo <owner>/<repo>
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: desktop/release/BOAR-Setup*.exe
+      - name: Draft release
+        shell: bash
+        working-directory: desktop/release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
           gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "BOAR $GITHUB_REF_NAME" \
             BOAR-Setup-*.exe BOAR-Setup.exe SHA256SUMS.txt

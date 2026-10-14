@@ -100,6 +100,23 @@ qualquer pedido com `Origin` (página da web), mesmo com token. O token tem 256 
 hash SHA-256, comparado em tempo constante. Tem validade e revogação, limite de 60 pedidos por minuto e corpo até
 1 MB. Com o BOAR trancado por PIN, a API recusa (423). Detalhes em `docs/10-api.md`.
 
+**12. Antes do download público (v0.1.0, outubro de 2026).**
+
+- **Electron 40 → 44.** O Electron só corrige os três majors mais novos; o 40 já não recebia as correções de
+  segurança do Chromium. Testado no app empacotado com todos os e2e e o MCP.
+- **PDF sem fontes.** O pdf.js lê o PDF num worker com acesso total ao Node, e a pasta vigiada importa o que cair
+  nela. Agora roda com `disableFontFace` e sem fontes do sistema, que a extração de texto não usa.
+- **Releases.** O instalador é feito pelo GitHub Actions a partir da tag, com as actions fixadas por commit, sem token
+  no checkout (os scripts de instalação das dependências rodam nesse job) e com atestado de procedência:
+  `gh attestation verify BOAR-Setup.exe --repo Bielcx/boar-desktop`. `main` e as tags `v*` não aceitam force-push
+  nem remoção. Vulnerabilidades: `SECURITY.md` (relato privado).
+- **Dependências com alerta no `npm audit`.** Nenhuma vai no instalador: as da raiz são das ferramentas de build
+  (Expo CLI, Metro), conferido no `web-dist`; o `simple-git` do `node-llama-cpp` só é usado pela linha de comando dele.
+
+O que fica em aberto: o instalador não é assinado (SmartScreen avisa; precisa de certificado), e modelos GGUF
+baixados do Hugging Face por escolha do usuário são lidos pelo llama.cpp, que é código nativo: vale baixar modelos de
+quem você confia.
+
 ## Outras correções da mesma rodada (não são de segurança, mas evitam travas)
 
 - O download agora usa `pipeline`: disco cheio ou destino inválido viram um erro normal, em vez de derrubar o

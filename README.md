@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/boar.png" width="112" alt="BOAR mascot" />
+  <img src="./docs/readme/evolution.png" width="560" alt="The BOAR mascot growing up: piglet, young, adult and wise old boar, each in a safari hat" />
 </p>
 
 <h1 align="center">BOAR for desktop</h1>
@@ -7,7 +7,8 @@
 <p align="center">
   <b>AI that works when the internet doesn't.</b><br />
   A research assistant that runs entirely on your computer, answers from Wikipedia and your own files,<br />
-  and shows where every answer came from.
+  and shows where every answer came from.<br />
+  <sub>The boar grows up as your library does.</sub>
 </p>
 
 <p align="center">
