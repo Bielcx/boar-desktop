@@ -59,6 +59,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+        # Beta in the title and at the top of the notes, but not GitHub's pre-release flag: a pre-release isn't
+        # "latest", and releases/latest/download/BOAR-Setup.exe (the website's link) would stop resolving.
         run: |
-          gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "BOAR $GITHUB_REF_NAME" \
+          beta='> [!WARNING]
+          > **Beta.** BOAR for Windows is early software, made for builders who want to try it and help shape it. Expect rough edges, and keep anything important backed up. Found a bug? [Open an issue](https://github.com/'"$GH_REPO"'/issues). A security problem? See [SECURITY.md](https://github.com/'"$GH_REPO"'/blob/main/SECURITY.md).'
+          gh release create "$GITHUB_REF_NAME" --draft --generate-notes --notes "$beta" --title "BOAR $GITHUB_REF_NAME (beta)" \
             BOAR-Setup-*.exe BOAR-Setup.exe SHA256SUMS.txt

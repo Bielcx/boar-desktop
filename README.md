@@ -13,6 +13,7 @@
 
 <p align="center">
   <a href="https://github.com/Bielcx/boar-desktop/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/Bielcx/boar-desktop?color=FF7A3D&include_prereleases" /></a>
+  <img alt="Beta" src="https://img.shields.io/badge/status-beta-d93a2b" />
   <img alt="Windows 10/11 x64" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20x64-FFB547" />
   <img alt="Works offline" src="https://img.shields.io/badge/works-offline-17110D" />
   <a href="./LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/Bielcx/boar-desktop" /></a>
@@ -58,6 +59,10 @@ each passage is a numbered source you can open.
 </table>
 
 ## Download
+
+> [!WARNING]
+> **Beta.** BOAR for Windows is early software, made for builders who want to try it and help shape it. Expect rough
+> edges, and keep anything important backed up. Bugs and ideas: [issues](https://github.com/Bielcx/boar-desktop/issues).
 
 1. **[Download BOAR-Setup.exe](https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe)** (about 122 MB), or pick a version on the [releases page](https://github.com/Bielcx/boar-desktop/releases).
 2. Run it. It installs for your user only (no administrator password) and adds a Start menu shortcut.
