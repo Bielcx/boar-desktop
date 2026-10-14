@@ -1,7 +1,7 @@
 # 5. Onda 3 — o instalador
 
 Até aqui o app só rodava a partir do código (`npm start`). Nesta onda ele virou um **programa instalável**: um
-`BOAR Setup 0.1.0.exe` que qualquer pessoa com Windows 10/11 64 bits baixa, clica duas vezes e usa, sem Node, sem
+`BOAR-Setup-0.1.0.exe` que qualquer pessoa com Windows 10/11 64 bits baixa, clica duas vezes e usa, sem Node, sem
 `npm install`, sem nada.
 
 ```
@@ -10,7 +10,7 @@ npm run dist      # dentro de desktop/: compila o main, gera o web-dist e empaco
 
 Saída em `desktop/release/`:
 
-- `BOAR Setup 0.1.0.exe` (~103 MB): instalador. Instala só para o usuário atual (em
+- `BOAR-Setup-0.1.0.exe` (~103 MB): instalador. Instala só para o usuário atual (em
   `%LOCALAPPDATA%\Programs\boar-desktop`, nome que vem do `name` do `package.json`), sem pedir senha de
   administrador, e cria atalho no Menu Iniciar. Instalado ocupa
   ~450 MB. Desinstala pelo "Adicionar ou remover programas". Os dados (modelos, banco, conversas) ficam em

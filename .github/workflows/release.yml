@@ -1,0 +1,41 @@
+name: Release
+
+# Push a tag like v0.2.0 (it must match desktop/package.json's version): builds the Windows installer and
+# opens a draft GitHub release with it. Review the draft, then publish it by hand.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - name: Tag matches the app version
+        shell: bash
+        run: |
+          v=$(node -p "require('./desktop/package.json').version")
+          [ "$GITHUB_REF_NAME" = "v$v" ] || { echo "tag $GITHUB_REF_NAME, desktop/package.json says $v"; exit 1; }
+      # The web export only needs the app's JS: skip llama.rn's postinstall (Android/iOS binaries).
+      - run: npm ci --ignore-scripts
+      - run: npm ci
+        working-directory: desktop
+      - run: npm run dist
+        working-directory: desktop
+      - name: Draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "BOAR $GITHUB_REF_NAME" \
+            desktop/release/BOAR-Setup-*.exe

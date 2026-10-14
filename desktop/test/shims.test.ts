@@ -117,7 +117,7 @@ describe("expo-file-system/legacy downloads", () => {
 
   it("downloads with progress, then pauses and resumes with a Range request", async () => {
     process.env.BOAR_ALLOW_HTTP_DOWNLOADS = "1";
-    server = await serve(body, { delayMs: 15 });
+    server = await serve(body, { delayMs: 60 }); // ~1 s in all: room for a 100 ms progress tick and the pause on a slow CI runner
     const seen: Array<{ totalBytesWritten: number; totalBytesExpectedToWrite: number }> = [];
     let d!: InstanceType<typeof FS.DownloadResumable>;
     let paused: Promise<unknown> | null = null;

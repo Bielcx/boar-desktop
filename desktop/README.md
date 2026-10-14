@@ -36,7 +36,7 @@ The Android app's UI and engine, unchanged, running in Electron on Windows, macO
 | `npm start` | compile main + Electron on `web-dist/` (run `build:web` first) |
 | `npm run typecheck` | main/preload (`tsconfig.json`) and shims (`tsconfig.shims.json`) |
 | `npm test` | vitest on `test/` (shims against the real handlers, the app's engine code on them, the guards). `BOAR_TEST_MODELS_DIR` also runs `test/llama.rn.test.ts`'s model tests. The repo root's `npx vitest` skips `desktop/` |
-| `npm run dist` | `build:main` + `build:web` + electron-builder → `release/BOAR Setup <ver>.exe` (NSIS, per-user, unsigned) and `release/win-unpacked/` (see `docs/05-pacote.md`) |
+| `npm run dist` | `build:main` + `build:web` + electron-builder → `release/BOAR-Setup-<ver>.exe` (NSIS, per-user, unsigned) and `release/win-unpacked/` (see `docs/05-pacote.md`) |
 | `npm run e2e` | Playwright drives the built app, 6 specs: `chat` (setup → cited answer, Alert/Share), `persistence` (state survives a restart), `documents` (import a note and a PDF, get both cited; a locked PDF fails clearly; export/remove), `tour` (every screen, no errors), `voice` (fake microphone -> whisper -> chat input; also needs `ggml-base-q5_1.bin` there), `folder-watch` (a .txt dropped in a watched folder gets imported, announced and cited). Needs `build:web` and `BOAR_TEST_MODELS_DIR` |
 
 `BOAR_E2E_EXE=release/win-unpacked/BOAR.exe` (after `npm run dist`) runs the e2e specs on the packaged app.

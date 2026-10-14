@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "BOAR desktop: the Expo web build of the app inside Electron, native packages served by the main process.",
+  "author": "Bielcx",
+  "homepage": "https://github.com/Bielcx/boar-desktop",
+  "license": "MIT",
   "main": "dist/main/main.js",
   "scripts": {
     "build:main": "tsc -p tsconfig.json && node scripts/build-mcp.mjs",
@@ -66,7 +69,8 @@
           ]
         }
       ],
-      "icon": "../assets/icon.png"
+      "icon": "../assets/icon.png",
+      "artifactName": "BOAR-Setup-${version}.${ext}"
     },
     "nsis": {
       "oneClick": true,
