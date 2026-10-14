@@ -58,7 +58,7 @@ each passage is a numbered source you can open.
 
 ## Download
 
-1. Get **`BOAR-Setup-<version>.exe`** from the [latest release](https://github.com/Bielcx/boar-desktop/releases/latest).
+1. **[Download BOAR-Setup.exe](https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe)** (about 106 MB), or pick a version on the [releases page](https://github.com/Bielcx/boar-desktop/releases).
 2. Run it. It installs for your user only (no administrator password) and adds a Start menu shortcut.
 3. The installer isn't code-signed yet, so Windows SmartScreen will warn you: click **More info → Run anyway**.
 4. On first launch, pick a model. BOAR downloads it from Hugging Face (Qwen2.5-1.5B is about 1 GB) and checks

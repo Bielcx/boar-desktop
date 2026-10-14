@@ -218,7 +218,7 @@ export function register(ctx: HandlerContext): void {
   load();
   // Copies of a batch that never finished (the app was closed mid-import).
   rmSync(path.join(ctx.roots.cache, "FolderWatch"), { recursive: true, force: true });
-  if (process.platform === "win32") app.setAppUserModelId("xyz.boar.desktop"); // toasts need it outside the installer
+  if (process.platform === "win32") app.setAppUserModelId("io.github.bielcx.boar"); // toasts need it outside the installer
 
   void app.whenReady().then(() => {
     for (const f of state.folders) startWatching(ctx, f);

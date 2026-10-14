@@ -28,8 +28,8 @@ Saída em `desktop/release/`:
    as `devDependencies`) num único arquivo, o `app.asar`.
 3. Gera o instalador com o **NSIS** (um criador de instaladores para Windows).
 
-A configuração fica no campo `"build"` do `desktop/package.json`. O `appId` (`xyz.boar.desktop`) é provisório: é a
-"identidade" do app para o Windows (atalhos, notificações). Escolha o definitivo antes de publicar e não mude mais
+A configuração fica no campo `"build"` do `desktop/package.json`. O `appId` (`io.github.bielcx.boar`) é definitivo desde a v0.1.0: é a
+"identidade" do app para o Windows (atalhos, notificações). Não mude mais
 depois, senão o Windows trata a versão nova como outro programa.
 
 ## asar e asarUnpack

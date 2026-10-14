@@ -37,5 +37,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # BOAR-Setup.exe too: a link that never changes, for the website
+          # (https://github.com/<owner>/<repo>/releases/latest/download/BOAR-Setup.exe).
+          cd desktop/release
+          cp BOAR-Setup-*.exe BOAR-Setup.exe
+          sha256sum BOAR-Setup*.exe > SHA256SUMS.txt
           gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "BOAR $GITHUB_REF_NAME" \
-            desktop/release/BOAR-Setup-*.exe
+            BOAR-Setup-*.exe BOAR-Setup.exe SHA256SUMS.txt

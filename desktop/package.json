@@ -36,7 +36,7 @@
     "pdfjs-dist": "6.4.299"
   },
   "build": {
-    "appId": "xyz.boar.desktop",
+    "appId": "io.github.bielcx.boar",
     "productName": "BOAR",
     "directories": {
       "output": "release"
