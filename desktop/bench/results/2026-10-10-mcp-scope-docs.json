@@ -1,0 +1,530 @@
+{
+  "meta": {
+    "label": "mcp-scope",
+    "date": "2026-10-10T19:18:31.920Z",
+    "commit": "afa7b22+dirty",
+    "model": "qwen2.5-1.5b-instruct-q4km",
+    "wikiPack": "boar-wiki-en-00.sqlite"
+  },
+  "docs": {
+    "questions": 12,
+    "hitAt1": 0.833,
+    "hitAt4": 0.833,
+    "hitAt6": 0.833,
+    "generalHits": "16/16",
+    "generalWithPersonal": 2,
+    "answered": null,
+    "factsPassed": null
+  },
+  "perQuestion": [
+    {
+      "id": "plan-1",
+      "query": "How much water do we store per person?",
+      "rank": 1,
+      "ms": 334,
+      "sim": 0.703,
+      "sims": {
+        "clinic-vaccine-record": 0.454,
+        "contrato-aluguel": 0.475,
+        "household-emergency-plan": 0.703,
+        "manual-gerador": 0.459
+      },
+      "got": [
+        "household-emergency-plan",
+        "Zamzam Well",
+        "Water",
+        "Visakhapatnam",
+        "Brian Robertson, 1st Baron Robertson of Oakridge",
+        "Solid-state drive"
+      ]
+    },
+    {
+      "id": "plan-2",
+      "query": "How many drops of bleach per liter of water?",
+      "rank": 1,
+      "ms": 533,
+      "sim": 0.632,
+      "sims": {
+        "clinic-vaccine-record": 0.485,
+        "contrato-aluguel": 0.449,
+        "household-emergency-plan": 0.632,
+        "manual-gerador": 0.493
+      },
+      "got": [
+        "household-emergency-plan",
+        "List of Soul Reapers in Bleach",
+        "Chlorine dioxide",
+        "Hydrogen peroxide",
+        "List of Soul Reapers in Bleach",
+        "Sri Sathya Sai Central Trust"
+      ]
+    },
+    {
+      "id": "plan-3",
+      "query": "Where is our meeting point if the neighborhood is evacuated?",
+      "rank": 1,
+      "ms": 257,
+      "sim": 0.584,
+      "sims": {
+        "clinic-vaccine-record": 0.404,
+        "contrato-aluguel": 0.415,
+        "household-emergency-plan": 0.584,
+        "manual-gerador": 0.441
+      },
+      "got": [
+        "household-emergency-plan",
+        "Port Orchard, Washington",
+        "Jersey City, New Jersey",
+        "Eaton Fire",
+        "Carr Fire",
+        "Eaton Fire"
+      ]
+    },
+    {
+      "id": "plan-pt",
+      "query": "Quantos litros de água guardamos por pessoa?",
+      "rank": 0,
+      "ms": 830,
+      "sim": 0.624,
+      "sims": {
+        "clinic-vaccine-record": 0.531,
+        "contrato-aluguel": 0.617,
+        "household-emergency-plan": 0.624,
+        "manual-gerador": 0.61
+      },
+      "got": []
+    },
+    {
+      "id": "lease-1",
+      "query": "Quem paga o IPTU segundo o contrato?",
+      "rank": 1,
+      "ms": 337,
+      "sim": 0.726,
+      "sims": {
+        "clinic-vaccine-record": 0.494,
+        "contrato-aluguel": 0.726,
+        "household-emergency-plan": 0.493,
+        "manual-gerador": 0.582
+      },
+      "got": [
+        "contrato-aluguel",
+        "Ejaculation",
+        "Ejaculation",
+        "Derivatives market",
+        "Commonwealth Aircraft Corporation",
+        "Tyrus Thomas"
+      ]
+    },
+    {
+      "id": "lease-2",
+      "query": "Qual a multa se eu sair do apartamento antes do prazo?",
+      "rank": 1,
+      "ms": 262,
+      "sim": 0.65,
+      "sims": {
+        "clinic-vaccine-record": 0.488,
+        "contrato-aluguel": 0.65,
+        "household-emergency-plan": 0.51,
+        "manual-gerador": 0.533
+      },
+      "got": [
+        "contrato-aluguel",
+        "Taman Putra Perdana",
+        "Component Object Model",
+        "The Dakota",
+        "The Dakota",
+        "Forest Hills, Queens"
+      ]
+    },
+    {
+      "id": "lease-3",
+      "query": "Quando o aluguel é reajustado?",
+      "rank": 1,
+      "ms": 51,
+      "sim": 0.706,
+      "sims": {
+        "clinic-vaccine-record": 0.533,
+        "contrato-aluguel": 0.706,
+        "household-emergency-plan": 0.543,
+        "manual-gerador": 0.573
+      },
+      "got": [
+        "contrato-aluguel",
+        "Factory Records discography",
+        "Luigi Tenco",
+        "Quando sarai piccola",
+        "Quando nevica",
+        "List of films: Q–R"
+      ]
+    },
+    {
+      "id": "vax-1",
+      "query": "When is Maria's next tetanus booster due?",
+      "rank": 1,
+      "ms": 164,
+      "sim": 0.755,
+      "sims": {
+        "clinic-vaccine-record": 0.755,
+        "contrato-aluguel": 0.553,
+        "household-emergency-plan": 0.544,
+        "manual-gerador": 0.507
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Vaccine",
+        "John Sontag"
+      ]
+    },
+    {
+      "id": "vax-2",
+      "query": "Is Maria allergic to any antibiotic?",
+      "rank": 1,
+      "ms": 80,
+      "sim": 0.629,
+      "sims": {
+        "clinic-vaccine-record": 0.629,
+        "contrato-aluguel": 0.5,
+        "household-emergency-plan": 0.482,
+        "manual-gerador": 0.44
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Β-Lactam antibiotic",
+        "Hypersensitivity",
+        "Infective endocarditis",
+        "Infective endocarditis",
+        "Eye drop"
+      ]
+    },
+    {
+      "id": "gen-1",
+      "query": "De quanto em quanto tempo devo trocar o óleo do gerador?",
+      "rank": 1,
+      "ms": 152,
+      "sim": 0.707,
+      "sims": {
+        "clinic-vaccine-record": 0.573,
+        "contrato-aluguel": 0.596,
+        "household-emergency-plan": 0.487,
+        "manual-gerador": 0.707
+      },
+      "got": [
+        "manual-gerador"
+      ]
+    },
+    {
+      "id": "gen-2",
+      "query": "Qual óleo usar no gerador?",
+      "rank": 1,
+      "ms": 140,
+      "sim": 0.708,
+      "sims": {
+        "clinic-vaccine-record": 0.532,
+        "contrato-aluguel": 0.573,
+        "household-emergency-plan": 0.484,
+        "manual-gerador": 0.708
+      },
+      "got": [
+        "manual-gerador",
+        "1st Infantry Division (United States)",
+        "CARS Tour"
+      ]
+    },
+    {
+      "id": "gen-3",
+      "query": "Posso ligar o gerador dentro da garagem?",
+      "rank": 0,
+      "ms": 284,
+      "sim": 0.695,
+      "sims": {
+        "clinic-vaccine-record": 0.491,
+        "contrato-aluguel": 0.562,
+        "household-emergency-plan": 0.57,
+        "manual-gerador": 0.695
+      },
+      "got": []
+    }
+  ],
+  "general": [
+    {
+      "id": "factual-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.363,
+        "contrato-aluguel": 0.422,
+        "household-emergency-plan": 0.299,
+        "manual-gerador": 0.34
+      },
+      "got": [
+        "Evolution",
+        "Evolution of human intelligence",
+        "David Attenborough",
+        "Applications of evolution",
+        "The eclipse of Darwinism",
+        "Evolution of morality"
+      ]
+    },
+    {
+      "id": "explanation-1",
+      "hit": true,
+      "personal": [
+        "clinic-vaccine-record"
+      ],
+      "sims": {
+        "clinic-vaccine-record": 0.562,
+        "contrato-aluguel": 0.423,
+        "household-emergency-plan": 0.439,
+        "manual-gerador": 0.351
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Bordetella"
+      ]
+    },
+    {
+      "id": "explanation-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.419,
+        "contrato-aluguel": 0.466,
+        "household-emergency-plan": 0.509,
+        "manual-gerador": 0.504
+      },
+      "got": [
+        "Photosynthesis",
+        "1-Triacontanol",
+        "Terence McKenna",
+        "Glossary of biology",
+        "Proxima Centauri b"
+      ]
+    },
+    {
+      "id": "comparison-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.406,
+        "contrato-aluguel": 0.502,
+        "household-emergency-plan": 0.458,
+        "manual-gerador": 0.443
+      },
+      "got": [
+        "Industrial Revolution",
+        "French Revolution",
+        "Leninism",
+        "Fourth Industrial Revolution",
+        "Insurrection of 10 August 1792"
+      ]
+    },
+    {
+      "id": "comparison-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.407,
+        "contrato-aluguel": 0.503,
+        "household-emergency-plan": 0.478,
+        "manual-gerador": 0.441
+      },
+      "got": [
+        "Supply and demand",
+        "Behavioral economics",
+        "Financial economics",
+        "Glossary of economics",
+        "Jean-Philippe Bouchaud"
+      ]
+    },
+    {
+      "id": "synthesis-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.301,
+        "contrato-aluguel": 0.394,
+        "household-emergency-plan": 0.407,
+        "manual-gerador": 0.37
+      },
+      "got": [
+        "British Agricultural Revolution",
+        "Industrial Revolution",
+        "Agricultural revolution"
+      ]
+    },
+    {
+      "id": "synthesis-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.536,
+        "contrato-aluguel": 0.459,
+        "household-emergency-plan": 0.442,
+        "manual-gerador": 0.361
+      },
+      "got": [
+        "Vaccine",
+        "Immune system",
+        "Body memory",
+        "Immunogenicity",
+        "Antigenic variation"
+      ]
+    },
+    {
+      "id": "synthesis-3",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.403,
+        "contrato-aluguel": 0.492,
+        "household-emergency-plan": 0.48,
+        "manual-gerador": 0.376
+      },
+      "got": [
+        "Climate change feedbacks",
+        "Amazon rainforest",
+        "Biodiversity loss",
+        "Forest"
+      ]
+    },
+    {
+      "id": "grounded-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.343,
+        "contrato-aluguel": 0.426,
+        "household-emergency-plan": 0.362,
+        "manual-gerador": 0.358
+      },
+      "got": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire",
+        "Roman infantry tactics",
+        "Limes (Roman Empire)",
+        "Galactic empire"
+      ]
+    },
+    {
+      "id": "grounded-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.397,
+        "contrato-aluguel": 0.412,
+        "household-emergency-plan": 0.399,
+        "manual-gerador": 0.429
+      },
+      "got": [
+        "Black hole",
+        "Stellar black hole",
+        "Black hole cosmology",
+        "Big Bounce"
+      ]
+    },
+    {
+      "id": "pt-1",
+      "hit": true,
+      "personal": [
+        "clinic-vaccine-record"
+      ],
+      "sims": {
+        "clinic-vaccine-record": 0.686,
+        "contrato-aluguel": 0.612,
+        "household-emergency-plan": 0.524,
+        "manual-gerador": 0.535
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Como dice el dicho"
+      ]
+    },
+    {
+      "id": "pt-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.491,
+        "contrato-aluguel": 0.598,
+        "household-emergency-plan": 0.505,
+        "manual-gerador": 0.533
+      },
+      "got": [
+        "Photosynthesis",
+        "Terence McKenna",
+        "Proxima Centauri b",
+        "Portuguese grammar",
+        "National Anthem of Peru"
+      ]
+    },
+    {
+      "id": "pt-3",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.472,
+        "contrato-aluguel": 0.586,
+        "household-emergency-plan": 0.471,
+        "manual-gerador": 0.56
+      },
+      "got": [
+        "Black hole",
+        "Black hole cosmology",
+        "Outline of astronomy",
+        "Stellar black hole"
+      ]
+    },
+    {
+      "id": "pt-5",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.455,
+        "contrato-aluguel": 0.586,
+        "household-emergency-plan": 0.44,
+        "manual-gerador": 0.521
+      },
+      "got": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire",
+        "Tetrarchy",
+        "Mongol Empire",
+        "De Administrando Imperio"
+      ]
+    },
+    {
+      "id": "pt-6",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.546,
+        "contrato-aluguel": 0.615,
+        "household-emergency-plan": 0.627,
+        "manual-gerador": 0.591
+      },
+      "got": []
+    },
+    {
+      "id": "pt-7",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.553,
+        "contrato-aluguel": 0.627,
+        "household-emergency-plan": 0.487,
+        "manual-gerador": 0.568
+      },
+      "got": [
+        "Burning mouth syndrome",
+        "Rosa Montero",
+        "Francisco J.C. Dantas",
+        "Renato Rocha (bassist)",
+        "V (Legião Urbana album)"
+      ]
+    }
+  ],
+  "answers": []
+}

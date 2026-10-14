@@ -1,0 +1,16 @@
+Manual do gerador inverter GI-2200 — resumo da manutenção
+
+Óleo
+Use somente óleo SAE 10W-30 para motores 4 tempos. A capacidade do cárter é de 0,6 litro. A primeira troca deve ser feita após as primeiras 20 horas de uso (amaciamento) e, depois disso, a cada 100 horas de uso ou a cada 6 meses, o que vier primeiro.
+
+Combustível
+Gasolina comum sem chumbo. O tanque comporta 4,2 litros, o que dá cerca de 6 horas de funcionamento com meia carga. Para guardar o gerador por mais de um mês, esvazie o tanque e o carburador.
+
+Vela de ignição
+Limpe a vela a cada 50 horas e troque a cada 300 horas. A folga dos eletrodos deve ficar entre 0,6 e 0,7 mm.
+
+Segurança
+Nunca ligue o gerador em ambiente fechado ou na garagem: o escapamento produz monóxido de carbono, que é inodoro e mata. Mantenha pelo menos 2 metros de distância de portas e janelas.
+
+Carga
+Potência contínua de 1.800 W e de pico de 2.200 W. Ligue primeiro os aparelhos de maior consumo.

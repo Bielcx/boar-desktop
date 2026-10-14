@@ -1,0 +1,739 @@
+{
+  "meta": {
+    "label": "after4",
+    "date": "2026-10-10T12:45:40.049Z",
+    "commit": "61141df+dirty",
+    "model": "qwen2.5-1.5b-instruct-q4km",
+    "wikiPack": "boar-wiki-en-00.sqlite"
+  },
+  "docs": {
+    "questions": 12,
+    "hitAt1": 0.833,
+    "hitAt4": 0.833,
+    "hitAt6": 0.833,
+    "generalHits": "16/16",
+    "generalWithPersonal": 2,
+    "answered": "10/12",
+    "factsPassed": "9/12"
+  },
+  "perQuestion": [
+    {
+      "id": "plan-1",
+      "query": "How much water do we store per person?",
+      "rank": 1,
+      "ms": 150,
+      "sim": 0.703,
+      "sims": {
+        "clinic-vaccine-record": 0.454,
+        "contrato-aluguel": 0.475,
+        "household-emergency-plan": 0.703,
+        "manual-gerador": 0.459
+      },
+      "got": [
+        "household-emergency-plan",
+        "Zamzam Well",
+        "Water",
+        "Visakhapatnam",
+        "Brian Robertson, 1st Baron Robertson of Oakridge",
+        "Solid-state drive"
+      ]
+    },
+    {
+      "id": "plan-2",
+      "query": "How many drops of bleach per liter of water?",
+      "rank": 1,
+      "ms": 179,
+      "sim": 0.632,
+      "sims": {
+        "clinic-vaccine-record": 0.485,
+        "contrato-aluguel": 0.449,
+        "household-emergency-plan": 0.632,
+        "manual-gerador": 0.493
+      },
+      "got": [
+        "household-emergency-plan",
+        "List of Soul Reapers in Bleach",
+        "Chlorine dioxide",
+        "Hydrogen peroxide",
+        "List of Soul Reapers in Bleach",
+        "Sri Sathya Sai Central Trust"
+      ]
+    },
+    {
+      "id": "plan-3",
+      "query": "Where is our meeting point if the neighborhood is evacuated?",
+      "rank": 1,
+      "ms": 160,
+      "sim": 0.584,
+      "sims": {
+        "clinic-vaccine-record": 0.404,
+        "contrato-aluguel": 0.415,
+        "household-emergency-plan": 0.584,
+        "manual-gerador": 0.441
+      },
+      "got": [
+        "household-emergency-plan",
+        "Port Orchard, Washington",
+        "Jersey City, New Jersey",
+        "Eaton Fire",
+        "Carr Fire",
+        "Eaton Fire"
+      ]
+    },
+    {
+      "id": "plan-pt",
+      "query": "Quantos litros de água guardamos por pessoa?",
+      "rank": 0,
+      "ms": 655,
+      "sim": 0.624,
+      "sims": {
+        "clinic-vaccine-record": 0.531,
+        "contrato-aluguel": 0.617,
+        "household-emergency-plan": 0.624,
+        "manual-gerador": 0.61
+      },
+      "got": []
+    },
+    {
+      "id": "lease-1",
+      "query": "Quem paga o IPTU segundo o contrato?",
+      "rank": 1,
+      "ms": 409,
+      "sim": 0.726,
+      "sims": {
+        "clinic-vaccine-record": 0.494,
+        "contrato-aluguel": 0.726,
+        "household-emergency-plan": 0.493,
+        "manual-gerador": 0.582
+      },
+      "got": [
+        "contrato-aluguel",
+        "Ejaculation",
+        "Ejaculation",
+        "Derivatives market",
+        "Commonwealth Aircraft Corporation",
+        "Tyrus Thomas"
+      ]
+    },
+    {
+      "id": "lease-2",
+      "query": "Qual a multa se eu sair do apartamento antes do prazo?",
+      "rank": 1,
+      "ms": 219,
+      "sim": 0.65,
+      "sims": {
+        "clinic-vaccine-record": 0.488,
+        "contrato-aluguel": 0.65,
+        "household-emergency-plan": 0.51,
+        "manual-gerador": 0.533
+      },
+      "got": [
+        "contrato-aluguel",
+        "Taman Putra Perdana",
+        "Component Object Model",
+        "The Dakota",
+        "The Dakota",
+        "Forest Hills, Queens"
+      ]
+    },
+    {
+      "id": "lease-3",
+      "query": "Quando o aluguel é reajustado?",
+      "rank": 1,
+      "ms": 51,
+      "sim": 0.706,
+      "sims": {
+        "clinic-vaccine-record": 0.533,
+        "contrato-aluguel": 0.706,
+        "household-emergency-plan": 0.543,
+        "manual-gerador": 0.573
+      },
+      "got": [
+        "contrato-aluguel",
+        "Factory Records discography",
+        "Luigi Tenco",
+        "Quando sarai piccola",
+        "Quando nevica",
+        "List of films: Q–R"
+      ]
+    },
+    {
+      "id": "vax-1",
+      "query": "When is Maria's next tetanus booster due?",
+      "rank": 1,
+      "ms": 192,
+      "sim": 0.755,
+      "sims": {
+        "clinic-vaccine-record": 0.755,
+        "contrato-aluguel": 0.553,
+        "household-emergency-plan": 0.544,
+        "manual-gerador": 0.507
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Vaccine",
+        "John Sontag"
+      ]
+    },
+    {
+      "id": "vax-2",
+      "query": "Is Maria allergic to any antibiotic?",
+      "rank": 1,
+      "ms": 70,
+      "sim": 0.629,
+      "sims": {
+        "clinic-vaccine-record": 0.629,
+        "contrato-aluguel": 0.5,
+        "household-emergency-plan": 0.482,
+        "manual-gerador": 0.44
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Β-Lactam antibiotic",
+        "Hypersensitivity",
+        "Infective endocarditis",
+        "Infective endocarditis",
+        "Eye drop"
+      ]
+    },
+    {
+      "id": "gen-1",
+      "query": "De quanto em quanto tempo devo trocar o óleo do gerador?",
+      "rank": 1,
+      "ms": 140,
+      "sim": 0.707,
+      "sims": {
+        "clinic-vaccine-record": 0.573,
+        "contrato-aluguel": 0.596,
+        "household-emergency-plan": 0.487,
+        "manual-gerador": 0.707
+      },
+      "got": [
+        "manual-gerador"
+      ]
+    },
+    {
+      "id": "gen-2",
+      "query": "Qual óleo usar no gerador?",
+      "rank": 1,
+      "ms": 121,
+      "sim": 0.708,
+      "sims": {
+        "clinic-vaccine-record": 0.532,
+        "contrato-aluguel": 0.573,
+        "household-emergency-plan": 0.484,
+        "manual-gerador": 0.708
+      },
+      "got": [
+        "manual-gerador",
+        "1st Infantry Division (United States)",
+        "CARS Tour"
+      ]
+    },
+    {
+      "id": "gen-3",
+      "query": "Posso ligar o gerador dentro da garagem?",
+      "rank": 0,
+      "ms": 189,
+      "sim": 0.695,
+      "sims": {
+        "clinic-vaccine-record": 0.491,
+        "contrato-aluguel": 0.562,
+        "household-emergency-plan": 0.57,
+        "manual-gerador": 0.695
+      },
+      "got": []
+    }
+  ],
+  "general": [
+    {
+      "id": "factual-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.363,
+        "contrato-aluguel": 0.422,
+        "household-emergency-plan": 0.299,
+        "manual-gerador": 0.34
+      },
+      "got": [
+        "Evolution",
+        "Evolution of human intelligence",
+        "David Attenborough",
+        "Applications of evolution",
+        "The eclipse of Darwinism",
+        "Evolution of morality"
+      ]
+    },
+    {
+      "id": "explanation-1",
+      "hit": true,
+      "personal": [
+        "clinic-vaccine-record"
+      ],
+      "sims": {
+        "clinic-vaccine-record": 0.562,
+        "contrato-aluguel": 0.423,
+        "household-emergency-plan": 0.439,
+        "manual-gerador": 0.351
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Bordetella"
+      ]
+    },
+    {
+      "id": "explanation-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.419,
+        "contrato-aluguel": 0.466,
+        "household-emergency-plan": 0.509,
+        "manual-gerador": 0.504
+      },
+      "got": [
+        "Photosynthesis",
+        "1-Triacontanol",
+        "Terence McKenna",
+        "Glossary of biology",
+        "Proxima Centauri b"
+      ]
+    },
+    {
+      "id": "comparison-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.406,
+        "contrato-aluguel": 0.502,
+        "household-emergency-plan": 0.458,
+        "manual-gerador": 0.443
+      },
+      "got": [
+        "Industrial Revolution",
+        "French Revolution",
+        "Leninism",
+        "Fourth Industrial Revolution",
+        "Insurrection of 10 August 1792"
+      ]
+    },
+    {
+      "id": "comparison-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.407,
+        "contrato-aluguel": 0.503,
+        "household-emergency-plan": 0.478,
+        "manual-gerador": 0.441
+      },
+      "got": [
+        "Supply and demand",
+        "Behavioral economics",
+        "Financial economics",
+        "Glossary of economics",
+        "Jean-Philippe Bouchaud"
+      ]
+    },
+    {
+      "id": "synthesis-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.301,
+        "contrato-aluguel": 0.394,
+        "household-emergency-plan": 0.407,
+        "manual-gerador": 0.37
+      },
+      "got": [
+        "British Agricultural Revolution",
+        "Industrial Revolution",
+        "Agricultural revolution"
+      ]
+    },
+    {
+      "id": "synthesis-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.536,
+        "contrato-aluguel": 0.459,
+        "household-emergency-plan": 0.442,
+        "manual-gerador": 0.361
+      },
+      "got": [
+        "Vaccine",
+        "Immune system",
+        "Body memory",
+        "Immunogenicity",
+        "Antigenic variation"
+      ]
+    },
+    {
+      "id": "synthesis-3",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.403,
+        "contrato-aluguel": 0.492,
+        "household-emergency-plan": 0.48,
+        "manual-gerador": 0.376
+      },
+      "got": [
+        "Climate change feedbacks",
+        "Amazon rainforest",
+        "Biodiversity loss",
+        "Forest"
+      ]
+    },
+    {
+      "id": "grounded-1",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.343,
+        "contrato-aluguel": 0.426,
+        "household-emergency-plan": 0.362,
+        "manual-gerador": 0.358
+      },
+      "got": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire",
+        "Roman infantry tactics",
+        "Limes (Roman Empire)",
+        "Galactic empire"
+      ]
+    },
+    {
+      "id": "grounded-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.397,
+        "contrato-aluguel": 0.412,
+        "household-emergency-plan": 0.399,
+        "manual-gerador": 0.429
+      },
+      "got": [
+        "Black hole",
+        "Stellar black hole",
+        "Black hole cosmology",
+        "Big Bounce"
+      ]
+    },
+    {
+      "id": "pt-1",
+      "hit": true,
+      "personal": [
+        "clinic-vaccine-record"
+      ],
+      "sims": {
+        "clinic-vaccine-record": 0.686,
+        "contrato-aluguel": 0.612,
+        "household-emergency-plan": 0.524,
+        "manual-gerador": 0.535
+      },
+      "got": [
+        "clinic-vaccine-record",
+        "Vaccine",
+        "Como dice el dicho"
+      ]
+    },
+    {
+      "id": "pt-2",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.491,
+        "contrato-aluguel": 0.598,
+        "household-emergency-plan": 0.505,
+        "manual-gerador": 0.533
+      },
+      "got": [
+        "Photosynthesis",
+        "Terence McKenna",
+        "Proxima Centauri b",
+        "Portuguese grammar",
+        "National Anthem of Peru"
+      ]
+    },
+    {
+      "id": "pt-3",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.472,
+        "contrato-aluguel": 0.586,
+        "household-emergency-plan": 0.471,
+        "manual-gerador": 0.56
+      },
+      "got": [
+        "Black hole",
+        "Black hole cosmology",
+        "Outline of astronomy",
+        "Stellar black hole"
+      ]
+    },
+    {
+      "id": "pt-5",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.455,
+        "contrato-aluguel": 0.586,
+        "household-emergency-plan": 0.44,
+        "manual-gerador": 0.521
+      },
+      "got": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire",
+        "Tetrarchy",
+        "Mongol Empire",
+        "De Administrando Imperio"
+      ]
+    },
+    {
+      "id": "pt-6",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.546,
+        "contrato-aluguel": 0.615,
+        "household-emergency-plan": 0.627,
+        "manual-gerador": 0.591
+      },
+      "got": []
+    },
+    {
+      "id": "pt-7",
+      "hit": true,
+      "personal": [],
+      "sims": {
+        "clinic-vaccine-record": 0.553,
+        "contrato-aluguel": 0.627,
+        "household-emergency-plan": 0.487,
+        "manual-gerador": 0.568
+      },
+      "got": [
+        "Burning mouth syndrome",
+        "Rosa Montero",
+        "Francisco J.C. Dantas",
+        "Renato Rocha (bassist)",
+        "V (Legião Urbana album)"
+      ]
+    }
+  ],
+  "answers": [
+    {
+      "id": "plan-1",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:1101->386",
+        "grounding:off-topic-dropped-2",
+        "citations:added-1"
+      ],
+      "answer": "The Silva family stores 12 liters of drinking water per person [1]."
+    },
+    {
+      "id": "plan-2",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:1069->243",
+        "grounding:off-topic-dropped-1"
+      ],
+      "answer": "2 drops of unscented household bleach per liter. [1]"
+    },
+    {
+      "id": "plan-3",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:596->126",
+        "grounding:health-strict",
+        "grounding:health-off-topic-dropped-1",
+        "grounding:health-extractive"
+      ],
+      "answer": "From the offline source:\nWe keep 12 liters of drinking water per person in the three blue barrels in the garage, next to the bicycles. That covers the four of us for about three days. The barrels are emptied and refilled twice a year, in March and in September, when the clocks change. To treat tap or rain water we use 2 drops of unscented household bleach per liter and wait 30 minutes before drinking. The ceramic filter lives in the kitchen cabinet above the sink. Meeting points If we get separated at home, we meet at the mango tree at the corner of Rua das Flores. If the neighborhood has to be evacuated, the meeting point is the parish hall of São José, two kilometers north. [1]\n\nIn an emergency, call your local emergency number (911 in the US, 112 in Europe)."
+    },
+    {
+      "id": "plan-pt",
+      "declined": true,
+      "cited": false,
+      "fact": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "lease-1",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:pinned-1",
+        "context:766->93"
+      ],
+      "answer": "Segundo o contrato, o IPTU e a taxa de condomínio são de responsabilidade do LOCATÁRIO e serão pagos junto com o aluguel, no mesmo boleto. [1]"
+    },
+    {
+      "id": "lease-2",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:pinned-1",
+        "context:634->94"
+      ],
+      "answer": "Segundo o contrato, se você devolver o apartamento antes do prazo, pagará uma multa de três aluguéis, proporcional ao tempo que faltar para terminar o contrato. [1]"
+    },
+    {
+      "id": "lease-3",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:715->89",
+        "instant:off-topic"
+      ],
+      "answer": "O aluguel é reajustado a cada 12 meses pela variação do IPCA, sempre no mês de fevereiro. [1]"
+    },
+    {
+      "id": "vax-1",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:594->69",
+        "instant:off-topic"
+      ],
+      "answer": "Maria's next tetanus booster is due in May 2034. [1]"
+    },
+    {
+      "id": "vax-2",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:551->231",
+        "grounding:health-strict",
+        "grounding:health-off-topic-dropped-1",
+        "grounding:health-extractive"
+      ],
+      "answer": "The offline source doesn't give first-aid steps for this. In an emergency, call your local emergency number. What the source says:\nVaccination record — Maria Oliveira (born 14 July 1988)\n\nTetanus and diphtheria (Td): last booster given on 12 May 2024 at the Vila Nova health post, after a cut from a rusty fence. Next booster due in May 2034. Hepatitis B: three doses completed in 2009. Antibody test in 2021 showed protection, no further doses needed. Yellow fever: single dose on 3 March 2017, valid for life. Influenza: yearly, usually in April. The 2026 dose was given on 18 April 2026. COVID-19: last dose on 2 October 2025. Allergies: penicillin (rash in 2015). Tell the nurse before any antibiotic. Blood type: O negative. Family doctor: Dr. Ana Prado, Vila Nova health post, Tuesdays and Thursdays. [1]"
+    },
+    {
+      "id": "gen-1",
+      "declined": false,
+      "cited": true,
+      "fact": false,
+      "reasonCodes": [
+        "task:chat",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:240->51",
+        "instant:off-topic"
+      ],
+      "answer": "De acordo com o manual do gerador inverter GI-2200, você deve trocar o óleo a cada três meses ou após o esvazie do tanque e carburador, independentemente do tempo que o gerador estiver sendo usado. [1]"
+    },
+    {
+      "id": "gen-2",
+      "declined": false,
+      "cited": true,
+      "fact": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:pinned-1",
+        "context:701->255",
+        "grounding:off-topic-dropped-2",
+        "instant:off-topic"
+      ],
+      "answer": "Para o gerador GI-2200, use somente óleo SAE 10W-30 para motores 4 tempos. [1]"
+    },
+    {
+      "id": "gen-3",
+      "declined": true,
+      "cited": false,
+      "fact": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "answer": "Não encontrei isso no acervo deste celular."
+    }
+  ]
+}

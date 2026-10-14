@@ -1,0 +1,531 @@
+{
+  "meta": {
+    "label": "perf-lookup-3",
+    "mode": "quick",
+    "date": "2026-10-08T10:35:08.713Z",
+    "commit": "ca25dd0+dirty",
+    "model": "qwen2.5-1.5b-instruct-q4km",
+    "nCtx": 4096,
+    "threads": "app default (4)",
+    "gpuLayers": "auto",
+    "seed": 42,
+    "backend": {
+      "gpu": true,
+      "devices": [
+        "NVIDIA GeForce GTX 1650",
+        "Intel(R) UHD Graphics"
+      ],
+      "reasonNoGPU": ""
+    },
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "totalRamGB": 15.8,
+    "node": "v24.18.0",
+    "evalSetVersion": "1",
+    "scoreVersion": 1,
+    "questions": [
+      "greeting-1",
+      "factual-1",
+      "explanation-1",
+      "explanation-2",
+      "comparison-1",
+      "reasoning-1",
+      "grounded-2",
+      "no-kb-1"
+    ],
+    "gpuBefore": {
+      "tempC": 82,
+      "smClockMHz": 390,
+      "utilPct": 39
+    },
+    "gpuAfter": {
+      "tempC": 84,
+      "smClockMHz": 405,
+      "utilPct": 13
+    },
+    "wallSeconds": 66
+  },
+  "speed": {
+    "embedLoadMs": 1531,
+    "indexMs": 7284,
+    "indexDocs": 300,
+    "llmLoadMs": 10899,
+    "decodeTokPerSec": 59.8,
+    "microTtftMs": 98,
+    "prefillTokPerSec": 768.5,
+    "prefillTokens": 1189,
+    "prefillMs": 1547,
+    "answerTtftMs": 210,
+    "answerTotalMs": 904,
+    "answerTokPerSec": 55,
+    "answerPrefillMs": 298,
+    "micro": {
+      "decode": [
+        {
+          "ttftMs": 500.45510000000286,
+          "tokens": 130,
+          "tokPerSec": 63.16602192784164,
+          "promptTokens": 41
+        },
+        {
+          "ttftMs": 98.08729999999923,
+          "tokens": 130,
+          "tokPerSec": 59.59317117267436,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 98.32370000000083,
+          "tokens": 124,
+          "tokPerSec": 59.81082222805532,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 97.61639999999898,
+          "tokens": 130,
+          "tokPerSec": 60.275598583059924,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 98.85910000000149,
+          "tokens": 128,
+          "tokPerSec": 59.73999752919105,
+          "promptTokens": 36
+        }
+      ],
+      "prefill": [
+        {
+          "tokens": 1189,
+          "ms": 1528.0316999999995,
+          "tokPerSec": 778.1252182137323
+        },
+        {
+          "tokens": 1189,
+          "ms": 1525.069199999998,
+          "tokPerSec": 779.6367535322341
+        },
+        {
+          "tokens": 1189,
+          "ms": 1535.3415999999997,
+          "tokPerSec": 774.4204937845755
+        },
+        {
+          "tokens": 1189,
+          "ms": 1561.4026000000013,
+          "tokPerSec": 761.4948252295718
+        },
+        {
+          "tokens": 1189,
+          "ms": 1559.0397000000012,
+          "tokPerSec": 762.6489562773796
+        }
+      ]
+    }
+  },
+  "memory": {
+    "peakRssMB": 1502,
+    "vramBaseMB": 1252,
+    "vramAfterLoadMB": 2906,
+    "peakVramMB": 2925
+  },
+  "retrieval": {
+    "k": 6,
+    "questions": 10,
+    "hitAtK": 1,
+    "recallAtK": 1,
+    "mrr": 1,
+    "hitAt1": 1,
+    "negatives": 8,
+    "negativesEmpty": 1,
+    "medianMs": 26,
+    "perQuery": [
+      {
+        "id": "factual-2",
+        "expected": [
+          "Evolution"
+        ],
+        "got": [
+          "Evolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 37
+      },
+      {
+        "id": "explanation-1",
+        "expected": [
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 25
+      },
+      {
+        "id": "explanation-2",
+        "expected": [
+          "Photosynthesis"
+        ],
+        "got": [
+          "Photosynthesis",
+          "Greenhouse effect"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 26
+      },
+      {
+        "id": "comparison-1",
+        "expected": [
+          "French Revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "French Revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 31
+      },
+      {
+        "id": "comparison-2",
+        "expected": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "got": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 33
+      },
+      {
+        "id": "synthesis-1",
+        "expected": [
+          "Agricultural revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "Agricultural revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 27
+      },
+      {
+        "id": "synthesis-2",
+        "expected": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "got": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 27
+      },
+      {
+        "id": "synthesis-3",
+        "expected": [
+          "Amazon rainforest"
+        ],
+        "got": [
+          "Amazon rainforest",
+          "Biodiversity loss"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 24
+      },
+      {
+        "id": "grounded-1",
+        "expected": [
+          "Fall of the Western Roman Empire"
+        ],
+        "got": [
+          "Fall of the Western Roman Empire",
+          "Byzantine Empire"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 28
+      },
+      {
+        "id": "grounded-2",
+        "expected": [
+          "Black hole"
+        ],
+        "got": [
+          "Black hole"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 31
+      }
+    ],
+    "negativeDetails": [
+      {
+        "query": "hey, what's up?",
+        "got": [],
+        "ms": 23
+      },
+      {
+        "query": "Who was Napoleon Bonaparte?",
+        "got": [],
+        "ms": 26
+      },
+      {
+        "query": "whats your name?",
+        "got": [],
+        "ms": 38
+      },
+      {
+        "query": "who are you?",
+        "got": [],
+        "ms": 20
+      },
+      {
+        "query": "what can you do?",
+        "got": [],
+        "ms": 18
+      },
+      {
+        "query": "tell me a joke",
+        "got": [],
+        "ms": 21
+      },
+      {
+        "query": "what time is it?",
+        "got": [],
+        "ms": 21
+      },
+      {
+        "query": "can you help me?",
+        "got": [],
+        "ms": 19
+      }
+    ]
+  },
+  "quality": {
+    "scoreV1": 100,
+    "scoreParts": {
+      "speed": 1,
+      "reliability": 1,
+      "retrieval": 1
+    },
+    "completed": 8,
+    "answers": 8,
+    "declined": 3,
+    "retrievalHits": "4/4",
+    "factsPassed": 3,
+    "factsTotal": 7,
+    "factsRate": 0.429
+  },
+  "answers": [
+    {
+      "id": "greeting-1",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "ttftMs": 5,
+      "totalMs": 5,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "answer": "All good, and ready offline. What would you like to know?"
+    },
+    {
+      "id": "factual-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 88,
+      "totalMs": 89,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "explanation-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 41,
+      "ttftMs": 400,
+      "totalMs": 1204,
+      "tokens": 47,
+      "tokPerSec": 59.8,
+      "prefillTokens": 115,
+      "prefillMs": 357,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "explanation-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 59,
+      "ttftMs": 384,
+      "totalMs": 1645,
+      "tokens": 66,
+      "tokPerSec": 53.1,
+      "prefillTokens": 175,
+      "prefillMs": 324,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "answer": "Photosynthesis is a process where plants use sunlight to make food, turning it into oxygen. Plants absorb carbon dioxide from the air and water, using the energy from sunlight to make glucose, which they use for energy and to make other organic compounds. This process also produces oxygen, which is released back into the air. [1]"
+    },
+    {
+      "id": "comparison-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 49,
+      "ttftMs": 377,
+      "totalMs": 2283,
+      "tokens": 90,
+      "tokPerSec": 51.4,
+      "prefillTokens": 251,
+      "prefillMs": 327,
+      "cachedTokens": 228,
+      "completions": 1,
+      "retrieved": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expected": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "answer": "The French Revolution was a period of political and societal change in France, driven by social, political, and economic factors, culminating in a revolutionary government [1]. The Industrial Revolution, in contrast, was a global economic transition towards more efficient manufacturing processes, starting in Great Britain around 1760 [2]. The French Revolution was a response to perceived limitations of the Ancien Régime, while the Industrial Revolution was a significant transformation of the global economy."
+    },
+    {
+      "id": "reasoning-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 331,
+      "totalMs": 603,
+      "tokens": 11,
+      "tokPerSec": 51.5,
+      "prefillTokens": 183,
+      "prefillMs": 292,
+      "cachedTokens": 63,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "answer": "The train arrives at 6:15 pm."
+    },
+    {
+      "id": "grounded-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 40,
+      "ttftMs": 41,
+      "totalMs": 1294,
+      "tokens": 51,
+      "tokPerSec": 56.9,
+      "prefillTokens": 139,
+      "prefillMs": 303,
+      "cachedTokens": 227,
+      "completions": 1,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "answer": "A black hole is an astronomical body so compact that its gravity traps anything, including light, from escaping [1]. It forms when a very massive star runs out of nuclear fuel and collapses under its own gravity, creating a singularity at its center."
+    },
+    {
+      "id": "no-kb-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 30,
+      "totalMs": 30,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "answer": "I didn't find this in this phone's library."
+    }
+  ]
+}

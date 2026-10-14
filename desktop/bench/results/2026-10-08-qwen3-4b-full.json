@@ -1,0 +1,1457 @@
+{
+  "meta": {
+    "label": "qwen3-4b",
+    "mode": "full",
+    "date": "2026-10-08T10:31:07.197Z",
+    "commit": "91b41fe+dirty",
+    "model": "qwen3-4b-instruct-2507-q4km",
+    "nCtx": 4096,
+    "threads": "app default (4)",
+    "gpuLayers": "auto",
+    "seed": 42,
+    "backend": {
+      "gpu": true,
+      "devices": [
+        "NVIDIA GeForce GTX 1650",
+        "Intel(R) UHD Graphics"
+      ],
+      "reasonNoGPU": ""
+    },
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "totalRamGB": 15.8,
+    "node": "v24.18.0",
+    "evalSetVersion": "1",
+    "scoreVersion": 1,
+    "questions": [
+      "greeting-1",
+      "factual-1",
+      "factual-2",
+      "explanation-1",
+      "explanation-2",
+      "comparison-1",
+      "comparison-2",
+      "synthesis-1",
+      "synthesis-2",
+      "synthesis-3",
+      "reasoning-1",
+      "reasoning-2",
+      "reasoning-3",
+      "grounded-1",
+      "grounded-2",
+      "no-kb-1",
+      "no-kb-2",
+      "decline-1",
+      "decline-2",
+      "decline-3",
+      "decline-pt-1",
+      "pt-1",
+      "pt-2",
+      "pt-3",
+      "pt-4",
+      "pt-5"
+    ],
+    "gpuBefore": {
+      "tempC": 79,
+      "smClockMHz": 345,
+      "utilPct": 29
+    },
+    "gpuAfter": {
+      "tempC": 85,
+      "smClockMHz": 555,
+      "utilPct": 10
+    },
+    "wallSeconds": 223
+  },
+  "speed": {
+    "embedLoadMs": 1332,
+    "indexMs": 6433,
+    "indexDocs": 300,
+    "llmLoadMs": 18471,
+    "decodeTokPerSec": 30.2,
+    "microTtftMs": 211,
+    "prefillTokPerSec": 281.5,
+    "prefillTokens": 1189,
+    "prefillMs": 4224,
+    "answerTtftMs": 843,
+    "answerTotalMs": 3313,
+    "answerTokPerSec": 28.5,
+    "answerPrefillMs": 801,
+    "micro": {
+      "decode": [
+        {
+          "ttftMs": 4241.962499999998,
+          "tokens": 128,
+          "tokPerSec": 35.869578772046985,
+          "promptTokens": 41
+        },
+        {
+          "ttftMs": 182.77469999999448,
+          "tokens": 128,
+          "tokPerSec": 32.401476980826324,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 208.07330000000366,
+          "tokens": 128,
+          "tokPerSec": 30.288359378956105,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 207.84900000000198,
+          "tokens": 128,
+          "tokPerSec": 29.94346766877471,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 219.59950000001118,
+          "tokens": 128,
+          "tokPerSec": 30.076833856815163,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 210.58179999999993,
+          "tokens": 128,
+          "tokPerSec": 30.15308083096325,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 211.72050000001036,
+          "tokens": 128,
+          "tokPerSec": 30.41622416605127,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 232.36219999998866,
+          "tokens": 128,
+          "tokPerSec": 29.726773560273703,
+          "promptTokens": 36
+        }
+      ],
+      "prefill": [
+        {
+          "tokens": 1189,
+          "ms": 3667.8089000000036,
+          "tokPerSec": 324.1717418810993
+        },
+        {
+          "tokens": 1189,
+          "ms": 3903.6589999999997,
+          "tokPerSec": 304.5860306958164
+        },
+        {
+          "tokens": 1189,
+          "ms": 4101.8436,
+          "tokPerSec": 289.8696576339478
+        },
+        {
+          "tokens": 1189,
+          "ms": 4224.375999999997,
+          "tokPerSec": 281.4616880694334
+        },
+        {
+          "tokens": 1189,
+          "ms": 4209.812399999995,
+          "tokPerSec": 282.435388332269
+        },
+        {
+          "tokens": 1189,
+          "ms": 4246.060799999992,
+          "tokPerSec": 280.0242521256413
+        },
+        {
+          "tokens": 1189,
+          "ms": 4277.385399999999,
+          "tokPerSec": 277.9735489815812
+        },
+        {
+          "tokens": 1189,
+          "ms": 4256.5389,
+          "tokPerSec": 279.3349310163711
+        }
+      ]
+    }
+  },
+  "memory": {
+    "peakRssMB": 3138,
+    "vramBaseMB": 1252,
+    "vramAfterLoadMB": 4590,
+    "peakVramMB": 4647
+  },
+  "retrieval": {
+    "k": 6,
+    "questions": 10,
+    "hitAtK": 1,
+    "recallAtK": 1,
+    "mrr": 1,
+    "hitAt1": 1,
+    "negatives": 8,
+    "negativesEmpty": 1,
+    "medianMs": 23,
+    "perQuery": [
+      {
+        "id": "factual-2",
+        "expected": [
+          "Evolution"
+        ],
+        "got": [
+          "Evolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 37
+      },
+      {
+        "id": "explanation-1",
+        "expected": [
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 23
+      },
+      {
+        "id": "explanation-2",
+        "expected": [
+          "Photosynthesis"
+        ],
+        "got": [
+          "Photosynthesis",
+          "Greenhouse effect"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 26
+      },
+      {
+        "id": "comparison-1",
+        "expected": [
+          "French Revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "French Revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 22
+      },
+      {
+        "id": "comparison-2",
+        "expected": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "got": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 30
+      },
+      {
+        "id": "synthesis-1",
+        "expected": [
+          "Agricultural revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "Agricultural revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 30
+      },
+      {
+        "id": "synthesis-2",
+        "expected": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "got": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 28
+      },
+      {
+        "id": "synthesis-3",
+        "expected": [
+          "Amazon rainforest"
+        ],
+        "got": [
+          "Amazon rainforest",
+          "Biodiversity loss"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 23
+      },
+      {
+        "id": "grounded-1",
+        "expected": [
+          "Fall of the Western Roman Empire"
+        ],
+        "got": [
+          "Fall of the Western Roman Empire",
+          "Byzantine Empire"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 22
+      },
+      {
+        "id": "grounded-2",
+        "expected": [
+          "Black hole"
+        ],
+        "got": [
+          "Black hole"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 25
+      }
+    ],
+    "negativeDetails": [
+      {
+        "query": "hey, what's up?",
+        "got": [],
+        "ms": 23
+      },
+      {
+        "query": "Who was Napoleon Bonaparte?",
+        "got": [],
+        "ms": 19
+      },
+      {
+        "query": "whats your name?",
+        "got": [],
+        "ms": 28
+      },
+      {
+        "query": "who are you?",
+        "got": [],
+        "ms": 20
+      },
+      {
+        "query": "what can you do?",
+        "got": [],
+        "ms": 18
+      },
+      {
+        "query": "tell me a joke",
+        "got": [],
+        "ms": 16
+      },
+      {
+        "query": "what time is it?",
+        "got": [],
+        "ms": 26
+      },
+      {
+        "query": "can you help me?",
+        "got": [],
+        "ms": 18
+      }
+    ]
+  },
+  "quality": {
+    "scoreV1": 98,
+    "scoreParts": {
+      "speed": 1,
+      "reliability": 1,
+      "retrieval": 0.867
+    },
+    "completed": 26,
+    "answers": 26,
+    "declined": 0,
+    "retrievalHits": "13/15",
+    "factsPassed": 15,
+    "factsTotal": 18,
+    "factsRate": 0.833,
+    "shouldAnswer": 16,
+    "falseDeclines": 0,
+    "shouldDecline": 4,
+    "falseAnswers": 0,
+    "wrongAnswers": 3,
+    "declineReasons": {}
+  },
+  "answers": [
+    {
+      "id": "greeting-1",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "ttftMs": 4,
+      "totalMs": 4,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "answer:small-talk-greeting"
+      ],
+      "modelText": [],
+      "answer": "All good, and ready offline. What would you like to know?"
+    },
+    {
+      "id": "factual-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 844,
+      "totalMs": 1874,
+      "tokens": 29,
+      "tokPerSec": 29.2,
+      "prefillTokens": 202,
+      "prefillMs": 773,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "The capital of Australia is Canberra. It was deliberately chosen as a compromise between Sydney and Melbourne. The city is located in the Australian Capital Territory."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nThe capital of Australia is Canberra. It was deliberately chosen as a compromise between Sydney and Melbourne. The city is located in the Australian Capital Territory."
+    },
+    {
+      "id": "factual-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 56,
+      "ttftMs": 537,
+      "totalMs": 2214,
+      "tokens": 44,
+      "tokPerSec": 26.8,
+      "prefillTokens": 115,
+      "prefillMs": 481,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Evolution"
+      ],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:111->111",
+        "instant:off-topic",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The theory of evolution by natural selection was proposed by Charles Darwin, building on earlier ideas from Alfred Russel Wallace. Darwin published his findings in \"On the Origin of Species\" in 1859 [1]."
+      ],
+      "answer": "The theory of evolution by natural selection was proposed by Charles Darwin, building on earlier ideas from Alfred Russel Wallace. Darwin published his findings in \"On the Origin of Species\" in 1859."
+    },
+    {
+      "id": "explanation-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 30,
+      "ttftMs": 503,
+      "totalMs": 2875,
+      "tokens": 67,
+      "tokPerSec": 28.7,
+      "prefillTokens": 109,
+      "prefillMs": 472,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:154->102",
+        "instant:off-topic",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "Vaccines work by introducing a harmless component of a pathogen—such as a weakened or dead virus or a piece of its surface protein—into the body. This triggers the immune system to produce antibodies and memory cells, so if the person is exposed to the real disease later, their body can respond quickly and effectively [1]."
+      ],
+      "answer": "Vaccines work by introducing a harmless component of a pathogen—such as a weakened or dead virus or a piece of its surface protein—into the body. This triggers the immune system to produce antibodies and memory cells, so if the person is exposed to the real disease later, their body can respond quickly and effectively."
+    },
+    {
+      "id": "explanation-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 43,
+      "ttftMs": 837,
+      "totalMs": 2336,
+      "tokens": 44,
+      "tokPerSec": 30,
+      "prefillTokens": 175,
+      "prefillMs": 794,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:372->181",
+        "instant:off-topic"
+      ],
+      "modelText": [
+        "Photosynthesis is how plants use sunlight to turn carbon dioxide and water into glucose (sugar) and oxygen. The oxygen is released into the air, and the sugar provides energy for the plant to grow. [1]"
+      ],
+      "answer": "Photosynthesis is how plants use sunlight to turn carbon dioxide and water into glucose (sugar) and oxygen. The oxygen is released into the air, and the sugar provides energy for the plant to grow. [1]"
+    },
+    {
+      "id": "comparison-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 34,
+      "ttftMs": 881,
+      "totalMs": 4601,
+      "tokens": 104,
+      "tokPerSec": 28.2,
+      "prefillTokens": 251,
+      "prefillMs": 846,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expected": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:compare",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:286->286",
+        "instant:off-topic",
+        "citations:removed-1-2",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The French Revolution (1789–1799) was a political and social upheaval that reshaped governance and introduced key democratic ideals, while the Industrial Revolution (beginning c. 1760) was a transformative economic shift marked by mechanization and urbanization [1][2]. The former focused on changing political structures and rights, the latter on altering production methods and societal organization. Though both were pivotal in modern history, they addressed different domains: politics/society versus economy/technology."
+      ],
+      "answer": "The French Revolution (1789–1799) was a political and social upheaval that reshaped governance and introduced key democratic ideals, while the Industrial Revolution (beginning c. 1760) was a transformative economic shift marked by mechanization and urbanization. The former focused on changing political structures and rights, the latter on altering production methods and societal organization. Though both were pivotal in modern history, they addressed different domains: politics/society versus economy/technology."
+    },
+    {
+      "id": "comparison-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 91,
+      "ttftMs": 880,
+      "totalMs": 3413,
+      "tokens": 73,
+      "tokPerSec": 29.2,
+      "prefillTokens": 194,
+      "prefillMs": 821,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expected": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:188->188",
+        "citations:removed-1-2",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The supply and demand model assumes rational, informed actors who respond predictably to prices, leading to equilibrium [1]. Behavioral economics shows this breaks down when individuals exhibit biases, herd behavior, or limited information, causing prices to deviate from equilibrium due to irrational or emotional decisions [2]. Thus, markets can experience persistent bubbles or crashes that the simple model cannot explain."
+      ],
+      "answer": "The supply and demand model assumes rational, informed actors who respond predictably to prices, leading to equilibrium. Behavioral economics shows this breaks down when individuals exhibit biases, herd behavior, or limited information, causing prices to deviate from equilibrium due to irrational or emotional decisions. Thus, markets can experience persistent bubbles or crashes that the simple model cannot explain."
+    },
+    {
+      "id": "synthesis-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 33,
+      "ttftMs": 1170,
+      "totalMs": 4164,
+      "tokens": 84,
+      "tokPerSec": 28.4,
+      "prefillTokens": 268,
+      "prefillMs": 1137,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Industrial Revolution",
+        "Agricultural revolution"
+      ],
+      "expected": [
+        "Agricultural revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:308->307",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "Both the Agricultural and Industrial Revolutions marked fundamental shifts in human society, transitioning from subsistence-based lifestyles to more productive, stable systems of food and manufacturing [1]. The Agricultural Revolution transformed daily life over millennia through gradual adoption of farming, while the Industrial Revolution brought rapid, dramatic changes in technology, work, and urbanization within a few generations. The Industrial Revolution changed daily life much more quickly than the earlier Agricultural Revolution."
+      ],
+      "answer": "Both the Agricultural and Industrial Revolutions marked fundamental shifts in human society, transitioning from subsistence-based lifestyles to more productive, stable systems of food and manufacturing. The Agricultural Revolution transformed daily life over millennia through gradual adoption of farming, while the Industrial Revolution brought rapid, dramatic changes in technology, work, and urbanization within a few generations. The Industrial Revolution changed daily life much more quickly than the earlier Agricultural Revolution."
+    },
+    {
+      "id": "synthesis-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 47,
+      "ttftMs": 1193,
+      "totalMs": 3818,
+      "tokens": 73,
+      "tokPerSec": 28.2,
+      "prefillTokens": 274,
+      "prefillMs": 1145,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Immune system",
+        "Vaccine"
+      ],
+      "expected": [
+        "Immune system",
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:330->298",
+        "citations:removed-2",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The immune system detects pathogens and mounts a response by identifying foreign molecules and initiating defense mechanisms. Vaccines mimic this by introducing a harmless version of a pathogen—like a weakened or inactivated form—so the immune system learns to recognize and attack it without causing disease. This creates memory cells that respond faster and stronger if the real pathogen ever appears [2]."
+      ],
+      "answer": "The immune system detects pathogens and mounts a response by identifying foreign molecules and initiating defense mechanisms. Vaccines mimic this by introducing a harmless version of a pathogen—like a weakened or inactivated form—so the immune system learns to recognize and attack it without causing disease. This creates memory cells that respond faster and stronger if the real pathogen ever appears."
+    },
+    {
+      "id": "synthesis-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 46,
+      "ttftMs": 845,
+      "totalMs": 3260,
+      "tokens": 70,
+      "tokPerSec": 29.4,
+      "prefillTokens": 170,
+      "prefillMs": 799,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Amazon rainforest"
+      ],
+      "expected": [
+        "Amazon rainforest"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:310->216",
+        "grounding:off-topic-dropped-1",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The Amazon rainforest is crucial for global climate regulation as it absorbs vast amounts of CO₂ and releases oxygen, helping mitigate climate change [1]. Biodiversity loss there threatens ecosystem resilience, disrupts climate feedback loops, and compromises vital services like pollination, water cycling, and soil fertility, which are essential for global food security and environmental stability."
+      ],
+      "answer": "The Amazon rainforest is crucial for global climate regulation as it absorbs vast amounts of CO₂ and releases oxygen, helping mitigate climate change. Biodiversity loss there threatens ecosystem resilience, disrupts climate feedback loops, and compromises vital services like pollination, water cycling, and soil fertility, which are essential for global food security and environmental stability."
+    },
+    {
+      "id": "reasoning-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 804,
+      "totalMs": 2336,
+      "tokens": 42,
+      "tokPerSec": 28.1,
+      "prefillTokens": 183,
+      "prefillMs": 770,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:chat",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The train arrives at 6:15 pm.  \n3:40 pm + 2 hours = 5:40 pm, plus 35 minutes = 6:15 pm."
+      ],
+      "answer": "The train arrives at 6:15 pm.  \n3:40 pm + 2 hours = 5:40 pm, plus 35 minutes = 6:15 pm."
+    },
+    {
+      "id": "reasoning-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 842,
+      "totalMs": 3714,
+      "tokens": 83,
+      "tokPerSec": 29.3,
+      "prefillTokens": 224,
+      "prefillMs": 826,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:calculate",
+        "retrieve:skipped-task-not-knowledge-based",
+        "instant:off",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "context:0->0",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "Total used: 2GB (OS/app) + 200MB (embedding) + 1.5GB (KV cache) = 3.7GB.  \nRemaining: 12GB - 3.7GB = 8.3GB.  \nYes, a 9GB model would fit in RAM, but it would use nearly all available memory and may cause performance issues."
+      ],
+      "answer": "Total used: 2GB (OS/app) + 200MB (embedding) + 1.5GB (KV cache) = 3.7GB.  \nRemaining: 12GB - 3.7GB = 8.3GB.  \nYes, a 9GB model would fit in RAM, but it would use nearly all available memory and may cause performance issues."
+    },
+    {
+      "id": "reasoning-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 856,
+      "totalMs": 3316,
+      "tokens": 69,
+      "tokPerSec": 28.5,
+      "prefillTokens": 254,
+      "prefillMs": 802,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "The minimum disk footprint is 8B × 1 byte = 8 bytes per token, scaled by token count — total disk usage scales linearly with tokens, not total parameters. RAM usage doesn't scale with 100B because only 8B are activated per token via sparse expert selection, not all parameters are loaded simultaneously."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nThe minimum disk footprint is 8B × 1 byte = 8 bytes per token, scaled by token count — total disk usage scales linearly with tokens, not total parameters. RAM usage doesn't scale with 100B because only 8B are activated per token via sparse expert selection, not all parameters are loaded simultaneously."
+    },
+    {
+      "id": "grounded-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 36,
+      "ttftMs": 1257,
+      "totalMs": 3609,
+      "tokens": 66,
+      "tokPerSec": 28.5,
+      "prefillTokens": 327,
+      "prefillMs": 1220,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire"
+      ],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:396->359",
+        "instant:off-topic"
+      ],
+      "modelText": [
+        "The Western Roman Empire fell due to a combination of military pressures from invading Germanic tribes, economic decline, political instability, and internal weaknesses. Factors like population decline, disease, and climate change further weakened its ability to maintain control [1]. The collapse was not sudden but a gradual process of loss of central authority and effective governance."
+      ],
+      "answer": "The Western Roman Empire fell due to a combination of military pressures from invading Germanic tribes, economic decline, political instability, and internal weaknesses. Factors like population decline, disease, and climate change further weakened its ability to maintain control [1]. The collapse was not sudden but a gradual process of loss of central authority and effective governance."
+    },
+    {
+      "id": "grounded-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 34,
+      "ttftMs": 34,
+      "totalMs": 2677,
+      "tokens": 50,
+      "tokPerSec": 27.3,
+      "prefillTokens": 133,
+      "prefillMs": 774,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:155->121",
+        "citations:moved-1"
+      ],
+      "modelText": [
+        "A black hole is an astronomical object so dense that its gravity prevents anything, including light, from escaping. It forms when a massive star collapses under its own gravity at the end of its life, squeezing its mass into an extremely small volume [1]."
+      ],
+      "answer": "A black hole is an astronomical object so dense that its gravity prevents anything, including light, from escaping [1]. It forms when a massive star collapses under its own gravity at the end of its life, squeezing its mass into an extremely small volume."
+    },
+    {
+      "id": "no-kb-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 835,
+      "totalMs": 3670,
+      "tokens": 80,
+      "tokPerSec": 28.6,
+      "prefillTokens": 202,
+      "prefillMs": 807,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Napoleon Bonaparte was a French military leader and emperor who rose to power during the French Revolution and later ruled the French Empire from 1804 until his exile in 1815. He was a key figure in shaping modern European politics through military conquests and administrative reforms. His exact dates of birth and death are 1769–1821."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nNapoleon Bonaparte was a French military leader and emperor who rose to power during the French Revolution and later ruled the French Empire from 1804 until his exile in 1815. He was a key figure in shaping modern European politics through military conquests and administrative reforms. His exact dates of birth and death are 1769–1821."
+    },
+    {
+      "id": "no-kb-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 58,
+      "ttftMs": 819,
+      "totalMs": 3310,
+      "tokens": 71,
+      "tokPerSec": 28.9,
+      "prefillTokens": 158,
+      "prefillMs": 761,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Antimicrobial resistance"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:175->147",
+        "instant:off-topic",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "Antibiotics work by targeting specific structures or processes in bacteria, such as cell wall synthesis or protein production, which disrupts their ability to survive and multiply [1]. Antibiotic resistance develops when bacteria mutate or acquire genes that allow them to survive exposure to antibiotics, often due to misuse or overprescription, enabling them to evade the drug's effects."
+      ],
+      "answer": "Antibiotics work by targeting specific structures or processes in bacteria, such as cell wall synthesis or protein production, which disrupts their ability to survive and multiply. Antibiotic resistance develops when bacteria mutate or acquire genes that allow them to survive exposure to antibiotics, often due to misuse or overprescription, enabling them to evade the drug's effects."
+    },
+    {
+      "id": "decline-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 851,
+      "totalMs": 2340,
+      "tokens": 41,
+      "tokPerSec": 28.2,
+      "prefillTokens": 211,
+      "prefillMs": 815,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "There is no known treaty called the \"Treaty of Velmora\" from 1823. It may be a fictional or mistaken reference. No historical record confirms such a treaty existing."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nThere is no known treaty called the \"Treaty of Velmora\" from 1823. It may be a fictional or mistaken reference. No historical record confirms such a treaty existing."
+    },
+    {
+      "id": "decline-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 828,
+      "totalMs": 2661,
+      "tokens": 52,
+      "tokPerSec": 28.9,
+      "prefillTokens": 207,
+      "prefillMs": 783,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Zirconium (not \"zorbium\") has a melting point of 1855°C. The element is known for its high strength and corrosion resistance at elevated temperatures. There is no element called \"zorbium\" in the periodic table."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nZirconium (not \"zorbium\") has a melting point of 1855°C. The element is known for its high strength and corrosion resistance at elevated temperatures. There is no element called \"zorbium\" in the periodic table."
+    },
+    {
+      "id": "decline-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 833,
+      "totalMs": 2082,
+      "tokens": 34,
+      "tokPerSec": 28,
+      "prefillTokens": 207,
+      "prefillMs": 795,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "The 2042 FIFA World Cup has not yet taken place, so no winner has been determined. Any information about future tournaments is speculative and not officially recorded."
+      ],
+      "answer": "This answer is not from an offline source on this phone; check it before relying on it.\n\nThe 2042 FIFA World Cup has not yet taken place, so no winner has been determined. Any information about future tournaments is speculative and not officially recorded."
+    },
+    {
+      "id": "decline-pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1713,
+      "totalMs": 3652,
+      "tokens": 54,
+      "tokPerSec": 28.4,
+      "prefillTokens": 219,
+      "prefillMs": 805,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Não há registros históricos sobre a fundação da cidade de Vrelândia do Sul. O nome pode ser fictício ou de criação recente, sem referência a fundações reais. Não há dados confiáveis sobre quem a fundou."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nNão há registros históricos sobre a fundação da cidade de Vrelândia do Sul. O nome pode ser fictício ou de criação recente, sem referência a fundações reais. Não há dados confiáveis sobre quem a fundou."
+    },
+    {
+      "id": "pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 63,
+      "ttftMs": 64,
+      "totalMs": 3638,
+      "tokens": 80,
+      "tokPerSec": 29,
+      "prefillTokens": 195,
+      "prefillMs": 780,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:154->154",
+        "instant:source-language-lead",
+        "citations:removed-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "As vacinas funcionam estimulando o sistema imunológico a reconhecer e combater microorganismos patogênicos, usando uma forma enfraquecida, morta ou parte de um agente infeccioso [1]. Isso permite que o corpo desenvolva imunidade ativa contra a doença sem sofrer a infecção real."
+      ],
+      "answer": "As vacinas funcionam estimulando o sistema imunológico a reconhecer e combater microorganismos patogênicos, usando uma forma enfraquecida, morta ou parte de um agente infeccioso. Isso permite que o corpo desenvolva imunidade ativa contra a doença sem sofrer a infecção real."
+    },
+    {
+      "id": "pt-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 101,
+      "ttftMs": 957,
+      "totalMs": 4684,
+      "tokens": 102,
+      "tokPerSec": 27.6,
+      "prefillTokens": 216,
+      "prefillMs": 855,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:229->181",
+        "instant:off-topic",
+        "citations:removed-1-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "A fotossíntese é um processo biológico pelo qual organismos autotróficos, como plantas, algas e cianobactérias, convertem energia luminosa, geralmente do sol, em energia química armazenada em compostos orgânicos, como açúcares [1]. Esse processo libera oxigênio como subproduto, especialmente no que diz respeito à fotossíntese oxigênica [1]."
+      ],
+      "answer": "A fotossíntese é um processo biológico pelo qual organismos autotróficos, como plantas, algas e cianobactérias, convertem energia luminosa, geralmente do sol, em energia química armazenada em compostos orgânicos, como açúcares. Esse processo libera oxigênio como subproduto, especialmente no que diz respeito à fotossíntese oxigênica."
+    },
+    {
+      "id": "pt-3",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "firstSourcesMs": 64,
+      "ttftMs": 65,
+      "totalMs": 66,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:155->121",
+        "instant:source-language-lead",
+        "instant:final"
+      ],
+      "modelText": [],
+      "answer": "Da fonte offline (em inglês):\nThe boundary of no escape is called the event horizon. In general relativity, crossing a black hole's event horizon traps an object inside but produces no locally detectable change."
+    },
+    {
+      "id": "pt-4",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1015,
+      "totalMs": 4080,
+      "tokens": 78,
+      "tokPerSec": 25.8,
+      "prefillTokens": 222,
+      "prefillMs": 961,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": false,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Charles Darwin propôs a teoria da evolução por seleção natural. Ele desenvolveu essa ideia durante sua jornada no século XIX, com base em observações durante a viagem de bordo do *Beagle*. A teoria explica como as espécies mudam ao longo do tempo por meio da seleção de características vantajosas."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nCharles Darwin propôs a teoria da evolução por seleção natural. Ele desenvolveu essa ideia durante sua jornada no século XIX, com base em observações durante a viagem de bordo do *Beagle*. A teoria explica como as espécies mudam ao longo do tempo por meio da seleção de características vantajosas."
+    },
+    {
+      "id": "pt-5",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 959,
+      "totalMs": 4639,
+      "tokens": 98,
+      "tokPerSec": 26.9,
+      "prefillTokens": 219,
+      "prefillMs": 830,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": false,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:508->359",
+        "grounding:off-topic-dropped-2",
+        "grounding:no-good-source",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "O Império Romano do Ocidente caiu devido à combinação de fatores como ataques de povos germânicos, instabilidade política, desgaste econômico, falta de unidade administrativa e a dificuldade de manter o controle de tamanha extensão territorial. A queda foi gradual, com o fim oficial ocorrendo em 476 d.C., quando o último imperador ocidental foi deposto."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nO Império Romano do Ocidente caiu devido à combinação de fatores como ataques de povos germânicos, instabilidade política, desgaste econômico, falta de unidade administrativa e a dificuldade de manter o controle de tamanha extensão territorial. A queda foi gradual, com o fim oficial ocorrendo em 476 d.C., quando o último imperador ocidental foi deposto."
+    }
+  ]
+}

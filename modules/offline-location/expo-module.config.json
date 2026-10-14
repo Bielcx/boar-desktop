@@ -1,0 +1,9 @@
+{
+  "platforms": ["android", "apple"],
+  "android": {
+    "modules": ["expo.modules.offlinelocation.OfflineLocationModule"]
+  },
+  "apple": {
+    "modules": ["OfflineLocationModule"]
+  }
+}

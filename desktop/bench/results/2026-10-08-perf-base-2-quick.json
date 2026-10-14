@@ -1,0 +1,531 @@
+{
+  "meta": {
+    "label": "perf-base-2",
+    "mode": "quick",
+    "date": "2026-10-08T05:05:55.571Z",
+    "commit": "f931ddc+dirty",
+    "model": "qwen2.5-1.5b-instruct-q4km",
+    "nCtx": 4096,
+    "threads": "app default (4)",
+    "gpuLayers": "auto",
+    "seed": 42,
+    "backend": {
+      "gpu": true,
+      "devices": [
+        "NVIDIA GeForce GTX 1650",
+        "Intel(R) UHD Graphics"
+      ],
+      "reasonNoGPU": ""
+    },
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "totalRamGB": 15.8,
+    "node": "v24.18.0",
+    "evalSetVersion": "1",
+    "scoreVersion": 1,
+    "questions": [
+      "greeting-1",
+      "factual-1",
+      "explanation-1",
+      "explanation-2",
+      "comparison-1",
+      "reasoning-1",
+      "grounded-2",
+      "no-kb-1"
+    ],
+    "gpuBefore": {
+      "tempC": 81,
+      "smClockMHz": 300,
+      "utilPct": 3
+    },
+    "gpuAfter": {
+      "tempC": 85,
+      "smClockMHz": 1785,
+      "utilPct": 25
+    },
+    "wallSeconds": 59
+  },
+  "speed": {
+    "embedLoadMs": 1192,
+    "indexMs": 6535,
+    "indexDocs": 300,
+    "llmLoadMs": 7986,
+    "decodeTokPerSec": 67.5,
+    "microTtftMs": 95,
+    "prefillTokPerSec": 769.9,
+    "prefillTokens": 1189,
+    "prefillMs": 1544,
+    "answerTtftMs": 168,
+    "answerTotalMs": 839,
+    "answerTokPerSec": 59.5,
+    "answerPrefillMs": 322,
+    "micro": {
+      "decode": [
+        {
+          "ttftMs": 529.4291000000012,
+          "tokens": 128,
+          "tokPerSec": 58.40858420010382,
+          "promptTokens": 41
+        },
+        {
+          "ttftMs": 135.28629999999976,
+          "tokens": 128,
+          "tokPerSec": 69.73594158830363,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 91.72450000000026,
+          "tokens": 128,
+          "tokPerSec": 68.9824878253992,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 95.0538000000015,
+          "tokens": 128,
+          "tokPerSec": 56.84878901642311,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 94.62680000000546,
+          "tokens": 128,
+          "tokPerSec": 66.06219755900183,
+          "promptTokens": 36
+        }
+      ],
+      "prefill": [
+        {
+          "tokens": 1189,
+          "ms": 1446.2839999999997,
+          "tokPerSec": 822.1068614462998
+        },
+        {
+          "tokens": 1189,
+          "ms": 1495.5540999999976,
+          "tokPerSec": 795.0230620209607
+        },
+        {
+          "tokens": 1189,
+          "ms": 1554.6180000000022,
+          "tokPerSec": 764.8181096578055
+        },
+        {
+          "tokens": 1189,
+          "ms": 1534.1367000000027,
+          "tokPerSec": 775.028718105758
+        },
+        {
+          "tokens": 1189,
+          "ms": 1574.4098999999987,
+          "tokPerSec": 755.2035845303062
+        }
+      ]
+    }
+  },
+  "memory": {
+    "peakRssMB": 1627,
+    "vramBaseMB": 1252,
+    "vramAfterLoadMB": 2906,
+    "peakVramMB": 2927
+  },
+  "retrieval": {
+    "k": 6,
+    "questions": 10,
+    "hitAtK": 1,
+    "recallAtK": 1,
+    "mrr": 1,
+    "hitAt1": 1,
+    "negatives": 8,
+    "negativesEmpty": 1,
+    "medianMs": 20,
+    "perQuery": [
+      {
+        "id": "factual-2",
+        "expected": [
+          "Evolution"
+        ],
+        "got": [
+          "Evolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 27
+      },
+      {
+        "id": "explanation-1",
+        "expected": [
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 19
+      },
+      {
+        "id": "explanation-2",
+        "expected": [
+          "Photosynthesis"
+        ],
+        "got": [
+          "Photosynthesis",
+          "Greenhouse effect"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 20
+      },
+      {
+        "id": "comparison-1",
+        "expected": [
+          "French Revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "French Revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 21
+      },
+      {
+        "id": "comparison-2",
+        "expected": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "got": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 25
+      },
+      {
+        "id": "synthesis-1",
+        "expected": [
+          "Agricultural revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "Agricultural revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 20
+      },
+      {
+        "id": "synthesis-2",
+        "expected": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "got": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 26
+      },
+      {
+        "id": "synthesis-3",
+        "expected": [
+          "Amazon rainforest"
+        ],
+        "got": [
+          "Amazon rainforest",
+          "Biodiversity loss"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 21
+      },
+      {
+        "id": "grounded-1",
+        "expected": [
+          "Fall of the Western Roman Empire"
+        ],
+        "got": [
+          "Fall of the Western Roman Empire",
+          "Byzantine Empire"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 20
+      },
+      {
+        "id": "grounded-2",
+        "expected": [
+          "Black hole"
+        ],
+        "got": [
+          "Black hole"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 21
+      }
+    ],
+    "negativeDetails": [
+      {
+        "query": "hey, what's up?",
+        "got": [],
+        "ms": 18
+      },
+      {
+        "query": "Who was Napoleon Bonaparte?",
+        "got": [],
+        "ms": 16
+      },
+      {
+        "query": "whats your name?",
+        "got": [],
+        "ms": 17
+      },
+      {
+        "query": "who are you?",
+        "got": [],
+        "ms": 21
+      },
+      {
+        "query": "what can you do?",
+        "got": [],
+        "ms": 15
+      },
+      {
+        "query": "tell me a joke",
+        "got": [],
+        "ms": 16
+      },
+      {
+        "query": "what time is it?",
+        "got": [],
+        "ms": 17
+      },
+      {
+        "query": "can you help me?",
+        "got": [],
+        "ms": 23
+      }
+    ]
+  },
+  "quality": {
+    "scoreV1": 100,
+    "scoreParts": {
+      "speed": 1,
+      "reliability": 1,
+      "retrieval": 1
+    },
+    "completed": 8,
+    "answers": 8,
+    "declined": 4,
+    "retrievalHits": "4/4",
+    "factsPassed": 3,
+    "factsTotal": 7,
+    "factsRate": 0.429
+  },
+  "answers": [
+    {
+      "id": "greeting-1",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "ttftMs": 3,
+      "totalMs": 3,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "answer": "All good, and ready offline. What would you like to know?"
+    },
+    {
+      "id": "factual-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 38,
+      "totalMs": 38,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "explanation-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 31,
+      "ttftMs": 410,
+      "totalMs": 1099,
+      "tokens": 47,
+      "tokPerSec": 69.7,
+      "prefillTokens": 115,
+      "prefillMs": 378,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "explanation-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 32,
+      "ttftMs": 298,
+      "totalMs": 950,
+      "tokens": 39,
+      "tokPerSec": 61.4,
+      "prefillTokens": 175,
+      "prefillMs": 266,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "answer": "Photosynthesis is a process where plants use sunlight to make food, turning it into oxygen. Plants take in carbon dioxide and water, and convert it into sugars and oxygen for energy. [1]"
+    },
+    {
+      "id": "comparison-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 26,
+      "ttftMs": 629,
+      "totalMs": 2643,
+      "tokens": 115,
+      "tokPerSec": 57.6,
+      "prefillTokens": 251,
+      "prefillMs": 603,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expected": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "answer": "The French Revolution was a period of political and societal change in France, ending with the Coup of 18 Brumaire on November 9, 1799 [1]. It was caused by a combination of social, political, and economic factors that the existing regime could not manage [1]. The Industrial Revolution, also called the First Industrial Revolution, began around 1760 and spread to Europe and the United States by 1840, with economic historians agreeing that it was the most important event in human history, comparable only to the adoption of agriculture [2]."
+    },
+    {
+      "id": "reasoning-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 430,
+      "totalMs": 728,
+      "tokens": 11,
+      "tokPerSec": 40.3,
+      "prefillTokens": 183,
+      "prefillMs": 398,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "answer": "The train arrives at 6:15 pm."
+    },
+    {
+      "id": "grounded-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 32,
+      "ttftMs": 33,
+      "totalMs": 1580,
+      "tokens": 45,
+      "tokPerSec": 39.7,
+      "prefillTokens": 139,
+      "prefillMs": 389,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "no-kb-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 25,
+      "totalMs": 25,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "answer": "I didn't find this in this phone's library."
+    }
+  ]
+}

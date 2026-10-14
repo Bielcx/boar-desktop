@@ -1,0 +1,1408 @@
+{
+  "meta": {
+    "label": "escopo",
+    "mode": "full",
+    "date": "2026-10-10T18:55:50.456Z",
+    "commit": "afa7b22+dirty",
+    "model": "qwen2.5-1.5b-instruct-q4km",
+    "nCtx": 4096,
+    "threads": "app default (4)",
+    "gpuLayers": "auto",
+    "seed": 42,
+    "backend": {
+      "gpu": true,
+      "devices": [
+        "NVIDIA GeForce GTX 1650",
+        "Intel(R) UHD Graphics"
+      ],
+      "reasonNoGPU": ""
+    },
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "totalRamGB": 15.8,
+    "node": "v24.18.0",
+    "evalSetVersion": "1",
+    "scoreVersion": 1,
+    "questions": [
+      "greeting-1",
+      "factual-1",
+      "factual-2",
+      "explanation-1",
+      "explanation-2",
+      "comparison-1",
+      "comparison-2",
+      "synthesis-1",
+      "synthesis-2",
+      "synthesis-3",
+      "reasoning-1",
+      "reasoning-2",
+      "reasoning-3",
+      "grounded-1",
+      "grounded-2",
+      "no-kb-1",
+      "no-kb-2",
+      "decline-1",
+      "decline-2",
+      "decline-3",
+      "decline-pt-1",
+      "pt-1",
+      "pt-2",
+      "pt-3",
+      "pt-4",
+      "pt-5"
+    ],
+    "gpuBefore": {
+      "tempC": 68,
+      "smClockMHz": 330,
+      "utilPct": 19
+    },
+    "gpuAfter": {
+      "tempC": 68,
+      "smClockMHz": 495,
+      "utilPct": 8
+    },
+    "wallSeconds": 183
+  },
+  "speed": {
+    "embedLoadMs": 1302,
+    "indexMs": 7021,
+    "indexDocs": 300,
+    "llmLoadMs": 9140,
+    "decodeTokPerSec": 50.3,
+    "microTtftMs": 103,
+    "prefillTokPerSec": 941.1,
+    "prefillTokens": 1189,
+    "prefillMs": 1263,
+    "answerTtftMs": 385,
+    "answerTotalMs": 1612,
+    "answerTokPerSec": 23,
+    "answerPrefillMs": 272,
+    "micro": {
+      "decode": [
+        {
+          "ttftMs": 539.6654999999992,
+          "tokens": 128,
+          "tokPerSec": 54.985049865641,
+          "promptTokens": 41
+        },
+        {
+          "ttftMs": 105.00660000000062,
+          "tokens": 128,
+          "tokPerSec": 58.50929202979562,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 90.35719999999856,
+          "tokens": 122,
+          "tokPerSec": 66.03535782043481,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 88.3739999999998,
+          "tokens": 128,
+          "tokPerSec": 66.25208047060507,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 88.16470000000118,
+          "tokens": 126,
+          "tokPerSec": 50.25962486774443,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 115.16049999999814,
+          "tokens": 128,
+          "tokPerSec": 35.97131602296183,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 102.85459999999875,
+          "tokens": 128,
+          "tokPerSec": 29.445956386949895,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 125.07849999999598,
+          "tokens": 128,
+          "tokPerSec": 32.75324353707493,
+          "promptTokens": 36
+        }
+      ],
+      "prefill": [
+        {
+          "tokens": 1189,
+          "ms": 1306.2855000000018,
+          "tokPerSec": 910.2144975198747
+        },
+        {
+          "tokens": 1189,
+          "ms": 1241.8856000000014,
+          "tokPerSec": 957.4150791345021
+        },
+        {
+          "tokens": 1189,
+          "ms": 1263.4498000000021,
+          "tokPerSec": 941.074192263118
+        },
+        {
+          "tokens": 1189,
+          "ms": 1247.2246999999988,
+          "tokPerSec": 953.3165916294001
+        },
+        {
+          "tokens": 1189,
+          "ms": 1299.0809000000008,
+          "tokPerSec": 915.26247518534
+        },
+        {
+          "tokens": 1189,
+          "ms": 1405.7424000000028,
+          "tokPerSec": 845.8164170049915
+        },
+        {
+          "tokens": 1189,
+          "ms": 1369.7043000000049,
+          "tokPerSec": 868.0705755249478
+        },
+        {
+          "tokens": 1189,
+          "ms": 1250.7593000000052,
+          "tokPerSec": 950.622553835894
+        }
+      ]
+    }
+  },
+  "memory": {
+    "peakRssMB": 1618,
+    "vramBaseMB": 1255,
+    "vramAfterLoadMB": 2909,
+    "peakVramMB": 4296
+  },
+  "retrieval": {
+    "k": 6,
+    "questions": 10,
+    "hitAtK": 1,
+    "recallAtK": 1,
+    "mrr": 1,
+    "hitAt1": 1,
+    "negatives": 8,
+    "negativesEmpty": 1,
+    "medianMs": 28,
+    "perQuery": [
+      {
+        "id": "factual-2",
+        "expected": [
+          "Evolution"
+        ],
+        "got": [
+          "Evolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 43
+      },
+      {
+        "id": "explanation-1",
+        "expected": [
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 28
+      },
+      {
+        "id": "explanation-2",
+        "expected": [
+          "Photosynthesis"
+        ],
+        "got": [
+          "Photosynthesis",
+          "Greenhouse effect"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 32
+      },
+      {
+        "id": "comparison-1",
+        "expected": [
+          "French Revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "French Revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 39
+      },
+      {
+        "id": "comparison-2",
+        "expected": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "got": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 43
+      },
+      {
+        "id": "synthesis-1",
+        "expected": [
+          "Agricultural revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "Agricultural revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 44
+      },
+      {
+        "id": "synthesis-2",
+        "expected": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "got": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 40
+      },
+      {
+        "id": "synthesis-3",
+        "expected": [
+          "Amazon rainforest"
+        ],
+        "got": [
+          "Amazon rainforest",
+          "Biodiversity loss"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 41
+      },
+      {
+        "id": "grounded-1",
+        "expected": [
+          "Fall of the Western Roman Empire"
+        ],
+        "got": [
+          "Fall of the Western Roman Empire",
+          "Byzantine Empire"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 29
+      },
+      {
+        "id": "grounded-2",
+        "expected": [
+          "Black hole"
+        ],
+        "got": [
+          "Black hole"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 28
+      }
+    ],
+    "negativeDetails": [
+      {
+        "query": "hey, what's up?",
+        "got": [],
+        "ms": 22
+      },
+      {
+        "query": "Who was Napoleon Bonaparte?",
+        "got": [],
+        "ms": 22
+      },
+      {
+        "query": "whats your name?",
+        "got": [],
+        "ms": 26
+      },
+      {
+        "query": "who are you?",
+        "got": [],
+        "ms": 18
+      },
+      {
+        "query": "what can you do?",
+        "got": [],
+        "ms": 17
+      },
+      {
+        "query": "tell me a joke",
+        "got": [],
+        "ms": 21
+      },
+      {
+        "query": "what time is it?",
+        "got": [],
+        "ms": 17
+      },
+      {
+        "query": "can you help me?",
+        "got": [],
+        "ms": 18
+      }
+    ]
+  },
+  "quality": {
+    "scoreV1": 98,
+    "scoreParts": {
+      "speed": 1,
+      "reliability": 1,
+      "retrieval": 0.867
+    },
+    "completed": 26,
+    "answers": 26,
+    "declined": 14,
+    "retrievalHits": "13/15",
+    "factsPassed": 8,
+    "factsTotal": 18,
+    "factsRate": 0.444,
+    "shouldAnswer": 16,
+    "falseDeclines": 4,
+    "shouldDecline": 4,
+    "falseAnswers": 0,
+    "wrongAnswers": 2,
+    "declineReasons": {
+      "grounding:declined-compact": 9,
+      "grounding:all-citations-removed-declined-compact": 5
+    }
+  },
+  "answers": [
+    {
+      "id": "greeting-1",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "ttftMs": 5,
+      "totalMs": 5,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "answer:small-talk-greeting"
+      ],
+      "modelText": [],
+      "answer": "All good, and ready offline. What would you like to know?"
+    },
+    {
+      "id": "factual-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 77,
+      "totalMs": 78,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "factual-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 77,
+      "ttftMs": 475,
+      "totalMs": 1547,
+      "tokens": 34,
+      "tokPerSec": 32.7,
+      "prefillTokens": 115,
+      "prefillMs": 397,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Evolution"
+      ],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:111->111",
+        "instant:off-topic",
+        "citations:removed-1",
+        "grounding:all-citations-removed-declined-compact"
+      ],
+      "modelText": [
+        "The theory of evolution by natural selection was proposed by Charles Darwin, published in his book \"On the Origin of Species\" in 1859. [1]"
+      ],
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "explanation-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 286,
+      "ttftMs": 640,
+      "totalMs": 2549,
+      "tokens": 47,
+      "tokPerSec": 25.2,
+      "prefillTokens": 109,
+      "prefillMs": 353,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:154->102",
+        "instant:off-topic",
+        "citations:moved-1"
+      ],
+      "modelText": [
+        "Vaccines work by introducing a weakened or weakened form of a disease into the body, which triggers the immune system to produce antibodies. These antibodies prepare the body to fight off the actual disease if it encounters it later. [1]"
+      ],
+      "answer": "Vaccines work by introducing a weakened or weakened form of a disease into the body, which triggers the immune system to produce antibodies [1]. These antibodies prepare the body to fight off the actual disease if it encounters it later."
+    },
+    {
+      "id": "explanation-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 60,
+      "ttftMs": 420,
+      "totalMs": 3621,
+      "tokens": 66,
+      "tokPerSec": 20.9,
+      "prefillTokens": 175,
+      "prefillMs": 359,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:372->181",
+        "instant:off-topic"
+      ],
+      "modelText": [
+        "Photosynthesis is a process where plants use sunlight to make food, turning it into oxygen. Plants absorb carbon dioxide from the air and water, using the energy from sunlight to make glucose, which they use for energy and to make other organic compounds. This process also produces oxygen, which is released back into the air. [1]"
+      ],
+      "answer": "Photosynthesis is a process where plants use sunlight to make food, turning it into oxygen. Plants absorb carbon dioxide from the air and water, using the energy from sunlight to make glucose, which they use for energy and to make other organic compounds. This process also produces oxygen, which is released back into the air. [1]"
+    },
+    {
+      "id": "comparison-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 229,
+      "ttftMs": 695,
+      "totalMs": 6778,
+      "tokens": 104,
+      "tokPerSec": 17.3,
+      "prefillTokens": 251,
+      "prefillMs": 466,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expected": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:compare",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:286->286",
+        "instant:off-topic",
+        "citations:added-1-1-2"
+      ],
+      "modelText": [
+        "The French Revolution was a period of political and societal change in France, ending with the Coup of 18 Brumaire on November 9, 1799. It was caused by a combination of social, political, and economic factors that the existing regime could not manage. The Industrial Revolution, also called the First Industrial Revolution, began around 1760 and spread globally, transforming manufacturing processes, with its onset considered the most important event in human history, comparable to the adoption of agriculture."
+      ],
+      "answer": "The French Revolution was a period of political and societal change in France, ending with the Coup of 18 Brumaire on November 9, 1799 [1]. It was caused by a combination of social, political, and economic factors that the existing regime could not manage [1]. The Industrial Revolution, also called the First Industrial Revolution, began around 1760 and spread globally, transforming manufacturing processes, with its onset considered the most important event in human history, comparable to the adoption of agriculture [2]."
+    },
+    {
+      "id": "comparison-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 114,
+      "ttftMs": 342,
+      "totalMs": 2014,
+      "tokens": 80,
+      "tokPerSec": 48.4,
+      "prefillTokens": 194,
+      "prefillMs": 268,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expected": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:188->188",
+        "citations:moved-1"
+      ],
+      "modelText": [
+        "Supply and demand explains price changes by showing that price adjusts to clear the market, with demand and supply curves intersecting at the equilibrium price where quantity demanded equals quantity supplied. In contrast, behavioral economics complicates the picture by considering psychological factors that might lead to deviations from economic theory, such as the fact that people often prefer to buy more than they need, leading to overconsumption. [1]"
+      ],
+      "answer": "Supply and demand explains price changes by showing that price adjusts to clear the market, with demand and supply curves intersecting at the equilibrium price where quantity demanded equals quantity supplied [1]. In contrast, behavioral economics complicates the picture by considering psychological factors that might lead to deviations from economic theory, such as the fact that people often prefer to buy more than they need, leading to overconsumption."
+    },
+    {
+      "id": "synthesis-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 46,
+      "ttftMs": 425,
+      "totalMs": 1879,
+      "tokens": 75,
+      "tokPerSec": 52.3,
+      "prefillTokens": 268,
+      "prefillMs": 378,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Industrial Revolution",
+        "Agricultural revolution"
+      ],
+      "expected": [
+        "Agricultural revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:308->307",
+        "citations:removed-1-2",
+        "grounding:all-citations-removed-declined-compact"
+      ],
+      "modelText": [
+        "Both the Agricultural Revolution and the Industrial Revolution were pivotal turning points in human history, each significantly altering daily life. However, they differed in scope and speed: the Agricultural Revolution led to settled agriculture and the establishment of permanent settlements, while the Industrial Revolution transformed the economy and manufacturing processes, leading to urbanization and a shift away from agrarian lifestyles. [1] [2]"
+      ],
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "synthesis-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 51,
+      "ttftMs": 415,
+      "totalMs": 1411,
+      "tokens": 56,
+      "tokPerSec": 57.2,
+      "prefillTokens": 274,
+      "prefillMs": 363,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Immune system",
+        "Vaccine"
+      ],
+      "expected": [
+        "Immune system",
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:330->298",
+        "citations:moved-1"
+      ],
+      "modelText": [
+        "The immune system detects pathogens like viruses and bacteria, distinguishing them from healthy tissue. It then mounts a response to attack the pathogens. A vaccine mimics a pathogen and stimulates the immune system to recognize and neutralize it, preparing the body to fight future infections. [1]"
+      ],
+      "answer": "The immune system detects pathogens like viruses and bacteria, distinguishing them from healthy tissue [1]. It then mounts a response to attack the pathogens. A vaccine mimics a pathogen and stimulates the immune system to recognize and neutralize it, preparing the body to fight future infections."
+    },
+    {
+      "id": "synthesis-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 66,
+      "ttftMs": 333,
+      "totalMs": 1949,
+      "tokens": 55,
+      "tokPerSec": 34.6,
+      "prefillTokens": 170,
+      "prefillMs": 267,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Amazon rainforest"
+      ],
+      "expected": [
+        "Amazon rainforest"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:310->216",
+        "grounding:off-topic-dropped-1",
+        "citations:removed-1",
+        "grounding:all-citations-removed-declined-compact"
+      ],
+      "modelText": [
+        "The Amazon rainforest is crucial for global climate regulation due to its role in absorbing carbon dioxide from the atmosphere. Loss of biodiversity there threatens numerous ecosystem services beyond species loss; it impacts water cycles, soil health, and the resilience of local and global food chains. [1]"
+      ],
+      "answer": "The passages found don't support this answer."
+    },
+    {
+      "id": "reasoning-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 415,
+      "totalMs": 646,
+      "tokens": 11,
+      "tokPerSec": 51.9,
+      "prefillTokens": 183,
+      "prefillMs": 365,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:chat",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The train arrives at 6:15 pm."
+      ],
+      "answer": "The train arrives at 6:15 pm."
+    },
+    {
+      "id": "reasoning-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 406,
+      "totalMs": 1772,
+      "tokens": 54,
+      "tokPerSec": 40.3,
+      "prefillTokens": 224,
+      "prefillMs": 276,
+      "cachedTokens": 65,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:calculate",
+        "retrieve:skipped-task-not-knowledge-based",
+        "instant:off",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "context:0->0",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "With 12GB RAM, after accounting for OS and app overhead of 2GB and embedding model of 200MB, there is 8GB left for the LLM's weights. A 9GB model would fit if loaded fully into RAM."
+      ],
+      "answer": "With 12GB RAM, after accounting for OS and app overhead of 2GB and embedding model of 200MB, there is 8GB left for the LLM's weights. A 9GB model would fit if loaded fully into RAM."
+    },
+    {
+      "id": "reasoning-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 362,
+      "totalMs": 362,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": true,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "grounded-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 925,
+      "ttftMs": 1956,
+      "totalMs": 5300,
+      "tokens": 42,
+      "tokPerSec": 12.9,
+      "prefillTokens": 327,
+      "prefillMs": 1030,
+      "cachedTokens": 229,
+      "completions": 1,
+      "retrieved": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire"
+      ],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:396->359",
+        "instant:off-topic"
+      ],
+      "modelText": [
+        "The Western Roman Empire fell due to a combination of factors including a weakened army, a declining population, economic instability, internal power struggles, changes in religion, and the increased pressure from invading peoples. [1]"
+      ],
+      "answer": "The Western Roman Empire fell due to a combination of factors including a weakened army, a declining population, economic instability, internal power struggles, changes in religion, and the increased pressure from invading peoples. [1]"
+    },
+    {
+      "id": "grounded-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 252,
+      "ttftMs": 253,
+      "totalMs": 5428,
+      "tokens": 52,
+      "tokPerSec": 11.5,
+      "prefillTokens": 133,
+      "prefillMs": 554,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:155->121",
+        "citations:moved-1"
+      ],
+      "modelText": [
+        "A black hole is an astronomical body with such intense gravity that nothing, including light, can escape from it. They form when a massive star collapses in on itself, squeezing its mass into a tiny volume, creating a singularity with infinite density. [1]"
+      ],
+      "answer": "A black hole is an astronomical body with such intense gravity that nothing, including light, can escape from it [1]. They form when a massive star collapses in on itself, squeezing its mass into a tiny volume, creating a singularity with infinite density."
+    },
+    {
+      "id": "no-kb-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 363,
+      "totalMs": 363,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "no-kb-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 920,
+      "ttftMs": 1560,
+      "totalMs": 7620,
+      "tokens": 56,
+      "tokPerSec": 9.4,
+      "prefillTokens": 152,
+      "prefillMs": 639,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Antimicrobial resistance"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:175->147",
+        "instant:off-topic"
+      ],
+      "modelText": [
+        "Antibiotics work by targeting specific mechanisms in bacteria to inhibit their growth, often by interfering with cell wall synthesis or protein production. Antibiotic resistance develops when bacteria evolve to survive the presence of antibiotics, either through genetic mutations or by acquiring resistance genes from other bacteria. [1]"
+      ],
+      "answer": "Antibiotics work by targeting specific mechanisms in bacteria to inhibit their growth, often by interfering with cell wall synthesis or protein production. Antibiotic resistance develops when bacteria evolve to survive the presence of antibiotics, either through genetic mutations or by acquiring resistance genes from other bacteria. [1]"
+    },
+    {
+      "id": "decline-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 163,
+      "totalMs": 163,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "decline-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 211,
+      "totalMs": 211,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "decline-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 145,
+      "totalMs": 145,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "I didn't find this in this phone's library."
+    },
+    {
+      "id": "decline-pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 1677,
+      "totalMs": 1677,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "Não encontrei isso no acervo deste celular."
+    },
+    {
+      "id": "pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 1180,
+      "ttftMs": 1180,
+      "totalMs": 24106,
+      "tokens": 163,
+      "tokPerSec": 7.3,
+      "prefillTokens": 189,
+      "prefillMs": 362,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": true,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:154->154",
+        "instant:source-language-lead",
+        "citations:removed-1",
+        "grounding:all-citations-removed-declined-compact"
+      ],
+      "modelText": [
+        "As vacinas são preparações biológicas que proporcionam imunidade passiva contra uma doença específica. Sua segurança e eficácia foram amplamente estudo e comprovadas. Uma vacina geralmente contém um agente que se assemelha a um microorganismo patogênico e pode ser feito a partir de formas virulentas ou não virulentas do microorganismo, suas toxinas, ou seus aspectos superficiais. O agente estimula o sistema imunológico a reconhecer o agente como um possível agente de perigo, destruir o agente e reconhecer e destruir qualquer microorganismo associado ao agente que ele possa encontrar em futuras exposições. [1]"
+      ],
+      "answer": "Os trechos encontrados não sustentam esta resposta."
+    },
+    {
+      "id": "pt-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 312,
+      "ttftMs": 888,
+      "totalMs": 6356,
+      "tokens": 59,
+      "tokPerSec": 11,
+      "prefillTokens": 216,
+      "prefillMs": 575,
+      "cachedTokens": 235,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": true,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:229->181",
+        "instant:off-topic",
+        "citations:removed-1",
+        "grounding:all-citations-removed-declined-compact"
+      ],
+      "modelText": [
+        "A fotossíntese é um sistema de processos biológicos pelos quais organismos autótrofos, como plantas, algas e algumas bactérias, convertem energia da luz solar em energia química necessária para seu metabolismo. [1]"
+      ],
+      "answer": "Os trechos encontrados não sustentam esta resposta."
+    },
+    {
+      "id": "pt-3",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "firstSourcesMs": 95,
+      "ttftMs": 95,
+      "totalMs": 96,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [
+        "Black hole"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:155->121",
+        "instant:source-language-lead",
+        "instant:final"
+      ],
+      "modelText": [],
+      "answer": "Da fonte offline (em inglês):\nThe boundary of no escape is called the event horizon. In general relativity, crossing a black hole's event horizon traps an object inside but produces no locally detectable change."
+    },
+    {
+      "id": "pt-4",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 147,
+      "totalMs": 147,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": false,
+      "fact": false,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:may-finish",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:0->0",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "Não encontrei isso no acervo deste celular."
+    },
+    {
+      "id": "pt-5",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": true,
+      "ttftMs": 172,
+      "totalMs": 172,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": false,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": true,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen2.5-1.5b-instruct-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:508->359",
+        "grounding:off-topic-dropped-2",
+        "grounding:no-good-source",
+        "grounding:declined-compact"
+      ],
+      "modelText": [],
+      "answer": "Não encontrei isso no acervo deste celular."
+    }
+  ]
+}

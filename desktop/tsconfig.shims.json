@@ -1,0 +1,13 @@
+{
+  // Shims are bundled by Metro (Babel) into the renderer, not emitted by tsc: this only typechecks them.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "..",
+    "erasableSyntaxOnly": false,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/shims", "src/shared", "src/testing", "src/mcp"]
+}
