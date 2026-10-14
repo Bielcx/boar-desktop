@@ -1,6 +1,7 @@
 import { llamaEngine } from "../inference/LlamaEngine";
 import { ConversationTurn } from "../rag/pure";
 import { taskRequest } from "../inference/format";
+import { sessionTitleFor } from "./sessionTitle.pure";
 
 /**
  * Both of these reuse the single shared llama.cpp context (llamaEngine),
@@ -20,7 +21,7 @@ export async function generateSessionTitle(firstUserMessage: string): Promise<st
   );
   const text = await llamaEngine.generate({ ...request, nPredict: 16, temperature: 0.3 });
   const title = text.trim().replace(/^["']|["']$/g, "").split("\n")[0].slice(0, 60);
-  return title || "New chat";
+  return sessionTitleFor(title, firstUserMessage);
 }
 
 export async function summarizeConversation(
