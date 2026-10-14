@@ -1,7 +1,7 @@
 {
   "name": "boar-desktop",
   "productName": "BOAR",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "BOAR desktop: the Expo web build of the app inside Electron, native packages served by the main process.",
   "author": "Bielcx",
@@ -16,7 +16,7 @@
     "dev": "node scripts/run.mjs dev",
     "start": "npm run build:main && electron .",
     "e2e": "npm run build:main && playwright test",
-    "dist": "npm run build:main && npm run build:web && electron-builder",
+    "dist": "install-electron && npm run build:main && npm run build:web && electron-builder",
     "bench": "node bench/run.mjs",
     "bench:compare": "node bench/report.mjs"
   },
