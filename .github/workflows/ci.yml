@@ -30,7 +30,13 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: desktop/package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      # The shims and tests import the app's packages from the root. Types and JS only: skip
+      # llama.rn's postinstall, which downloads the Android/iOS binaries.
+      - run: npm ci --ignore-scripts
+        working-directory: .
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
