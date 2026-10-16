@@ -31,6 +31,8 @@ interface Props {
   onDeleteSession?: (id: string) => void;
   /** Agent profile names by id, so a conversation started with one says so. */
   profileNames?: Record<string, string>;
+  /** Memory and storage at the bottom: Show technical details. */
+  showStats?: boolean;
 }
 
 function formatTimestamp(ms: number, t: (key: string, opts?: Record<string, unknown>) => string): string {
@@ -53,6 +55,7 @@ export function Drawer({
   onSelectSession,
   onDeleteSession,
   profileNames,
+  showStats = true,
 }: Props) {
   const { t } = useTranslation();
   const translateX = useRef(new Animated.Value(-DRAWER_WIDTH)).current;
@@ -176,7 +179,7 @@ export function Drawer({
           </View>
         </ScrollView>
 
-        <DrawerFooterStats />
+        {showStats && <DrawerFooterStats />}
       </Animated.View>
     </View>
   );

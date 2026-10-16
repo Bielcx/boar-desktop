@@ -6,9 +6,19 @@ import { colors } from "../theme/colors";
 import { typography } from "../theme/typography";
 import { approxWords, formatSeconds, type Receipt } from "./receipt";
 
-/** In the answer's footer, between the rating and the copy button: time and speed, tapped open for the details. */
-export function ReceiptToggle({ receipt, open, onToggle }: { receipt: Receipt; open: boolean; onToggle: () => void }) {
+/**
+ * In the answer's footer, between the rating and the copy button: time and speed for everyone, tapped open for the
+ * details only with Show technical details on (canOpen).
+ */
+export function ReceiptToggle({ receipt, open, onToggle, canOpen = true }: { receipt: Receipt; open: boolean; onToggle: () => void; canOpen?: boolean }) {
   const { t } = useTranslation();
+  if (!canOpen) {
+    return (
+      <Text style={styles.short}>
+        {formatSeconds(receipt.totalMs)} · {t("chat.receipt.speed", { rate: receipt.tokPerSec.toFixed(1) })}
+      </Text>
+    );
+  }
   return (
     <Pressable onPress={onToggle} hitSlop={6} accessibilityLabel={t("chat.receipt.details")}>
       <Text style={styles.short}>

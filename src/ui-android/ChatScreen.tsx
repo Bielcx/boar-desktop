@@ -44,6 +44,7 @@ import {
   MemorySettings as MemorySettingsType,
   DEFAULT_MEMORY_SETTINGS,
   getDeepResearchMode,
+  getShowLiveStats,
   getVoiceInputEnabled,
   getSpeakAnswers,
   getAdaptiveRoutingEnabled,
@@ -175,6 +176,8 @@ export function ChatScreen({
   const [deepResearchActive, setDeepResearchActive] = useState(false);
   const [deepResearchEnabled, setDeepResearchEnabled] = useState(false);
   const [liveTokPerSec, setLiveTokPerSec] = useState<number | null>(null);
+  // Show technical details (Settings): live speed, receipt details, memory and storage in the menu.
+  const [showTech, setShowTech] = useState(true);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeModel, setActiveModel] = useState<CatalogModel | null>(null);
@@ -352,6 +355,7 @@ export function ChatScreen({
       const drMode = await getDeepResearchMode();
       deepResearchModeRef.current = drMode;
       setVoiceInputEnabledState(await getVoiceInputEnabled());
+      setShowTech(await getShowLiveStats());
       speakAnswersRef.current = await getSpeakAnswers();
       setPackCount(await countKnowledgePacks());
       setDeepResearchEnabled(drMode);
@@ -1066,6 +1070,7 @@ export function ChatScreen({
           onClose={async () => {
             setShowSettings(false);
             getVoiceInputEnabled().then(setVoiceInputEnabledState);
+            getShowLiveStats().then(setShowTech);
             getSpeakAnswers().then((v) => (speakAnswersRef.current = v));
             countKnowledgePacks().then(setPackCount);
             // Deep Research is switched in Settings only.
@@ -1137,7 +1142,7 @@ export function ChatScreen({
           toneIcon={getPersonality(profile?.personalityId ?? personalityId).icon}
           title={profile?.name}
           deepResearchActive={isDeepActive}
-          liveTokPerSec={liveTokPerSec}
+          liveTokPerSec={showTech ? liveTokPerSec : null}
           activeModelLabel={activeModel?.label}
           onOpenDrawer={
             wide
@@ -1408,7 +1413,7 @@ export function ChatScreen({
                     </Pressable>
 
                     {item.receipt && (
-                      <ReceiptToggle receipt={item.receipt} open={shownReceipts.has(item.id)} onToggle={() => toggleReceipt(item.id)} />
+                      <ReceiptToggle receipt={item.receipt} open={showTech && shownReceipts.has(item.id)} onToggle={() => toggleReceipt(item.id)} canOpen={showTech} />
                     )}
 
                     <View style={styles.footerSpacer} />
@@ -1471,7 +1476,7 @@ export function ChatScreen({
                   </View>
                 )}
 
-                {item.receipt && shownReceipts.has(item.id) && <ReceiptDetails receipt={item.receipt} />}
+                {item.receipt && showTech && shownReceipts.has(item.id) && <ReceiptDetails receipt={item.receipt} />}
               </Pressable>
             );
           }}
@@ -1556,6 +1561,7 @@ export function ChatScreen({
         onSelectSession={selectSession}
         onDeleteSession={removeSession}
         profileNames={Object.fromEntries(profiles.map((p) => [p.id, p.name]))}
+        showStats={showTech}
       />
 
       {toast && <Toast message={toast} onHide={() => setToast(null)} />}

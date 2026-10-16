@@ -357,7 +357,9 @@
   },
   "interfaceSettings": {
     "hapticFeedbackLabel": "Haptic feedback",
-    "hapticFeedbackValue": "Vibrate on taps, sends, and responses finishing — app-wide, not just voice input."
+    "hapticFeedbackValue": "Vibrate on taps, sends, and responses finishing — app-wide, not just voice input.",
+    "technicalDetailsLabel": "Show technical details",
+    "technicalDetailsValue": "Under each answer, click the time and speed for the details (time to the first word, model); live speed in the header while BOAR answers; memory and storage at the bottom of the menu; Hardware telemetry in Settings."
   },
   "knowledgeBaseScreen": {
     "title": "Knowledge"

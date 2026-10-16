@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { MODEL_CATALOG, CatalogModel, AssetKind, REQUIRED_MODELS } from "../models/manifest";
 import { llamaEngine } from "../inference/LlamaEngine";
 import { ModelManager } from "../models/ModelManager";
-import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled, resetPreferences } from "../models/settings";
+import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled, resetPreferences, getShowLiveStats, setShowLiveStats } from "../models/settings";
 import { seedKnowledgeBaseIfEmpty } from "../rag/seedCorpus";
 import { closePack } from "../rag/packs";
 import {
@@ -72,6 +72,7 @@ export function ModelSetupScreen(props: Props) {
   const [resetting, setResetting] = useState(false);
   const [, forceRender] = useState(0);
   const [hapticsEnabled, setHapticsEnabledState] = useState(true);
+  const [showTech, setShowTechState] = useState(true);
   const [showHfPage, setShowHfPage] = useState(false);
 
   const refreshDiscovered = useCallback(async () => {
@@ -109,6 +110,12 @@ export function ModelSetupScreen(props: Props) {
 
   useEffect(() => {
     getHapticsEnabled().then(setHapticsEnabledState);
+    getShowLiveStats().then(setShowTechState);
+  }, []);
+
+  const toggleShowTech = useCallback(async (value: boolean) => {
+    setShowTechState(value);
+    await setShowLiveStats(value);
   }, []);
 
   const toggleHaptics = useCallback(async (value: boolean) => {
@@ -313,9 +320,11 @@ export function ModelSetupScreen(props: Props) {
           <MemorySettings />
         </AccordionSection>
 
-        <AccordionSection title={t("modelSetupScreen.sections.telemetry")}>
-          <UsageStatsContent />
-        </AccordionSection>
+        {showTech && (
+          <AccordionSection title={t("modelSetupScreen.sections.telemetry")}>
+            <UsageStatsContent />
+          </AccordionSection>
+        )}
 
         <AccordionSection title={t("modelSetupScreen.sections.displayTheme")}>
           <View style={styles.themeSectionWrapper}>
@@ -329,6 +338,17 @@ export function ModelSetupScreen(props: Props) {
             <Switch
               value={hapticsEnabled}
               onValueChange={toggleHaptics}
+              trackColor={{ false: colors.border.default, true: colors.emerald[500] }}
+            />
+          </View>
+          <View style={styles.hapticRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.hapticRowLabel}>{t("interfaceSettings.technicalDetailsLabel")}</Text>
+              <Text style={styles.hapticRowValue}>{t("interfaceSettings.technicalDetailsValue")}</Text>
+            </View>
+            <Switch
+              value={showTech}
+              onValueChange={toggleShowTech}
               trackColor={{ false: colors.border.default, true: colors.emerald[500] }}
             />
           </View>
