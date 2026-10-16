@@ -737,6 +737,8 @@ export function ChatScreen({
         // and untouched by it — orchestrator.ts's own sequential pipeline,
         // same as before this integration.
         setDeepResearchActive(true);
+        // The answer a meta follow-up ("summary", "continue") is written from: the last one with text.
+        const lastAnswer = [...priorMessages].reverse().find((m) => m.role === "assistant");
         const result = await runDeepResearch(
           query,
           systemPrompt,
@@ -746,9 +748,11 @@ export function ChatScreen({
             setProcessing({ messageId: assistantId, status: "thinking", label: researchStageLabel(p, t) });
           },
           onToken,
-          () => stopRequestedRef.current
+          () => stopRequestedRef.current,
+          { previousAnswer: lastAnswer && stripThinking(lastAnswer.text) }
         );
-        chunks = result.citations;
+        // Written from the last answer: its numbers [n] are that answer's sources.
+        chunks = result.fromPreviousAnswer ? lastAnswer?.citations ?? [] : result.citations;
         if (result.timedOut) {
           setMessages((prev) =>
             prev.map((m) => (m.id === assistantId ? { ...m, timedOut: true } : m))
