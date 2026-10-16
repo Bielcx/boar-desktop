@@ -29,6 +29,7 @@ import { listDiscoveredModels, removeDiscoveredModel } from "../models/discovere
 import { resetAllAppData } from "../services/appReset";
 import { CatalogItemCard, CatalogRowState } from "./CatalogItemCard";
 import { ModelBrowser } from "./ModelBrowser";
+import { listedModels } from "./modelList";
 import { PersonalitySettings } from "./PersonalitySettings";
 import { UsageStatsContent } from "./UsageStatsContent";
 import { VoiceSettings } from "./VoiceSettings";
@@ -276,11 +277,7 @@ export function ModelSetupScreen(props: Props) {
         <AccordionSection title={t("modelSetupScreen.sections.models")}>
           <Text style={styles.sectionHeading}>{t("modelSetupScreen.installedModels")}</Text>
           <FlatList
-            data={[
-              ...MODEL_CATALOG.filter((m) => m.kind === "llm" || m.kind === "embedding"),
-              // A search result for a file that's now in the curated catalog would be listed twice.
-              ...discoveredModels.filter((d) => !MODEL_CATALOG.some((c) => c.filename === d.filename)),
-            ]}
+            data={listedModels(MODEL_CATALOG, discoveredModels, presence, activeIds)}
             keyExtractor={(m) => m.id}
             scrollEnabled={false}
             contentContainerStyle={styles.list}
