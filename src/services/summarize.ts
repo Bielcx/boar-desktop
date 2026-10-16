@@ -2,6 +2,7 @@ import { llamaEngine } from "../inference/LlamaEngine";
 import { ConversationTurn } from "../rag/pure";
 import { taskRequest } from "../inference/format";
 import { sessionTitleFor } from "./sessionTitle.pure";
+import { stripThinking } from "./thinking";
 
 /**
  * Both of these reuse the single shared llama.cpp context (llamaEngine),
@@ -19,7 +20,9 @@ export async function generateSessionTitle(firstUserMessage: string): Promise<st
     "Title:",
     llamaEngine.hasEmbeddedChatTemplate()
   );
-  const text = await llamaEngine.generate({ ...request, nPredict: 16, temperature: 0.3 });
+  // A reasoning model can spend all 16 tokens thinking: only what follows the reasoning is a title; when nothing
+  // does, sessionTitleFor falls back to the question (the native app's Summarize.title).
+  const text = stripThinking(await llamaEngine.generate({ ...request, nPredict: 16, temperature: 0.3 }));
   const title = text.trim().replace(/^["']|["']$/g, "").split("\n")[0].slice(0, 60);
   return sessionTitleFor(title, firstUserMessage);
 }
@@ -38,5 +41,5 @@ export async function summarizeConversation(
     llamaEngine.hasEmbeddedChatTemplate()
   );
   const text = await llamaEngine.generate({ ...request, nPredict: 150, temperature: 0.3 });
-  return text.trim();
+  return stripThinking(text).trim();
 }
