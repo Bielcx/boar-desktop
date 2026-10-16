@@ -84,9 +84,25 @@ export function searchUrl(query: string, size: HFSize, sort: HFSort, limit = 30)
   const [min, max] = HF_SIZES[size];
   return (
     `${HF_API}/models?${q}filter=gguf&pipeline_tag=text-generation&num_parameters=min:${min},max:${max}` +
-    `&sort=${HF_SORTS[sort]}&direction=-1&limit=${limit}&expand[]=gguf&expand[]=downloads&expand[]=likes`
+    `&sort=${HF_SORTS[sort]}&direction=-1&limit=${limit}&expand[]=gguf&expand[]=downloads&expand[]=likes&expand[]=tags`
   );
 }
+
+const UNCENSORED_WORDS = new Set([
+  "uncensored", "abliterated", "abliteration", "nsfw", "erotic", "erp", "lewd", "porn", "hentai", "unaligned", "adult",
+]);
+
+/**
+ * An uncensored or adult model, hidden from Discover unless the build allows them (EXPO_PUBLIC_ALLOW_UNCENSORED_MODELS,
+ * the native app's ALLOW_UNCENSORED_MODELS): Hugging Face's own adult tag, or a telling word in the repo name or tags.
+ * A name check, so it misses quiet ones.
+ */
+export function uncensored(repoId: string, tags: string[] = []): boolean {
+  if (tags.includes("not-for-all-audiences")) return true;
+  return [repoId, ...tags].some((s) => s.toLowerCase().split(/[^a-z0-9]+/).some((w) => UNCENSORED_WORDS.has(w)));
+}
+
+const allowUncensored = () => process.env.EXPO_PUBLIC_ALLOW_UNCENSORED_MODELS === "true";
 
 const SPLIT_PART = /-\d{5}-of-\d{5}\.gguf$/i;
 
@@ -108,6 +124,7 @@ export async function searchModels(query: string, size: HFSize = "any", sort: HF
   const data = await res.json();
   return (data as any[])
     .filter((m) => typeof m.id === "string" && CHAT_ARCHITECTURES.has(m.gguf?.architecture))
+    .filter((m) => allowUncensored() || !uncensored(m.id, Array.isArray(m.tags) ? m.tags : []))
     .map((m) => ({ id: m.id, downloads: m.downloads, likes: m.likes, params: typeof m.gguf?.total === "number" ? m.gguf.total : undefined }));
 }
 
