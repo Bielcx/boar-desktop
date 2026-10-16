@@ -4,7 +4,7 @@
  * safely in that language, 3 of 3 seeds, outside the test sets.
  *
  * Re-validate with Sextant when a model or a question changes, then bump
- * `version` and `validatedAt`. A model not listed gets no suggestions.
+ * `version` and `validatedAt`. A model not listed borrows the other models' (suggestionsFor).
  */
 export const SUGGESTION_VALIDATION = {
   version: 3,
@@ -81,17 +81,27 @@ export function coveredSuggestions(keys: string[], installed: Iterable<string>, 
   });
 }
 
-/** What the empty chat offers: validated for the model and language, and covered by the installed knowledge. */
-export function suggestionsFor(modelId: string | undefined, language: string | undefined, installed: Iterable<string> = []): string[] {
-  if (!modelId) return [];
-  const byLang = SUGGESTION_VALIDATION.byModel[modelId];
-  if (!byLang) return [];
-  const lang = language?.startsWith("pt") ? "pt" : "en";
-  return coveredSuggestions(byLang[lang] ?? [], installed, lang);
-}
-
 /** Below this many suggestions, the empty chat adds "Add a knowledge pack for more topics" (Iris). */
 export const MIN_SUGGESTIONS = 3;
+/** At most this many when the list is filled from other models. */
+const MAX_FILLED_SUGGESTIONS = 6;
+
+/**
+ * What the empty chat offers: validated for the model and language, and covered by the installed knowledge. With
+ * fewer than MIN_SUGGESTIONS (a Hugging Face model has none; Qwen2.5 1.5B has 1 in Portuguese), it fills up to
+ * MAX_FILLED_SUGGESTIONS from the ideas validated on the other models, same language and covered too (the native
+ * app's eea4df68).
+ */
+export function suggestionsFor(modelId: string | undefined, language: string | undefined, installed: Iterable<string> = []): string[] {
+  if (!modelId) return [];
+  const lang = language?.startsWith("pt") ? "pt" : "en";
+  const have = [...installed];
+  const tested = (id: string) => coveredSuggestions(SUGGESTION_VALIDATION.byModel[id]?.[lang] ?? [], have, lang);
+  const own = tested(modelId);
+  if (own.length >= MIN_SUGGESTIONS) return own;
+  const others = Object.keys(SUGGESTION_VALIDATION.byModel).flatMap(tested);
+  return [...new Set([...own, ...others])].slice(0, MAX_FILLED_SUGGESTIONS);
+}
 
 export function showsKnowledgeHint(count: number): boolean {
   return count < MIN_SUGGESTIONS;
