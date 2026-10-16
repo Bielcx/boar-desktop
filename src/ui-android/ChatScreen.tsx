@@ -675,7 +675,7 @@ export function ChatScreen({
         profile ? profile.personalityId : getPersonalityId(),
         getCustomSystemPrompt(),
       ]);
-      const maxTokens = maxTokensChoice ?? autoMaxTokens(activePersonalityId);
+      const maxTokens = maxTokensChoice ?? autoMaxTokens(activePersonalityId, deepResearchModeRef.current);
       const personality = getPersonality(activePersonalityId);
       const systemPrompt = activePersonalityId === "custom" ? profile?.customPrompt?.trim() || customPrompt : personality.systemPrompt;
       const styleReminder = activePersonalityId === "custom" ? undefined : personality.styleReminder;
