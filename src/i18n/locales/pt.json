@@ -452,7 +452,7 @@
   "personalities": {
     "succinct": {
       "label": "Sucinto e Direto",
-      "description": "Mais rápido — 2–3 parágrafos curtos ou tópicos, sem introdução. Padrão para celular."
+      "description": "Mais rápido — 2–3 parágrafos curtos ou tópicos, sem introdução."
     },
     "detailed": {
       "label": "Completo e Detalhado",

@@ -21,6 +21,17 @@ test("show technical details, then reset settings keeps the models", async () =>
     await expect(receipt).toHaveText(/\d+\.\d s · \d+\.\d tok\/s/, { timeout: 3 * 60_000 });
     await expect(page.getByText("RAM", { exact: true })).toBeVisible();
 
+    // ---- the style button opens the style sheet: pick a style, switch Deep Research ----------------
+    await page.getByLabel("Change how BOAR answers").click();
+    await expect(page.getByText("Fastest — 2–3 brief paragraphs or bullets, no preamble.")).toBeVisible();
+    await page.getByText("Executive Summary", { exact: true }).click();
+    await expect(page.getByText("Fastest — 2–3 brief paragraphs or bullets, no preamble.")).toHaveCount(0);
+    await page.getByLabel("Change how BOAR answers").click();
+    await expect(page.getByRole("radio", { checked: true })).toContainText("Executive Summary");
+    await page.getByRole("switch").last().click();
+    await page.keyboard.press("Escape");
+    await expect(page.getByText("Deep Research Active").first()).toBeVisible();
+
     // ---- off: the short receipt stays, everything technical goes -----------------------------------
     await openDrawerItem(page, "Settings");
     await expect(page.getByText("Hardware Telemetry & Compliance", { exact: true })).toBeVisible();

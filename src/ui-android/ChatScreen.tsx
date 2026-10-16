@@ -16,6 +16,7 @@ import {
 import { Text, TextInput } from "./components/AppText";
 import { Ambient } from "./components/Ambient";
 import { ChatEmptyState } from "./components/ChatEmptyState";
+import { ToneSheet } from "./components/ToneSheet";
 import { suggestionsFor } from "./chat/suggestions";
 import { ModelManager } from "../models/ModelManager";
 import { LinearGradient } from "expo-linear-gradient";
@@ -38,8 +39,10 @@ import {
   getPersonalityId,
   setPersonalityId,
   getCustomSystemPrompt,
+  setDeepResearchMode,
   getMaxTokensChoice,
   autoMaxTokens,
+  fitToContext,
   getMemorySettings,
   MemorySettings as MemorySettingsType,
   DEFAULT_MEMORY_SETTINGS,
@@ -423,15 +426,25 @@ export function ChatScreen({
     [t]
   );
 
-  const cycleTone = useCallback(async () => {
+  // The header's style button opens the style sheet (the native app's ToneSheet) instead of cycling blind.
+  const [toneSheetTones, setToneSheetTones] = useState<PersonalityId[] | null>(null);
+  const openToneSheet = useCallback(async () => {
     const customPrompt = (await getCustomSystemPrompt()) ?? "";
-    const order = PERSONALITIES.map((p) => p.id).filter((id) => id !== "custom" || customPrompt.trim().length > 0);
-    const next = order[(order.indexOf(personalityId) + 1) % order.length];
+    setToneSheetTones(PERSONALITIES.map((p) => p.id).filter((id) => id !== "custom" || customPrompt.trim().length > 0));
+  }, []);
+
+  const setTone = useCallback(async (next: PersonalityId) => {
     setPersonalityIdState(next);
     await setPersonalityId(next);
     impact(ImpactFeedbackStyle.Light);
     setToast(t("chatScreen.toneChanged", { tone: `${getPersonality(next).icon} ${t(`personalities.${next}.label`)}` }));
-  }, [personalityId, t]);
+  }, [t]);
+
+  const toggleDeepResearch = useCallback(async (on: boolean) => {
+    deepResearchModeRef.current = on;
+    setDeepResearchEnabled(on);
+    await setDeepResearchMode(on);
+  }, []);
 
   const initModels = useCallback(async () => {
     try {
@@ -679,7 +692,9 @@ export function ChatScreen({
         profile ? profile.personalityId : getPersonalityId(),
         getCustomSystemPrompt(),
       ]);
-      const maxTokens = maxTokensChoice ?? autoMaxTokens(activePersonalityId, deepResearchModeRef.current);
+      // A length picked by hand is kept as is; Auto fits the context the model was opened with.
+      const maxTokens =
+        maxTokensChoice ?? fitToContext(autoMaxTokens(activePersonalityId, deepResearchModeRef.current), llamaEngine.getModelInfo()?.nCtx);
       const personality = getPersonality(activePersonalityId);
       const systemPrompt = activePersonalityId === "custom" ? profile?.customPrompt?.trim() || customPrompt : personality.systemPrompt;
       const styleReminder = activePersonalityId === "custom" ? undefined : personality.styleReminder;
@@ -1023,8 +1038,8 @@ export function ChatScreen({
   useEffect(() => {
     if (pinned && !pageOpen) void refreshSessions();
   }, [pinned, pageOpen, refreshSessions]);
-  // Desktop keyboard (web only): Ctrl/Cmd+N new chat, Ctrl/Cmd+K focus the question box, Esc closes the drawer
-  // or stops the answer. The Electron menu shows the same keys (desktop/src/main/menu.ts).
+  // Desktop keyboard (web only): Ctrl/Cmd+N new chat, Ctrl/Cmd+K focus the question box, Esc closes the style
+  // sheet or the drawer, or stops the answer. The Electron menu shows the same keys (desktop/src/main/menu.ts).
   useEffect(() => {
     if (Platform.OS !== "web" || pageOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -1039,14 +1054,15 @@ export function ChatScreen({
         setDrawerOpen(false);
         inputRef.current?.focus();
       } else if (e.key === "Escape") {
-        if (drawerOpen) setDrawerOpen(false);
+        if (toneSheetTones) setToneSheetTones(null);
+        else if (drawerOpen) setDrawerOpen(false);
         else if (generating && !stopping) void stopGeneration();
       }
     };
     // Capture phase: react-native-web's TextInput stops keydown from bubbling, and the keys must work while typing.
     window.addEventListener("keydown", onKey, true);
     return () => window.removeEventListener("keydown", onKey, true);
-  }, [pageOpen, drawerOpen, generating, stopping, resetToNewChat, stopGeneration]);
+  }, [pageOpen, drawerOpen, toneSheetTones, generating, stopping, resetToNewChat, stopGeneration]);
 
   const drawerItems: DrawerItem[] = [
     { key: "prompts", label: t("chatScreen.drawerItems.prompts"), onPress: () => setShowPromptIdeas(true) },
@@ -1073,7 +1089,7 @@ export function ChatScreen({
             getShowLiveStats().then(setShowTech);
             getSpeakAnswers().then((v) => (speakAnswersRef.current = v));
             countKnowledgePacks().then(setPackCount);
-            // Deep Research is switched in Settings only.
+            // Deep Research is switched in Settings and in the style sheet.
             const drMode = await getDeepResearchMode();
             deepResearchModeRef.current = drMode;
             setDeepResearchEnabled(drMode);
@@ -1152,7 +1168,7 @@ export function ChatScreen({
                   setDrawerOpen(true);
                 }
           }
-          onCycleTone={cycleTone}
+          onCycleTone={openToneSheet}
           onNewChat={resetToNewChat}
           mascot={<BoarBuddy stage={profile?.stage ?? growthStage} mood={mood} size={42} accessibilityLabel={t(`mascot.mood.${mood}`)} />}
         />
@@ -1549,6 +1565,16 @@ export function ChatScreen({
           />
         )}
       </View>
+
+      <ToneSheet
+        visible={toneSheetTones !== null}
+        tones={toneSheetTones ?? []}
+        personalityId={personalityId}
+        deepResearch={deepResearchEnabled}
+        onSetTone={setTone}
+        onSetDeepResearch={toggleDeepResearch}
+        onClose={() => setToneSheetTones(null)}
+      />
 
       <Drawer
         open={drawerOpen}

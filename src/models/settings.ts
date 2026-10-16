@@ -99,6 +99,20 @@ export const AUTO_MAX_TOKENS_DETAILED = 1024;
  */
 export const AUTO_MAX_TOKENS_RESEARCH = 2048;
 
+/** Context kept for the prompt (instructions, sources, history) when Auto sizes the answer. */
+export const PROMPT_RESERVE = 1500;
+/** Auto never goes below this, however small the context. */
+export const MIN_AUTO_TOKENS = 256;
+
+/**
+ * Auto length on a small context (the native app's fitToContext): a computer with up to 4.5 GB of RAM opens 2048
+ * tokens (contextSizeForRam), where a 2048-token Deep Research write-up can't fit next to its prompt. Unknown context
+ * (no model loaded yet): the cap as is.
+ */
+export function fitToContext(cap: number, openedContext: number | undefined): number {
+  return openedContext == null ? cap : Math.min(cap, Math.max(MIN_AUTO_TOKENS, openedContext - PROMPT_RESERVE));
+}
+
 /** The answer length when the user left it on Auto: longest for Deep Research, then the Detailed style. */
 export function autoMaxTokens(personalityId: PersonalityId, deepResearch = false): number {
   if (deepResearch) return AUTO_MAX_TOKENS_RESEARCH;

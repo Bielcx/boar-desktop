@@ -210,3 +210,13 @@ describe("reset settings", () => {
     expect(await getVoiceInputEnabled()).toBe(true);
   });
 });
+
+describe("auto length on a small context", () => {
+  it("leaves the prompt 1500 tokens, never goes under 256, and keeps the cap with no model loaded", async () => {
+    const { fitToContext } = await import("./settings");
+    expect(fitToContext(2048, 4096)).toBe(2048);
+    expect(fitToContext(2048, 2048)).toBe(548);
+    expect(fitToContext(1024, 1024)).toBe(256);
+    expect(fitToContext(2048, undefined)).toBe(2048);
+  });
+});

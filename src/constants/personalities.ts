@@ -27,7 +27,7 @@ export const PERSONALITIES: Personality[] = [
     id: "succinct",
     label: "Succinct & Direct",
     icon: "⚡",
-    description: "Fastest — 2–3 brief paragraphs, no preamble. Default for mobile.",
+    description: "Fastest — 2–3 brief paragraphs, no preamble.",
     // Small instruct models default heavily toward a "one-sentence takeaway,
     // then 3 bullet points" shape for almost any "be concise" instruction —
     // that's a real, common tendency, not a bug in personality selection
