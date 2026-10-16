@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
+  Alert,
   View,
   StyleSheet,
   FlatList,
@@ -15,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { MODEL_CATALOG, CatalogModel, AssetKind, REQUIRED_MODELS } from "../models/manifest";
 import { llamaEngine } from "../inference/LlamaEngine";
 import { ModelManager } from "../models/ModelManager";
-import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled } from "../models/settings";
+import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled, resetPreferences } from "../models/settings";
 import { seedKnowledgeBaseIfEmpty } from "../rag/seedCorpus";
 import { closePack } from "../rag/packs";
 import {
@@ -60,7 +61,7 @@ type Props =
  * - "optional": Field Settings dashboard (Tone, Model Catalog, Offline Knowledge Base, Telemetry, and Danger Zone).
  */
 export function ModelSetupScreen(props: Props) {
-  const { colors, typography } = useTheme();
+  const { colors, typography, setTheme, setFontScale } = useTheme();
   const { t } = useTranslation();
   const requiredMode = props.mode === "required";
   const [presence, setPresence] = useState<Record<string, boolean>>({});
@@ -216,6 +217,24 @@ export function ModelSetupScreen(props: Props) {
     }
   };
 
+  // Defaults back without the re-download "Purge all data" costs; setup opens so the chat starts from them.
+  const handleResetSettings = () => {
+    Alert.alert(t("modelSetupScreen.recovery.resetConfirmTitle"), t("modelSetupScreen.recovery.resetConfirmBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      {
+        text: t("modelSetupScreen.recovery.resetConfirmButton"),
+        style: "destructive",
+        onPress: async () => {
+          await resetPreferences();
+          setHapticsEnabledCache(true);
+          await setTheme("campfire");
+          await setFontScale("standard");
+          onRelaunchWizard?.();
+        },
+      },
+    ]);
+  };
+
   // If required on first run, display the 3-step Setup Wizard!
   if (requiredMode) {
     return <SetupWizardScreen onReady={(props as { onReady: () => void }).onReady} />;
@@ -364,6 +383,16 @@ export function ModelSetupScreen(props: Props) {
                 disabled={!onRelaunchWizard}
               >
                 <Text style={styles.wizardBtnText}>{t("modelSetupScreen.recovery.wizardButton")}</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.recoveryCard}>
+              <View style={styles.recoveryHeader}>
+                <Text style={styles.recoveryTitle}>{t("modelSetupScreen.recovery.resetTitle")}</Text>
+              </View>
+              <Text style={styles.recoveryDesc}>{t("modelSetupScreen.recovery.resetDesc")}</Text>
+              <Pressable style={styles.wizardBtn} onPress={handleResetSettings}>
+                <Text style={styles.wizardBtnText}>{t("modelSetupScreen.recovery.resetButton")}</Text>
               </Pressable>
             </View>
 

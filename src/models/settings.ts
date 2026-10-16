@@ -192,6 +192,27 @@ export async function clearSettings(): Promise<void> {
   });
 }
 
+/** What "Reset settings" clears (resetPreferences). */
+export const PREFERENCE_KEYS = [
+  "themeId", "appearance", "palette", "fontScale", "personalityId", "maxTokens", "deepResearchMode",
+  "adaptiveRoutingEnabled", "routingPreset", "answerQuickFirst", "answerAlwaysComplete", "showLiveStats",
+  "voiceInputEnabled", "speakAnswers", "hapticsEnabled", "hidePromptIdeas", "autoSummarize", "historyTurnThreshold",
+  "maxSavedSessions", "autoGenerateTitles",
+] as const satisfies readonly (keyof Settings)[];
+
+/**
+ * Settings → Reset settings (the native app's resetPreferences): every preference back to its default, without the
+ * multi-GB re-download "Purge all data" costs. Kept: models and their roles, the PIN, the language, the custom prompt,
+ * profiles and the app's own bookkeeping. Chats live elsewhere and stay too.
+ */
+export async function resetPreferences(): Promise<void> {
+  return serialized(async () => {
+    const s = await readSettings();
+    for (const k of PREFERENCE_KEYS) delete s[k];
+    await writeSettings(s);
+  });
+}
+
 /** The user's chosen model for this kind, or null to fall back to the default. */
 export async function getActiveModelId(kind: AssetKind): Promise<string | null> {
   const s = await readSettings();

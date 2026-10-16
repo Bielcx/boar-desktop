@@ -180,7 +180,13 @@
       "wizardButton": "Reabrir Assistente de Configuração ➔",
       "dangerBadge": "ZONA DE PERIGO CRÍTICA",
       "dangerDesc": "Apaga permanentemente todos os pesos GGUF baixados, índices do banco SQLite offline e registros de conversas deste aparelho.",
-      "dangerButton": "🚨 Apagar Todos os Dados & Redefinir App"
+      "dangerButton": "🚨 Apagar Todos os Dados & Redefinir App",
+      "resetTitle": "Redefinir configurações",
+      "resetDesc": "Tema, estilo e tamanho de resposta, Pesquisa Profunda, roteamento e opções de exibição voltam ao padrão. Seus modelos, conversas, PIN e idioma ficam.",
+      "resetButton": "Redefinir configurações",
+      "resetConfirmTitle": "Redefinir todas as configurações?",
+      "resetConfirmBody": "As configurações voltam ao padrão e a configuração inicial abre de novo. Modelos e pacotes baixados, suas conversas, seu PIN, seu idioma e seu prompt personalizado são mantidos.",
+      "resetConfirmButton": "Redefinir"
     },
     "dangerModal": {
       "title": "Confirmar redefinição destrutiva",
