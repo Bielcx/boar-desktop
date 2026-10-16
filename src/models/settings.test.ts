@@ -10,7 +10,7 @@ vi.mock("expo-file-system/legacy", () => ({
   deleteAsync: async (p: string) => void files.delete(p),
 }));
 
-import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setDeepResearchMode, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
+import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setDeepResearchMode, setActiveModelId, getActiveModelId, setCustomSystemPrompt, getCustomSystemPrompt, setThemeId, getThemeId, getDeepResearchMode, resetPreferences, fitToContext, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
 
 describe("voice input setting", () => {
   beforeEach(() => {
@@ -190,30 +190,29 @@ describe("reset settings", () => {
   });
 
   it("clears preferences and keeps models, the PIN, the language and the custom prompt", async () => {
-    const s = await import("./settings");
-    await s.setActiveModelId("llm", "qwen3-4b");
+    await setActiveModelId("llm", "qwen3-4b");
     await setLanguageId("pt");
-    await s.setCustomSystemPrompt("Be brief.");
-    await s.setThemeId("moonlight");
+    await setCustomSystemPrompt("Be brief.");
+    await setThemeId("moonlight");
     await setPersonalityId("detailed");
     await setDeepResearchMode(true);
     await setMaxTokens(2048);
     await setVoiceInputEnabled(false);
-    await s.resetPreferences();
+    await resetPreferences();
     resetSettingsCache();
-    expect(await s.getActiveModelId("llm")).toBe("qwen3-4b");
-    expect(await getLanguageId()).toBe("pt");
-    expect(await s.getCustomSystemPrompt()).toBe("Be brief.");
-    expect(await s.getThemeId()).toBe("campfire");
-    expect(await s.getDeepResearchMode()).toBe(false);
+    // Read from the file, not getLanguageId: that falls back to the machine's locale and would hide a lost choice.
+    expect(JSON.parse(files.get("file:///docs/settings.json")!).languageId).toBe("pt");
+    expect(await getActiveModelId("llm")).toBe("qwen3-4b");
+    expect(await getCustomSystemPrompt()).toBe("Be brief.");
+    expect(await getThemeId()).toBe("campfire");
+    expect(await getDeepResearchMode()).toBe(false);
     expect(await getMaxTokensChoice()).toBeUndefined();
     expect(await getVoiceInputEnabled()).toBe(true);
   });
 });
 
 describe("auto length on a small context", () => {
-  it("leaves the prompt 1500 tokens, never goes under 256, and keeps the cap with no model loaded", async () => {
-    const { fitToContext } = await import("./settings");
+  it("leaves the prompt 1500 tokens, never goes under 256, and keeps the cap with no model loaded", () => {
     expect(fitToContext(2048, 4096)).toBe(2048);
     expect(fitToContext(2048, 2048)).toBe(548);
     expect(fitToContext(1024, 1024)).toBe(256);
