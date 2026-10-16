@@ -110,7 +110,7 @@ export function PersonalitySettings() {
             onPress={() => selectMaxTokens(n)}
           >
             <Text style={[styles.tokenPillText, maxTokens === n && styles.tokenPillTextSelected]}>
-              {n ?? t("personalitySettings.maxTokensAuto", { n: autoMaxTokens(personalityId) })}
+              {n ?? t("personalitySettings.maxTokensAuto", { n: autoMaxTokens(personalityId, deepResearch) })}
             </Text>
           </Pressable>
         ))}

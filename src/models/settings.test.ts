@@ -10,7 +10,7 @@ vi.mock("expo-file-system/legacy", () => ({
   deleteAsync: async (p: string) => void files.delete(p),
 }));
 
-import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
+import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setDeepResearchMode, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
 
 describe("voice input setting", () => {
   beforeEach(() => {
@@ -39,6 +39,15 @@ describe("answer length", () => {
     expect(await getMaxTokens()).toBe(512);
     await setPersonalityId("detailed");
     expect(await getMaxTokens()).toBe(1024);
+  });
+
+  it("is Auto 2048 with Deep Research on, in any style, and a pick still wins", async () => {
+    await setDeepResearchMode(true);
+    expect(await getMaxTokens()).toBe(2048);
+    await setPersonalityId("succinct");
+    expect(await getMaxTokens()).toBe(2048);
+    await setMaxTokens(256);
+    expect(await getMaxTokens()).toBe(256);
   });
 
   it("a picked length wins over the style, and undefined goes back to Auto", async () => {

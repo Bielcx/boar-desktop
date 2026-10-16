@@ -93,8 +93,15 @@ export const DEFAULT_MAX_TOKENS = 512;
 /** Detailed answers ran past 512 tokens and stopped mid-sentence (the native app's X6 run, Oct 11). */
 export const AUTO_MAX_TOKENS_DETAILED = 1024;
 
-/** The answer length when the user left it on Auto: longer for the Detailed style. */
-export function autoMaxTokens(personalityId: PersonalityId): number {
+/**
+ * A Deep Research write-up, any style: a Detailed one ran past 1024 tokens and stopped mid-sentence inside its own
+ * conclusion (the native app's X6 run, Oct 14). The style still sets how long it really is.
+ */
+export const AUTO_MAX_TOKENS_RESEARCH = 2048;
+
+/** The answer length when the user left it on Auto: longest for Deep Research, then the Detailed style. */
+export function autoMaxTokens(personalityId: PersonalityId, deepResearch = false): number {
+  if (deepResearch) return AUTO_MAX_TOKENS_RESEARCH;
   return personalityId === "detailed" ? AUTO_MAX_TOKENS_DETAILED : DEFAULT_MAX_TOKENS;
 }
 
@@ -273,7 +280,7 @@ export async function getMaxTokensChoice(): Promise<number | undefined> {
 
 export async function getMaxTokens(): Promise<number> {
   const s = await readSettings();
-  return s.maxTokens ?? autoMaxTokens(s.personalityId ?? DEFAULT_PERSONALITY_ID);
+  return s.maxTokens ?? autoMaxTokens(s.personalityId ?? DEFAULT_PERSONALITY_ID, s.deepResearchMode ?? false);
 }
 
 export async function setMaxTokens(maxTokens: number | undefined): Promise<void> {
