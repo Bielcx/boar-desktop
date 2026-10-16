@@ -12,9 +12,10 @@ describe("suggestionsFor", () => {
   });
 
   it("in Portuguese offers only what passed both checks (source in PT + answer), Sextant 27/09", () => {
+    // Fewer than 3 in Portuguese: filled from the other model's, which are the same two at most.
     expect(suggestionsFor("qwen3-4b-instruct-2507-q4km", "pt", ALL)).toEqual(["q4", "q8"]);
     expect(suggestionsFor("qwen3-4b-instruct-2507-q4km", "pt")).toEqual(["q8"]);
-    expect(suggestionsFor("qwen2.5-1.5b-instruct-q4km", "pt-BR", ALL)).toEqual(["q8"]);
+    expect(suggestionsFor("qwen2.5-1.5b-instruct-q4km", "pt-BR", ALL)).toEqual(["q8", "q4"]);
   });
 
   it("v3 (Sextant 4655cbb, 7566472): q5/q6 retired; q8 in both languages; q9 on no model until it passes", () => {
@@ -27,8 +28,9 @@ describe("suggestionsFor", () => {
     expect(SUGGESTION_SOURCES.map((x) => x.key).sort()).toEqual(["q1", "q2", "q3", "q4", "q7", "q8", "q9"]);
   });
 
-  it("offers nothing for a model that wasn't validated", () => {
-    expect(suggestionsFor("phi-3.5-mini-instruct-q4km", "en", ALL)).toEqual([]);
+  it("fills a model that wasn't validated (a Hugging Face model) from the other models' ideas; none with no model", () => {
+    expect(suggestionsFor("hf-someone-model-gguf", "en", ALL)).toEqual(["q2", "q3", "q4", "q7", "q8"]);
+    expect(suggestionsFor("hf-someone-model-gguf", "pt")).toEqual(["q8"]);
     expect(suggestionsFor(undefined, "en", ALL)).toEqual([]);
   });
 });

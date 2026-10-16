@@ -180,7 +180,13 @@
       "wizardButton": "Relaunch Setup Wizard ➔",
       "dangerBadge": "CRITICAL DANGER ZONE",
       "dangerDesc": "Permanently wipes all downloaded GGUF weights, offline SQLite database indices, and conversation logs from this device.",
-      "dangerButton": "🚨 Purge All Data & Reset App"
+      "dangerButton": "🚨 Purge All Data & Reset App",
+      "resetTitle": "Reset settings",
+      "resetDesc": "Theme, answer style and length, Deep Research, routing and display options back to their defaults. Your models, chats, PIN and language stay.",
+      "resetButton": "Reset settings",
+      "resetConfirmTitle": "Reset all settings?",
+      "resetConfirmBody": "Settings go back to their defaults and setup opens again. Downloaded models and packs, your chats, your PIN, your language and your custom prompt are kept.",
+      "resetConfirmButton": "Reset"
     },
     "dangerModal": {
       "title": "Confirm destructive reset",
@@ -351,7 +357,9 @@
   },
   "interfaceSettings": {
     "hapticFeedbackLabel": "Haptic feedback",
-    "hapticFeedbackValue": "Vibrate on taps, sends, and responses finishing — app-wide, not just voice input."
+    "hapticFeedbackValue": "Vibrate on taps, sends, and responses finishing — app-wide, not just voice input.",
+    "technicalDetailsLabel": "Show technical details",
+    "technicalDetailsValue": "Under each answer, click the time and speed for the details (time to the first word, model); live speed in the header while BOAR answers; memory and storage at the bottom of the menu; Hardware telemetry in Settings."
   },
   "knowledgeBaseScreen": {
     "title": "Knowledge"
@@ -444,7 +452,7 @@
   "personalities": {
     "succinct": {
       "label": "Succinct & Direct",
-      "description": "Fastest — 2–3 brief paragraphs or bullets, no preamble. Default for mobile."
+      "description": "Fastest — 2–3 brief paragraphs or bullets, no preamble."
     },
     "detailed": {
       "label": "Thorough & Detailed",

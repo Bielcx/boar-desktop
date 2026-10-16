@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
+  Alert,
   View,
   StyleSheet,
   FlatList,
@@ -15,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { MODEL_CATALOG, CatalogModel, AssetKind, REQUIRED_MODELS } from "../models/manifest";
 import { llamaEngine } from "../inference/LlamaEngine";
 import { ModelManager } from "../models/ModelManager";
-import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled } from "../models/settings";
+import { getActiveModelId, setActiveModelId, getHapticsEnabled, setHapticsEnabled, resetPreferences, getShowLiveStats, setShowLiveStats } from "../models/settings";
 import { seedKnowledgeBaseIfEmpty } from "../rag/seedCorpus";
 import { closePack } from "../rag/packs";
 import {
@@ -28,6 +29,7 @@ import { listDiscoveredModels, removeDiscoveredModel } from "../models/discovere
 import { resetAllAppData } from "../services/appReset";
 import { CatalogItemCard, CatalogRowState } from "./CatalogItemCard";
 import { ModelBrowser } from "./ModelBrowser";
+import { listedModels } from "./modelList";
 import { PersonalitySettings } from "./PersonalitySettings";
 import { UsageStatsContent } from "./UsageStatsContent";
 import { VoiceSettings } from "./VoiceSettings";
@@ -60,7 +62,7 @@ type Props =
  * - "optional": Field Settings dashboard (Tone, Model Catalog, Offline Knowledge Base, Telemetry, and Danger Zone).
  */
 export function ModelSetupScreen(props: Props) {
-  const { colors, typography } = useTheme();
+  const { colors, typography, setTheme, setFontScale } = useTheme();
   const { t } = useTranslation();
   const requiredMode = props.mode === "required";
   const [presence, setPresence] = useState<Record<string, boolean>>({});
@@ -71,6 +73,7 @@ export function ModelSetupScreen(props: Props) {
   const [resetting, setResetting] = useState(false);
   const [, forceRender] = useState(0);
   const [hapticsEnabled, setHapticsEnabledState] = useState(true);
+  const [showTech, setShowTechState] = useState(true);
   const [showHfPage, setShowHfPage] = useState(false);
 
   const refreshDiscovered = useCallback(async () => {
@@ -108,6 +111,12 @@ export function ModelSetupScreen(props: Props) {
 
   useEffect(() => {
     getHapticsEnabled().then(setHapticsEnabledState);
+    getShowLiveStats().then(setShowTechState);
+  }, []);
+
+  const toggleShowTech = useCallback(async (value: boolean) => {
+    setShowTechState(value);
+    await setShowLiveStats(value);
   }, []);
 
   const toggleHaptics = useCallback(async (value: boolean) => {
@@ -216,6 +225,24 @@ export function ModelSetupScreen(props: Props) {
     }
   };
 
+  // Defaults back without the re-download "Purge all data" costs; setup opens so the chat starts from them.
+  const handleResetSettings = () => {
+    Alert.alert(t("modelSetupScreen.recovery.resetConfirmTitle"), t("modelSetupScreen.recovery.resetConfirmBody"), [
+      { text: t("common.cancel"), style: "cancel" },
+      {
+        text: t("modelSetupScreen.recovery.resetConfirmButton"),
+        style: "destructive",
+        onPress: async () => {
+          await resetPreferences();
+          setHapticsEnabledCache(true);
+          await setTheme("campfire");
+          await setFontScale("standard");
+          onRelaunchWizard?.();
+        },
+      },
+    ]);
+  };
+
   // If required on first run, display the 3-step Setup Wizard!
   if (requiredMode) {
     return <SetupWizardScreen onReady={(props as { onReady: () => void }).onReady} />;
@@ -250,11 +277,7 @@ export function ModelSetupScreen(props: Props) {
         <AccordionSection title={t("modelSetupScreen.sections.models")}>
           <Text style={styles.sectionHeading}>{t("modelSetupScreen.installedModels")}</Text>
           <FlatList
-            data={[
-              ...MODEL_CATALOG.filter((m) => m.kind === "llm" || m.kind === "embedding"),
-              // A search result for a file that's now in the curated catalog would be listed twice.
-              ...discoveredModels.filter((d) => !MODEL_CATALOG.some((c) => c.filename === d.filename)),
-            ]}
+            data={listedModels(MODEL_CATALOG, discoveredModels, presence, activeIds)}
             keyExtractor={(m) => m.id}
             scrollEnabled={false}
             contentContainerStyle={styles.list}
@@ -294,9 +317,11 @@ export function ModelSetupScreen(props: Props) {
           <MemorySettings />
         </AccordionSection>
 
-        <AccordionSection title={t("modelSetupScreen.sections.telemetry")}>
-          <UsageStatsContent />
-        </AccordionSection>
+        {showTech && (
+          <AccordionSection title={t("modelSetupScreen.sections.telemetry")}>
+            <UsageStatsContent />
+          </AccordionSection>
+        )}
 
         <AccordionSection title={t("modelSetupScreen.sections.displayTheme")}>
           <View style={styles.themeSectionWrapper}>
@@ -310,6 +335,17 @@ export function ModelSetupScreen(props: Props) {
             <Switch
               value={hapticsEnabled}
               onValueChange={toggleHaptics}
+              trackColor={{ false: colors.border.default, true: colors.emerald[500] }}
+            />
+          </View>
+          <View style={styles.hapticRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.hapticRowLabel}>{t("interfaceSettings.technicalDetailsLabel")}</Text>
+              <Text style={styles.hapticRowValue}>{t("interfaceSettings.technicalDetailsValue")}</Text>
+            </View>
+            <Switch
+              value={showTech}
+              onValueChange={toggleShowTech}
               trackColor={{ false: colors.border.default, true: colors.emerald[500] }}
             />
           </View>
@@ -364,6 +400,16 @@ export function ModelSetupScreen(props: Props) {
                 disabled={!onRelaunchWizard}
               >
                 <Text style={styles.wizardBtnText}>{t("modelSetupScreen.recovery.wizardButton")}</Text>
+              </Pressable>
+            </View>
+
+            <View style={styles.recoveryCard}>
+              <View style={styles.recoveryHeader}>
+                <Text style={styles.recoveryTitle}>{t("modelSetupScreen.recovery.resetTitle")}</Text>
+              </View>
+              <Text style={styles.recoveryDesc}>{t("modelSetupScreen.recovery.resetDesc")}</Text>
+              <Pressable style={styles.wizardBtn} onPress={handleResetSettings}>
+                <Text style={styles.wizardBtnText}>{t("modelSetupScreen.recovery.resetButton")}</Text>
               </Pressable>
             </View>
 

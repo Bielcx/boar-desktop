@@ -180,7 +180,13 @@
       "wizardButton": "Reabrir Assistente de Configuração ➔",
       "dangerBadge": "ZONA DE PERIGO CRÍTICA",
       "dangerDesc": "Apaga permanentemente todos os pesos GGUF baixados, índices do banco SQLite offline e registros de conversas deste aparelho.",
-      "dangerButton": "🚨 Apagar Todos os Dados & Redefinir App"
+      "dangerButton": "🚨 Apagar Todos os Dados & Redefinir App",
+      "resetTitle": "Redefinir configurações",
+      "resetDesc": "Tema, estilo e tamanho de resposta, Pesquisa Profunda, roteamento e opções de exibição voltam ao padrão. Seus modelos, conversas, PIN e idioma ficam.",
+      "resetButton": "Redefinir configurações",
+      "resetConfirmTitle": "Redefinir todas as configurações?",
+      "resetConfirmBody": "As configurações voltam ao padrão e a configuração inicial abre de novo. Modelos e pacotes baixados, suas conversas, seu PIN, seu idioma e seu prompt personalizado são mantidos.",
+      "resetConfirmButton": "Redefinir"
     },
     "dangerModal": {
       "title": "Confirmar redefinição destrutiva",
@@ -351,7 +357,9 @@
   },
   "interfaceSettings": {
     "hapticFeedbackLabel": "Feedback tátil",
-    "hapticFeedbackValue": "Vibrar ao tocar, enviar e ao finalizar respostas — em todo o app, não só na entrada de voz."
+    "hapticFeedbackValue": "Vibrar ao tocar, enviar e ao finalizar respostas — em todo o app, não só na entrada de voz.",
+    "technicalDetailsLabel": "Mostrar detalhes técnicos",
+    "technicalDetailsValue": "Sob cada resposta, clique no tempo e na velocidade para ver os detalhes (tempo até a primeira palavra, modelo); velocidade ao vivo no topo enquanto o BOAR responde; memória e armazenamento no fim do menu; Telemetria de hardware nas Configurações."
   },
   "knowledgeBaseScreen": {
     "title": "Conhecimento"
@@ -444,7 +452,7 @@
   "personalities": {
     "succinct": {
       "label": "Sucinto e Direto",
-      "description": "Mais rápido — 2–3 parágrafos curtos ou tópicos, sem introdução. Padrão para celular."
+      "description": "Mais rápido — 2–3 parágrafos curtos ou tópicos, sem introdução."
     },
     "detailed": {
       "label": "Completo e Detalhado",

@@ -10,7 +10,7 @@ vi.mock("expo-file-system/legacy", () => ({
   deleteAsync: async (p: string) => void files.delete(p),
 }));
 
-import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
+import { getAgentProfiles, setAgentProfiles, clearSettings, getMaxTokens, getMaxTokensChoice, setDeepResearchMode, setActiveModelId, getActiveModelId, setCustomSystemPrompt, getCustomSystemPrompt, setThemeId, getThemeId, getDeepResearchMode, resetPreferences, fitToContext, setPersonalityId, getSetupProgress, setSetupProgress, getLanguageId, getVoiceInputEnabled, languageForLocale, resetSettingsCache, setLanguageId, setMaxTokens, setVoiceInputEnabled } from "./settings";
 
 describe("voice input setting", () => {
   beforeEach(() => {
@@ -39,6 +39,15 @@ describe("answer length", () => {
     expect(await getMaxTokens()).toBe(512);
     await setPersonalityId("detailed");
     expect(await getMaxTokens()).toBe(1024);
+  });
+
+  it("is Auto 2048 with Deep Research on, in any style, and a pick still wins", async () => {
+    await setDeepResearchMode(true);
+    expect(await getMaxTokens()).toBe(2048);
+    await setPersonalityId("succinct");
+    expect(await getMaxTokens()).toBe(2048);
+    await setMaxTokens(256);
+    expect(await getMaxTokens()).toBe(256);
   });
 
   it("a picked length wins over the style, and undefined goes back to Auto", async () => {
@@ -171,5 +180,42 @@ describe("agent profiles", () => {
     await setMaxTokens(300);
     resetSettingsCache();
     expect((await getAgentProfiles()).map((p) => [p.name, p.collections])).toEqual([["House boar", ["custom-1"]], ["All", null]]);
+  });
+});
+
+describe("reset settings", () => {
+  beforeEach(() => {
+    files.clear();
+    resetSettingsCache();
+  });
+
+  it("clears preferences and keeps models, the PIN, the language and the custom prompt", async () => {
+    await setActiveModelId("llm", "qwen3-4b");
+    await setLanguageId("pt");
+    await setCustomSystemPrompt("Be brief.");
+    await setThemeId("moonlight");
+    await setPersonalityId("detailed");
+    await setDeepResearchMode(true);
+    await setMaxTokens(2048);
+    await setVoiceInputEnabled(false);
+    await resetPreferences();
+    resetSettingsCache();
+    // Read from the file, not getLanguageId: that falls back to the machine's locale and would hide a lost choice.
+    expect(JSON.parse(files.get("file:///docs/settings.json")!).languageId).toBe("pt");
+    expect(await getActiveModelId("llm")).toBe("qwen3-4b");
+    expect(await getCustomSystemPrompt()).toBe("Be brief.");
+    expect(await getThemeId()).toBe("campfire");
+    expect(await getDeepResearchMode()).toBe(false);
+    expect(await getMaxTokensChoice()).toBeUndefined();
+    expect(await getVoiceInputEnabled()).toBe(true);
+  });
+});
+
+describe("auto length on a small context", () => {
+  it("leaves the prompt 1500 tokens, never goes under 256, and keeps the cap with no model loaded", () => {
+    expect(fitToContext(2048, 4096)).toBe(2048);
+    expect(fitToContext(2048, 2048)).toBe(548);
+    expect(fitToContext(1024, 1024)).toBe(256);
+    expect(fitToContext(2048, undefined)).toBe(2048);
   });
 });

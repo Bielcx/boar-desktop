@@ -2,6 +2,7 @@ import { llamaEngine } from "../inference/LlamaEngine";
 import { retrieve, RetrievedChunk, ConversationHistory } from "../rag/retrieve";
 import { compressContext, mergeSources, onTopic } from "../routing/context";
 import { taskRequest } from "../inference/format";
+import { followUpSearch } from "../routing/followUp";
 
 /**
  * "Deep Research Mode" — a sequential multi-pass pipeline over the SAME
@@ -47,6 +48,8 @@ export interface ResearchResult {
   fullCitations?: RetrievedChunk[];
   /** True if any stage hit STAGE_TIMEOUT_MS and was cut off early. */
   timedOut?: boolean;
+  /** Written from the previous answer alone ("summary", "continue"): its [n] are the previous answer's sources. */
+  fromPreviousAnswer?: boolean;
 }
 
 // Safety net, not a performance target — before this, no stage of this
@@ -75,6 +78,88 @@ export interface ResearchOptions {
    * first-seen order), so a source's number never changes; the last one equals what onSources gets.
    */
   onPartialSources?: (sources: RetrievedChunk[], progress: { subQuestionIndex: number; subQuestionCount: number }) => void;
+  /** The last answer in full (history keeps only its opening): what a meta follow-up is written from. */
+  previousAnswer?: string;
+}
+
+/** The earlier question and the answer to it, for a follow-up. */
+export interface Exchange {
+  question: string;
+  answer: string;
+}
+
+/** Characters of the previous answer a follow-up's rewrite and synthesis see (its opening carries the topic). */
+const PREVIOUS_ANSWER_CHARS = 800;
+/** Characters of the previous answer a meta follow-up is written from (about 1,500 tokens: a 2,048-token answer fits). */
+const FULL_PREVIOUS_ANSWER_CHARS = 6000;
+
+const cut = (s: string, n: number) => (s.length > n ? s.slice(0, n) + "…" : s);
+
+/** What a meta follow-up asks for (English and Portuguese): summarize, conclude, continue. */
+const META_CORE = new Set(
+  ("summary summarize summarise sum recap tldr conclusion conclude continue go more expand " +
+    "resumo resuma resumir resume conclusão conclusao concluir conclua continua continuar prossiga mais").split(" ")
+);
+/** Words that may come with it ("a brief summary please", "go on", "tell me more", "um resumo por favor"). */
+const META_FILLER = new Set(
+  ("up on going keep a an the please pls brief short quick executive final give me can you could write make now it " +
+    "this that of so and just tell in um uma o por favor faça faca dê de isso agora breve curto rápido executivo em").split(" ")
+);
+
+/**
+ * A short message that only asks to summarize, conclude or continue the last answer ("TL;DR", "a brief summary
+ * please", "continue", "resuma"). A question with a subject of its own ("summary of the causes of war") isn't one.
+ */
+export function isMetaFollowUp(query: string): boolean {
+  const words = query.toLowerCase().replace(/tl;dr|tl dr/g, "tldr").split(/[^\p{L}]+/u).filter(Boolean);
+  if (words.length === 0 || words.length > 6) return false;
+  const content = words.filter((w) => !META_FILLER.has(w));
+  return content.length > 0 && content.every((w) => META_CORE.has(w));
+}
+
+/** A model declining instead of answering ("I'm sorry, but…", "Desculpe, não posso…"). */
+const REFUSAL =
+  /^(i'?m sorry|i am sorry|sorry|i (cannot|can't|can ?not|am unable|'m unable|don't have|do not have)|as an ai|unfortunately|desculp|lamento|infelizmente|não (posso|consigo|tenho)|nao (posso|consigo|tenho))/i;
+
+const LIST_MARK = /^[-*\d.)\s]+/;
+
+/**
+ * The latest question in history that got an answer, and that answer (cut to PREVIOUS_ANSWER_CHARS). A stopped
+ * answer leaves its question with no answer, and "continue" after a stopped "conclusion" researched "conclusion"
+ * itself; the same words asked before count, so a second "continue" builds on the first one's answer.
+ */
+export function lastAnswered(history: ConversationHistory | undefined): Exchange | null {
+  const turns = history?.turns ?? [];
+  const answerAfter = (i: number): string => {
+    for (let j = i + 1; j < turns.length && turns[j].role !== "user"; j++) {
+      if (turns[j].role === "assistant") return turns[j].text.trim();
+    }
+    return "";
+  };
+  for (let i = turns.length - 1; i >= 0; i--) {
+    if (turns[i].role !== "user" || !turns[i].text.trim()) continue;
+    const answer = answerAfter(i);
+    if (answer) return { question: turns[i].text.trim(), answer: cut(answer, PREVIOUS_ANSWER_CHARS) };
+  }
+  return null;
+}
+
+/**
+ * The last exchange before the query when it reads as a follow-up (followUpSearch: it points back, or it is short
+ * with no name of its own); null for a question that stands alone or a conversation's first.
+ */
+export function lastExchange(query: string, history: ConversationHistory | undefined): Exchange | null {
+  const p = followUpSearch(query, history);
+  return p.direct || p.fallback ? lastAnswered(history) : null;
+}
+
+/** The decomposition's lines as sub-questions (at most 3), refusals dropped; the question itself when none is usable. */
+export function parseSubQuestions(text: string, query: string): string[] {
+  const lines = text
+    .split("\n")
+    .map((l) => l.replace(LIST_MARK, "").trim())
+    .filter((l) => l.length > 8 && !REFUSAL.test(l));
+  return lines.length > 0 ? lines.slice(0, 3) : [query];
 }
 
 /**
@@ -102,11 +187,52 @@ async function decompose(query: string, onTimeout: () => void): Promise<string[]
     timeoutMs: STAGE_TIMEOUT_MS,
     onTimeout,
   });
-  const lines = text
-    .split("\n")
-    .map((l) => l.replace(/^[-*\d.)\s]+/, "").trim())
-    .filter((l) => l.length > 8);
-  return lines.slice(0, 3).length > 0 ? lines.slice(0, 3) : [query];
+  return parseSubQuestions(text, query);
+}
+
+/** The follow-up rewritten from the exchange into one question that names its subject; the query if that fails. */
+async function standalone(query: string, exchange: Exchange, onTimeout: () => void): Promise<string> {
+  const prompt =
+    `Previous question: ${exchange.question}\n\nPrevious answer: ${exchange.answer}\n\n` +
+    `Follow-up: ${query}\n\nRewrite the follow-up as one standalone question that names its subject, in the ` +
+    `follow-up's language. If it asks to continue, conclude or expand, ask for that about the previous topic. ` +
+    `Reply with the question only.\n\nStandalone question:`;
+  const text = await generateStage("You rewrite follow-up questions.", prompt, {
+    nPredict: 80,
+    temperature: 0.2,
+    timeoutMs: STAGE_TIMEOUT_MS,
+    onTimeout,
+  });
+  return (
+    text
+      .split("\n")
+      .map((l) => l.replace(LIST_MARK, "").trim().replace(/^"+|"+$/g, ""))
+      .find((l) => l.length > 8 && !REFUSAL.test(l)) ?? query
+  );
+}
+
+/** A meta follow-up written from the previous answer alone: one generation, no splitting, no search. */
+async function fromPrevious(
+  asked: string,
+  exchange: Exchange,
+  previousAnswer: string | undefined,
+  systemPrompt: string | undefined,
+  maxTokens: number,
+  onToken: (piece: string) => void,
+  answerLanguage?: string
+): Promise<string> {
+  const answer = previousAnswer?.trim() ? cut(previousAnswer.trim(), FULL_PREVIOUS_ANSWER_CHARS) : exchange.answer;
+  const system =
+    `${instructionOf(systemPrompt)} The user asks something about your previous answer. Work only from that answer: ` +
+    `keep its source numbers exactly as written, like [3], and add no new facts, numbers or sources. ` +
+    `Don't mention these instructions or call it "the previous answer".`;
+  const language = answerLanguage?.trim() ? `\n\n(${answerLanguage.trim()})` : "";
+  // No time limit on what the user reads: Stop ends it (the native app's writeUpTimeoutMs on Auto).
+  return generateStage(system, `Previous question: ${exchange.question}\n\nPrevious answer:\n${answer}\n\nFollow-up: ${asked}${language}`, {
+    nPredict: maxTokens,
+    temperature: 0.6,
+    onToken,
+  });
 }
 
 function instructionOf(systemPrompt: string | undefined): string {
@@ -143,8 +269,8 @@ async function synthesize(
   systemPrompt: string | undefined,
   maxTokens: number,
   onToken: (piece: string) => void,
-  onTimeout: () => void,
-  answerLanguage?: string
+  answerLanguage?: string,
+  followUp?: { exchange: Exchange; asked: string }
 ): Promise<string> {
   const perspectives = subResults
     .map((r, i) => `Perspective ${i + 1} (${r.subQuestion}):\n${r.answer}`)
@@ -152,14 +278,18 @@ async function synthesize(
   const system =
     `${instructionOf(systemPrompt)} You are synthesizing multiple research perspectives into one answer. ` +
     `Compare them, reconcile any conflicts, and write one unified, well-reasoned answer. ` +
-    `Keep the source numbers exactly as the perspectives cite them, like [3]; do not renumber or invent sources.`;
+    `Keep the source numbers exactly as the perspectives cite them, like [3]; do not renumber or invent sources.` +
+    // A Detailed write-up ended with "Synthesis of Perspectives: Perspective 1… 2… 3…" (native app, X6, Oct 14).
+    ` Do this silently: the reader never sees the perspectives, so never mention them, the sub-questions or the research steps, and add no section about them.`;
   const language = answerLanguage?.trim() ? `\n\n(${answerLanguage.trim()})` : "";
-  return generateStage(system, `Original question: ${originalQuery}\n\n${perspectives}${language}`, {
+  const earlier = followUp
+    ? `Previous question: ${followUp.exchange.question}\n\nPrevious answer: ${followUp.exchange.answer}\n\nFollow-up as asked: ${followUp.asked}\n\n`
+    : "";
+  // No time limit on what the user reads: Stop ends it (the native app's writeUpTimeoutMs on Auto).
+  return generateStage(system, `${earlier}Original question: ${originalQuery}\n\n${perspectives}${language}`, {
     nPredict: maxTokens,
     temperature: 0.6,
     onToken,
-    timeoutMs: STAGE_TIMEOUT_MS,
-    onTimeout,
   });
 }
 
@@ -179,6 +309,22 @@ export async function runDeepResearch(
   };
 
   onProgress?.({ stage: "decomposing" });
+  const asked = query;
+  // A follow-up ("conclusion", "continue", "and its side effects?") is split, searched and judged as a standalone
+  // question; split as written it searched for "conclusion" and refused (native app, X6, Oct 13).
+  const meta = isMetaFollowUp(asked);
+  // A meta follow-up refers to the last answer whatever its wording ("TL;DR" reads as a name to followUpSearch).
+  const exchange = meta ? lastAnswered(history) : lastExchange(asked, history);
+  // "summary", "conclusion", "TL;DR", "continue": the answer is already on screen, so write from it instead of
+  // researching again (~5 min of splitting and searching for a summary on the X6).
+  if (exchange && meta) {
+    onProgress?.({ stage: "synthesizing" });
+    const answer = await fromPrevious(asked, exchange, options.previousAnswer, systemPrompt, maxTokens, onToken ?? (() => {}), options.answerLanguage);
+    return { answer, subQuestions: [], citations: [], fullCitations: [], timedOut, fromPreviousAnswer: true };
+  }
+  if (exchange) query = await standalone(asked, exchange, markTimedOut);
+  // Stop cancels only the generation running at that moment: the next stage would start a new one.
+  if (shouldStop?.()) return { answer: "", subQuestions: [], citations: [], fullCitations: [], timedOut };
   const subQuestions = await decompose(query, markTimedOut);
 
   const subResults: { subQuestion: string; answer: string }[] = [];
@@ -229,8 +375,8 @@ export async function runDeepResearch(
     systemPrompt,
     maxTokens,
     onToken ?? (() => {}),
-    markTimedOut,
-    options.answerLanguage
+    options.answerLanguage,
+    exchange ? { exchange, asked } : undefined
   );
 
   return { answer, subQuestions, citations: allChunks, fullCitations: full(), timedOut };

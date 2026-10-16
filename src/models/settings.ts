@@ -93,8 +93,29 @@ export const DEFAULT_MAX_TOKENS = 512;
 /** Detailed answers ran past 512 tokens and stopped mid-sentence (the native app's X6 run, Oct 11). */
 export const AUTO_MAX_TOKENS_DETAILED = 1024;
 
-/** The answer length when the user left it on Auto: longer for the Detailed style. */
-export function autoMaxTokens(personalityId: PersonalityId): number {
+/**
+ * A Deep Research write-up, any style: a Detailed one ran past 1024 tokens and stopped mid-sentence inside its own
+ * conclusion (the native app's X6 run, Oct 14). The style still sets how long it really is.
+ */
+export const AUTO_MAX_TOKENS_RESEARCH = 2048;
+
+/** Context kept for the prompt (instructions, sources, history) when Auto sizes the answer. */
+export const PROMPT_RESERVE = 1500;
+/** Auto never goes below this, however small the context. */
+export const MIN_AUTO_TOKENS = 256;
+
+/**
+ * Auto length on a small context (the native app's fitToContext): a computer with up to 4.5 GB of RAM opens 2048
+ * tokens (contextSizeForRam), where a 2048-token Deep Research write-up can't fit next to its prompt. Unknown context
+ * (no model loaded yet): the cap as is.
+ */
+export function fitToContext(cap: number, openedContext: number | undefined): number {
+  return openedContext == null ? cap : Math.min(cap, Math.max(MIN_AUTO_TOKENS, openedContext - PROMPT_RESERVE));
+}
+
+/** The answer length when the user left it on Auto: longest for Deep Research, then the Detailed style. */
+export function autoMaxTokens(personalityId: PersonalityId, deepResearch = false): number {
+  if (deepResearch) return AUTO_MAX_TOKENS_RESEARCH;
   return personalityId === "detailed" ? AUTO_MAX_TOKENS_DETAILED : DEFAULT_MAX_TOKENS;
 }
 
@@ -182,6 +203,27 @@ export async function clearSettings(): Promise<void> {
     cached = null;
     await FileSystem.deleteAsync(SETTINGS_PATH, { idempotent: true });
     cached = { raw: null };
+  });
+}
+
+/** What "Reset settings" clears (resetPreferences). */
+export const PREFERENCE_KEYS = [
+  "themeId", "appearance", "palette", "fontScale", "personalityId", "maxTokens", "deepResearchMode",
+  "adaptiveRoutingEnabled", "routingPreset", "answerQuickFirst", "answerAlwaysComplete", "showLiveStats",
+  "voiceInputEnabled", "speakAnswers", "hapticsEnabled", "hidePromptIdeas", "autoSummarize", "historyTurnThreshold",
+  "maxSavedSessions", "autoGenerateTitles",
+] as const satisfies readonly (keyof Settings)[];
+
+/**
+ * Settings → Reset settings (the native app's resetPreferences): every preference back to its default, without the
+ * multi-GB re-download "Purge all data" costs. Kept: models and their roles, the PIN, the language, the custom prompt,
+ * profiles and the app's own bookkeeping. Chats live elsewhere and stay too.
+ */
+export async function resetPreferences(): Promise<void> {
+  return serialized(async () => {
+    const s = await readSettings();
+    for (const k of PREFERENCE_KEYS) delete s[k];
+    await writeSettings(s);
   });
 }
 
@@ -273,7 +315,7 @@ export async function getMaxTokensChoice(): Promise<number | undefined> {
 
 export async function getMaxTokens(): Promise<number> {
   const s = await readSettings();
-  return s.maxTokens ?? autoMaxTokens(s.personalityId ?? DEFAULT_PERSONALITY_ID);
+  return s.maxTokens ?? autoMaxTokens(s.personalityId ?? DEFAULT_PERSONALITY_ID, s.deepResearchMode ?? false);
 }
 
 export async function setMaxTokens(maxTokens: number | undefined): Promise<void> {
