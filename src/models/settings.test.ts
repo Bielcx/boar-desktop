@@ -182,3 +182,31 @@ describe("agent profiles", () => {
     expect((await getAgentProfiles()).map((p) => [p.name, p.collections])).toEqual([["House boar", ["custom-1"]], ["All", null]]);
   });
 });
+
+describe("reset settings", () => {
+  beforeEach(() => {
+    files.clear();
+    resetSettingsCache();
+  });
+
+  it("clears preferences and keeps models, the PIN, the language and the custom prompt", async () => {
+    const s = await import("./settings");
+    await s.setActiveModelId("llm", "qwen3-4b");
+    await setLanguageId("pt");
+    await s.setCustomSystemPrompt("Be brief.");
+    await s.setThemeId("moonlight");
+    await setPersonalityId("detailed");
+    await setDeepResearchMode(true);
+    await setMaxTokens(2048);
+    await setVoiceInputEnabled(false);
+    await s.resetPreferences();
+    resetSettingsCache();
+    expect(await s.getActiveModelId("llm")).toBe("qwen3-4b");
+    expect(await getLanguageId()).toBe("pt");
+    expect(await s.getCustomSystemPrompt()).toBe("Be brief.");
+    expect(await s.getThemeId()).toBe("campfire");
+    expect(await s.getDeepResearchMode()).toBe(false);
+    expect(await getMaxTokensChoice()).toBeUndefined();
+    expect(await getVoiceInputEnabled()).toBe(true);
+  });
+});

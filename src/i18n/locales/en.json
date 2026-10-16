@@ -180,7 +180,13 @@
       "wizardButton": "Relaunch Setup Wizard ➔",
       "dangerBadge": "CRITICAL DANGER ZONE",
       "dangerDesc": "Permanently wipes all downloaded GGUF weights, offline SQLite database indices, and conversation logs from this device.",
-      "dangerButton": "🚨 Purge All Data & Reset App"
+      "dangerButton": "🚨 Purge All Data & Reset App",
+      "resetTitle": "Reset settings",
+      "resetDesc": "Theme, answer style and length, Deep Research, routing and display options back to their defaults. Your models, chats, PIN and language stay.",
+      "resetButton": "Reset settings",
+      "resetConfirmTitle": "Reset all settings?",
+      "resetConfirmBody": "Settings go back to their defaults and setup opens again. Downloaded models and packs, your chats, your PIN, your language and your custom prompt are kept.",
+      "resetConfirmButton": "Reset"
     },
     "dangerModal": {
       "title": "Confirm destructive reset",
