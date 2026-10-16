@@ -452,7 +452,7 @@
   "personalities": {
     "succinct": {
       "label": "Succinct & Direct",
-      "description": "Fastest — 2–3 brief paragraphs or bullets, no preamble. Default for mobile."
+      "description": "Fastest — 2–3 brief paragraphs or bullets, no preamble."
     },
     "detailed": {
       "label": "Thorough & Detailed",
