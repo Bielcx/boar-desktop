@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { stripThinking } from "./thinking";
 import { questionTitle, sessionTitleFor } from "./sessionTitle.pure";
 
 const Q = "How long should I boil river water at Camp Tamandua?";
@@ -33,5 +34,17 @@ describe("questionTitle", () => {
     expect(t.length).toBeLessThanOrEqual(60);
     expect(t.endsWith("…")).toBe(true);
     expect(questionTitle("   ")).toBe("New chat");
+  });
+});
+
+describe("a reasoning model's title", () => {
+  const title = (generated: string, q: string) => sessionTitleFor(stripThinking(generated), q);
+
+  it("never shows the reasoning", () => {
+    expect(title("<think>The user asks about methane.</think>Methane basics", "What is methane?")).toBe("Methane basics");
+  });
+
+  it("falls back to the question when the token cap cut the reasoning off", () => {
+    expect(title("<think>The user wants a short title about", "What causes the greenhouse effect?")).toBe("What causes the greenhouse effect");
   });
 });
