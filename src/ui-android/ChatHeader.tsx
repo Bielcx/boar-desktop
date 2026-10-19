@@ -184,6 +184,9 @@ export function ChatHeader({
   );
 }
 
+/** The brand's moon blue, for the OFFLINE pill. */
+const MOON = "#9EC7F0";
+
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: colors.bg.surface,
@@ -242,11 +245,13 @@ const styles = StyleSheet.create({
     color: colors.text.heading,
     letterSpacing: 0.5,
   },
+  // Told apart by hue and by shape (the native app's 61d093c4): OFFLINE is a moon-blue outline, the calm state (the
+  // brand's moon blue: moonlight means no signal); ONLINE is a filled gold pill, noticed without reading "danger".
   offlineStatusPill: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.emerald.bgSubtle,
-    borderColor: colors.emerald.border,
+    backgroundColor: "transparent",
+    borderColor: "rgba(158, 199, 240, 0.6)",
     borderWidth: 1,
     borderRadius: radii.xs,
     paddingHorizontal: 5,
@@ -254,8 +259,8 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   onlineStatusPill: {
-    backgroundColor: colors.amber.bgSubtle,
-    borderColor: colors.amber.border,
+    backgroundColor: "rgba(251, 191, 36, 0.22)",
+    borderColor: "rgba(251, 191, 36, 0.9)",
   },
   onlineDot: { backgroundColor: colors.amber[400] },
   onlineText: { color: colors.text.accentAmber },
@@ -263,13 +268,13 @@ const styles = StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: 2.5,
-    backgroundColor: colors.emerald[400],
+    backgroundColor: MOON,
   },
   offlineText: {
     ...typography.mono.xs,
     fontSize: 8,
     fontWeight: "800",
-    color: colors.text.accentEmerald,
+    color: MOON,
   },
   modelPillText: {
     ...typography.mono.xs,
