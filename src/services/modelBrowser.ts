@@ -162,7 +162,7 @@ export function toCatalogModel(repoId: string, file: HFGgufFile): CatalogModel {
     sha256: file.sha256 ?? "",
     sourceUrl: `https://huggingface.co/${repoId}/resolve/${file.revision ?? "main"}/${file.filename}`,
     license: "Unknown — check the model's Hugging Face page",
-    description: `${repoId} — added via model search, not vetted by aoair`,
+    description: `${repoId} — added via model search, not vetted by BOAR`,
     required: false,
   };
 }

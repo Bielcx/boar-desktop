@@ -166,6 +166,7 @@
       "apiServer": "Local API server"
     },
     "installedModels": "Installed models",
+    "filters": { "all": "All", "here": "On this computer", "downloading": "Downloading", "mine": "Added by you" },
     "discoverHfModels": "Discover Hugging Face GGUF models",
     "toasts": {
       "indexed": "Indexed \"{{name}}\" in offline knowledge base",
