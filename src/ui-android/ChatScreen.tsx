@@ -57,7 +57,7 @@ import {
 import { ProfilesScreen } from "./ProfilesScreen";
 import { aboutConversation, runDeepResearch, ResearchProgress } from "../services/orchestrator";
 import { runAdaptiveChat } from "../services/adaptiveChat";
-import { answerStyleFor, getPersonality, PersonalityId, PERSONALITIES } from "../constants/personalities";
+import { answerStyleFor, getPersonality, offeredStyles, PersonalityId } from "../constants/personalities";
 import {
   createSession,
   addMessage as persistMessage,
@@ -431,8 +431,8 @@ export function ChatScreen({
   const [toneSheetTones, setToneSheetTones] = useState<PersonalityId[] | null>(null);
   const openToneSheet = useCallback(async () => {
     const customPrompt = (await getCustomSystemPrompt()) ?? "";
-    setToneSheetTones(PERSONALITIES.map((p) => p.id).filter((id) => id !== "custom" || customPrompt.trim().length > 0));
-  }, []);
+    setToneSheetTones(offeredStyles(personalityId).map((p) => p.id).filter((id) => id !== "custom" || customPrompt.trim().length > 0));
+  }, [personalityId]);
 
   const setTone = useCallback(async (next: PersonalityId) => {
     setPersonalityIdState(next);

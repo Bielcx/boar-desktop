@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable, Switch } from "react-native";
 import { colors } from "./theme/colors";
 import { Text, TextInput } from "./components/AppText";
 import { useTranslation } from "react-i18next";
-import { PERSONALITIES, PersonalityId, MAX_TOKENS_OPTIONS } from "../constants/personalities";
+import { offeredStyles, PersonalityId, MAX_TOKENS_OPTIONS } from "../constants/personalities";
 import {
   getPersonalityId,
   setPersonalityId,
@@ -72,7 +72,7 @@ export function PersonalitySettings() {
     <View style={styles.card}>
       <Text style={styles.title}>{t("personalitySettings.title")}</Text>
 
-      {PERSONALITIES.map((p) => (
+      {offeredStyles(personalityId).map((p) => (
         <Pressable
           key={p.id}
           style={[styles.option, personalityId === p.id && styles.optionSelected]}

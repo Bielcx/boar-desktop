@@ -11,7 +11,7 @@ import { colors } from "./theme/colors";
 import { typography } from "./theme/typography";
 import { spacing, radii } from "./theme/spacing";
 import { AgentProfile, getAgentProfiles, setAgentProfiles } from "../models/settings";
-import { PERSONALITIES, getPersonality } from "../constants/personalities";
+import { offeredStyles, getPersonality } from "../constants/personalities";
 import { listCustomCollections } from "../services/documentImporter";
 import type { CustomCollection } from "../rag/db";
 import { MASCOT_ART } from "./mascot/art";
@@ -87,7 +87,7 @@ export function ProfilesScreen({ onClose, onStart }: { onClose: () => void; onSt
 
             <Text style={styles.label}>{t("profiles.personality")}</Text>
             <View style={styles.chips}>
-              {PERSONALITIES.map((p) => (
+              {offeredStyles(draft.personalityId).map((p) => (
                 <Chip key={p.id} on={draft.personalityId === p.id} onPress={() => setDraft({ ...draft, personalityId: p.id })}>
                   {`${p.icon} ${t(`personalities.${p.id}.label`)}`}
                 </Chip>

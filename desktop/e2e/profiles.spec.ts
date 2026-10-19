@@ -1,7 +1,7 @@
 /**
  * Agent profiles: create one limited to an imported document, with its own boar; start a conversation with it (the
  * header shows its name, the scope chip its document) and get the document cited; the profile survives a restart
- * and can be deleted. Recent sessions name the profile; a Custom tone keeps the profile's own prompt.
+ * and can be deleted. Recent sessions name the profile; Custom isn't offered as a tone.
  */
 import { expect, test, type ElectronApplication } from "@playwright/test";
 import fs from "node:fs";
@@ -69,13 +69,9 @@ test("create a profile on a document, chat with it, keep it across a restart, de
     await expect(s.page.getByText(/^🐗 Generator boar · /)).toBeVisible(); // the conversation says its profile
     await openDrawerItem(s.page, "Profiles");
 
-    // A Custom tone gets this profile's own prompt.
+    // Custom isn't offered (a prompt the user writes could make BOAR say anything).
     await s.page.getByText("Edit", { exact: true }).click();
-    await s.page.getByText("⚙️ Custom", { exact: true }).click();
-    await s.page.getByLabel("Write your own system prompt…").fill("Answer like a pirate.");
-    await s.page.getByText("Save", { exact: true }).click();
-    await s.page.getByText("Edit", { exact: true }).click();
-    await expect(s.page.getByLabel("Write your own system prompt…")).toHaveValue("Answer like a pirate.");
+    await expect(s.page.getByText("⚙️ Custom", { exact: true })).toHaveCount(0);
     await s.page.getByText("Remove", { exact: true }).click();
     await expect.poll(() => s.dialogs.length).toBe(1);
     await expect(s.page.getByText("Generator boar", { exact: true })).toHaveCount(0);

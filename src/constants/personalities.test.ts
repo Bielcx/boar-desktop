@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { answerStyleFor } from "./personalities";
+import { answerStyleFor, offeredStyles } from "./personalities";
 
 describe("answerStyleFor", () => {
   it("answers health and first-aid questions in Succinct when Detailed is picked", () => {
@@ -24,5 +24,12 @@ describe("answerStyleFor", () => {
     ])
       expect(answerStyleFor("detailed", q), q).toBe("detailed");
     expect(answerStyleFor("summary", "How do I treat a minor kitchen burn?")).toBe("summary");
+  });
+});
+
+describe("offeredStyles", () => {
+  it("hides Custom unless it's the style in use", () => {
+    expect(offeredStyles("succinct").map((p) => p.id)).toEqual(["succinct", "detailed", "summary"]);
+    expect(offeredStyles("custom").map((p) => p.id)).toContain("custom");
   });
 });
