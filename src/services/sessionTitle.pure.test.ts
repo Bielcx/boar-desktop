@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { stripThinking } from "./thinking";
-import { questionTitle, sessionTitleFor } from "./sessionTitle.pure";
+import { questionTitle, repairedTitle, sessionTitleFor } from "./sessionTitle.pure";
 
 const Q = "How long should I boil river water at Camp Tamandua?";
 
@@ -46,5 +46,14 @@ describe("a reasoning model's title", () => {
 
   it("falls back to the question when the token cap cut the reasoning off", () => {
     expect(title("<think>The user wants a short title about", "What causes the greenhouse effect?")).toBe("What causes the greenhouse effect");
+  });
+});
+
+describe("titles written as thinking (repaired once)", () => {
+  it("drops the thinking, else uses the first question, and leaves other titles alone", () => {
+    expect(repairedTitle("<think>", "Why is the sky blue?")).toBe("Why is the sky blue");
+    expect(repairedTitle("<think>The user asks about tides</think>Tides and the Moon", "x")).toBe("Tides and the Moon");
+    expect(repairedTitle("<think>cut off", undefined)).toBe("New chat");
+    expect(repairedTitle("Trip planning", "x")).toBeNull();
   });
 });

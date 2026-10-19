@@ -1,4 +1,5 @@
 import { getDb, writeTransaction } from "../rag/db";
+import { repairedTitle } from "./sessionTitle.pure";
 import { isSealed, LOCKED, lockedCipher, plainCipher, type TextCipher } from "../security/textCipher";
 
 /**
@@ -231,6 +232,21 @@ export async function setMessageFeedback(messageId: string, rating: "up" | "down
     `INSERT OR REPLACE INTO answer_feedback (message_id, rating, created_at) VALUES (?, ?, ?)`,
     [messageId, rating, Date.now()]
   );
+}
+
+/** Titles written as "<think>…" by a reasoning model before titles skipped it (the native app's 0c42a1a4). */
+export async function repairThinkingTitles(): Promise<number> {
+  let repaired = 0;
+  for (const s of await listSessions()) {
+    if (!s.title.includes("think>")) continue;
+    const first = (await getMessages(s.id)).find((m) => m.role === "user")?.text;
+    const title = repairedTitle(s.title, first);
+    if (title !== null) {
+      await setSessionTitle(s.id, title);
+      repaired++;
+    }
+  }
+  return repaired;
 }
 
 export async function setSessionTitle(sessionId: string, title: string): Promise<void> {
