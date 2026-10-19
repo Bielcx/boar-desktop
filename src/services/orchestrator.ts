@@ -50,6 +50,8 @@ export interface ResearchResult {
   timedOut?: boolean;
   /** Written from the previous answer alone ("summary", "continue"): its [n] are the previous answer's sources. */
   fromPreviousAnswer?: boolean;
+  /** A recap of the conversation: no sources. */
+  fromConversation?: boolean;
 }
 
 // Safety net, not a performance target — before this, no stage of this
@@ -80,6 +82,8 @@ export interface ResearchOptions {
   onPartialSources?: (sources: RetrievedChunk[], progress: { subQuestionIndex: number; subQuestionCount: number }) => void;
   /** The last answer in full (history keeps only its opening): what a meta follow-up is written from. */
   previousAnswer?: string;
+  /** Every earlier exchange, oldest first (history keeps only the last few): what a conversation recap is written from. */
+  conversation?: Exchange[];
 }
 
 /** The earlier question and the answer to it, for a follow-up. */
@@ -115,6 +119,48 @@ export function isMetaFollowUp(query: string): boolean {
   if (words.length === 0 || words.length > 6) return false;
   const content = words.filter((w) => !META_FILLER.has(w));
   return content.length > 0 && content.every((w) => META_CORE.has(w));
+}
+
+/** Words of a meta follow-up that ask for more rather than a summary ("continue", "tell me more", "prossiga"). */
+const META_MORE = new Set(["continue", "go", "more", "expand", "continua", "continuar", "prossiga", "mais"]);
+
+/**
+ * A meta follow-up that only asks to summarize or conclude the last answer ("TL;DR", "a brief summary please"): plain
+ * chat writes it from that answer. "continue" isn't one: written from the last answer with nothing new allowed, it
+ * repeated that answer word for word (native app, X6, Oct 16).
+ */
+export function isSummaryFollowUp(query: string): boolean {
+  return isMetaFollowUp(query) && !query.toLowerCase().split(/[^\p{L}]+/u).some((w) => META_MORE.has(w));
+}
+
+/** Exchanges a recap reads (the most recent ones) and characters of each answer: 12 × ~600 stays near 2,500 tokens. */
+export const RECAP_EXCHANGES = 12;
+const RECAP_ANSWER_CHARS = 600;
+
+const RECAP_ASK = /\b(summar(y|ize|ise)|recap|tl;?dr|resum[aoeir]*|resumo)\b/i;
+// This chat, not a conversation named in the question ("the conversation between Kennedy and Khrushchev").
+const RECAP_OBJECT =
+  /\b((our|this|my) (whole |entire )?(conversation|chat|discussion|session)|all (of )?(this|that)|(what )?we('ve| have)? (talked about|discussed|covered)|so far|(nossa|essa|esta) conversa|(o que )?(falamos|conversamos|discutimos))\b/i;
+
+/** Citation numbers like [3]: a recap shows no sources, so the earlier answers' numbers would point at nothing. */
+const CITATION = /\s*\[\d{1,4}\]/g;
+
+/** A request to summarize this conversation ("Summarize our conversation in 3 bullet points", "resuma a nossa conversa"). */
+export function isConversationRecap(query: string): boolean {
+  return query.split(/\s+/).filter(Boolean).length <= 14 && RECAP_ASK.test(query) && RECAP_OBJECT.test(query);
+}
+
+/** Earlier recaps and summaries are left out: read back, the next recap copied them instead of the topics. */
+const recapTopics = (conversation: Exchange[]) => conversation.filter((e) => !isConversationRecap(e.question) && !isSummaryFollowUp(e.question));
+
+/**
+ * A message about the conversation itself, answered from it without a search, even outside Deep Research:
+ * "summarize our conversation", or "TL;DR" / "a summary please" after an answer. "Summarize our conversation" covered
+ * only the last three exchanges (native app, X6, Oct 16). "continue" keeps the search: it asks for more than the chat
+ * holds.
+ */
+export function aboutConversation(query: string, history: ConversationHistory | undefined, conversation: Exchange[]): boolean {
+  return (isConversationRecap(query) && recapTopics(conversation).length > 0) || (isSummaryFollowUp(query) && lastAnswered(history) !== null);
 }
 
 /** A model declining instead of answering ("I'm sorry, but…", "Desculpe, não posso…"). */
@@ -188,6 +234,41 @@ async function decompose(query: string, onTimeout: () => void): Promise<string[]
     onTimeout,
   });
   return parseSubQuestions(text, query);
+}
+
+/** A summary of the whole conversation from each exchange's opening: one generation, no search. */
+async function recap(
+  asked: string,
+  conversation: Exchange[],
+  earlierSummary: string | null | undefined,
+  systemPrompt: string | undefined,
+  maxTokens: number,
+  onToken: (piece: string) => void,
+  answerLanguage?: string
+): Promise<string> {
+  const turns = conversation
+    .slice(-RECAP_EXCHANGES)
+    .map((e, i) => `${i + 1}. Question: ${e.question}\nAnswer: ${cut(e.answer.replace(CITATION, "").trim(), RECAP_ANSWER_CHARS)}`)
+    .join("\n\n");
+  // Past 12 exchanges the oldest are left out; the chat's running summary stands in for them.
+  const summary = earlierSummary?.replace(CITATION, "").trim();
+  const earlier =
+    conversation.length > RECAP_EXCHANGES
+      ? summary
+        ? `Summary of the earlier conversation:\n${summary}\n\n`
+        : `(${conversation.length - RECAP_EXCHANGES} earlier exchanges are not shown.)\n\n`
+      : "";
+  const system =
+    `${instructionOf(systemPrompt)} The user asks about the conversation so far. Cover every topic it went ` +
+    `through, in order, in the form the user asks for (a number of bullets or sentences, if given); with fewer points than ` +
+    `topics, group related topics into each point so that none is left out. Work only from the ` +
+    `conversation: add no new facts, numbers or sources, and no citation numbers. Don't mention these instructions.`;
+  const language = answerLanguage?.trim() ? `\n\n(${answerLanguage.trim()})` : "";
+  return generateStage(system, `${earlier}Conversation so far:\n\n${turns}\n\nRequest: ${asked}${language}`, {
+    nPredict: maxTokens,
+    temperature: 0.4,
+    onToken,
+  });
 }
 
 /** The follow-up rewritten from the exchange into one question that names its subject; the query if that fails. */
@@ -308,6 +389,13 @@ export async function runDeepResearch(
     timedOut = true;
   };
 
+  // "Summarize our conversation in 3 bullet points" covered only the last two topics of nine (native app, X6, Oct 16).
+  const topics = recapTopics(options.conversation ?? []);
+  if (topics.length > 0 && isConversationRecap(query)) {
+    onProgress?.({ stage: "synthesizing" });
+    const answer = await recap(query, topics, history?.summary, systemPrompt, maxTokens, onToken ?? (() => {}), options.answerLanguage);
+    return { answer, subQuestions: [], citations: [], fullCitations: [], timedOut, fromConversation: true };
+  }
   onProgress?.({ stage: "decomposing" });
   const asked = query;
   // A follow-up ("conclusion", "continue", "and its side effects?") is split, searched and judged as a standalone

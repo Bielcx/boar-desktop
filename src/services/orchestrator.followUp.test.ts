@@ -26,7 +26,7 @@ vi.mock("../rag/retrieve", () => ({
   },
 }));
 
-import { isMetaFollowUp, lastAnswered, lastExchange, parseSubQuestions, runDeepResearch } from "./orchestrator";
+import { aboutConversation, isConversationRecap, isMetaFollowUp, isSummaryFollowUp, lastAnswered, lastExchange, parseSubQuestions, runDeepResearch } from "./orchestrator";
 
 const history = {
   turns: [
@@ -139,5 +139,76 @@ describe("Deep Research follow-ups", () => {
 
   it("drops refusal lines from the sub-questions", () => {
     expect(parseSubQuestions("Desculpe, não posso ajudar com isso.\nI cannot answer that question", "q")).toEqual(["q"]);
+  });
+});
+
+describe("conversation recaps and summaries (native app, Oct 16)", () => {
+  const ex = (question: string, answer: string) => ({ question, answer });
+
+  it("tells a conversation recap apart from a summary of a subject", () => {
+    for (const q of ["Summarize our conversation in 3 bullet points", "recap what we discussed", "resuma a nossa conversa", "TL;DR of this chat"])
+      expect(isConversationRecap(q), q).toBe(true);
+    for (const q of ["Summarize the causes of the French Revolution", "How do vaccines work?", "summary",
+      "Summarize the conversation between Kennedy and Khrushchev", "Summarize a chat about Ubuntu"])
+      expect(isConversationRecap(q), q).toBe(false);
+  });
+
+  it("writes a summary from the last answer, not a continue", () => {
+    for (const q of ["TL;DR", "a brief summary please", "conclusion"]) expect(isSummaryFollowUp(q), q).toBe(true);
+    for (const q of ["continue", "tell me more", "How do vaccines work?"]) expect(isSummaryFollowUp(q), q).toBe(false);
+    // Outside Deep Research, plain chat takes this path for summaries and recaps only.
+    expect(aboutConversation("TL;DR", history, [])).toBe(true);
+    expect(aboutConversation("continue", history, [])).toBe(false);
+    expect(aboutConversation("Summarize our conversation", undefined, [ex("How far is the Moon?", "384,000 km.")])).toBe(true);
+    expect(aboutConversation("Summarize our conversation", undefined, [])).toBe(false);
+  });
+
+  it("writes a recap from every exchange, without a search", async () => {
+    reply = () => "- seasons\n- the Moon\n- vaccines";
+    const conversation = [
+      ex("What causes the seasons on Earth?", "The axial tilt of about 23.4 degrees."),
+      ex("How far away is the Moon?", "About 384,000 km."),
+      ex("How do vaccines work?", "They train the immune system. " + "x".repeat(2000)),
+    ];
+    const r = await run("Summarize our conversation in 3 bullet points", history, { conversation });
+    expect(calls).toHaveLength(1);
+    expect(searched).toHaveLength(0);
+    expect(calls[0].user).toContain("1. Question: What causes the seasons on Earth?");
+    expect(calls[0].user).toContain("3. Question: How do vaccines work?");
+    expect(calls[0].user).toContain("Request: Summarize our conversation in 3 bullet points");
+    expect(calls[0].user).not.toContain("x".repeat(601));
+    expect(r.answer).toBe("- seasons\n- the Moon\n- vaccines");
+    expect(r.fromConversation).toBe(true);
+  });
+
+  it("drops old citation numbers and keeps the earlier summary past 12 exchanges", async () => {
+    const conversation = Array.from({ length: 14 }, (_, i) => ex(`Question ${i + 1}?`, `Answer ${i + 1} [2].`));
+    await run("recap our chat", { ...history, summary: "Talked about tides [1]." } as typeof history, { conversation });
+    const user = calls[0].user;
+    expect(calls).toHaveLength(1);
+    expect(user).toContain("Summary of the earlier conversation:\nTalked about tides.");
+    expect(user).not.toContain("Question 2?");
+    expect(user).toContain("1. Question: Question 3?\nAnswer: Answer 3.");
+    expect(user).not.toContain("[2]");
+  });
+
+  it("leaves out earlier recaps and summaries", async () => {
+    const conversation = [
+      ex("What causes the seasons on Earth?", "The axial tilt."),
+      ex("Summarize our conversation in 3 bullet points", "- the axial tilt"),
+      ex("TL;DR", "Tilt."),
+      ex("How far away is the Moon?", "About 384,000 km."),
+    ];
+    await run("Summarize our conversation in 3 bullet points", history, { conversation });
+    const user = calls[0].user;
+    expect(user).toContain("1. Question: What causes the seasons on Earth?");
+    expect(user).toContain("2. Question: How far away is the Moon?");
+    expect(user).not.toContain("TL;DR");
+    expect(user).not.toContain("- the axial tilt");
+  });
+
+  it("researches a recap request as asked when there are no earlier exchanges", async () => {
+    await run("Summarize our conversation", NONE);
+    expect(calls[0].system.startsWith("You plan")).toBe(true);
   });
 });
