@@ -57,7 +57,7 @@ import {
 import { ProfilesScreen } from "./ProfilesScreen";
 import { runDeepResearch, ResearchProgress } from "../services/orchestrator";
 import { runAdaptiveChat } from "../services/adaptiveChat";
-import { getPersonality, PersonalityId, PERSONALITIES } from "../constants/personalities";
+import { answerStyleFor, getPersonality, PersonalityId, PERSONALITIES } from "../constants/personalities";
 import {
   createSession,
   addMessage as persistMessage,
@@ -695,9 +695,10 @@ export function ChatScreen({
       // A length picked by hand is kept as is; Auto fits the context the model was opened with.
       const maxTokens =
         maxTokensChoice ?? fitToContext(autoMaxTokens(activePersonalityId, deepResearchModeRef.current), llamaEngine.getModelInfo()?.nCtx);
-      const personality = getPersonality(activePersonalityId);
-      const systemPrompt = activePersonalityId === "custom" ? profile?.customPrompt?.trim() || customPrompt : personality.systemPrompt;
-      const styleReminder = activePersonalityId === "custom" ? undefined : personality.styleReminder;
+      const style = answerStyleFor(activePersonalityId, query);
+      const personality = getPersonality(style);
+      const systemPrompt = style === "custom" ? profile?.customPrompt?.trim() || customPrompt : personality.systemPrompt;
+      const styleReminder = style === "custom" ? undefined : personality.styleReminder;
 
       const priorMessages = messagesRef.current.filter((m) => m.text.length > 0);
       const verbatimTurns: ConversationTurn[] = priorMessages
