@@ -81,6 +81,34 @@ export function coveredSuggestions(keys: string[], installed: Iterable<string>, 
   });
 }
 
+/**
+ * Short questions (two lines at most) from the evaluations, in chat.suggestions.b*: b1…b9 from BOAR's 17-question set,
+ * b10…b21 from the public BOAR Bench v0.1 items, without its trap, emergency, crypto and restaurant questions (the
+ * native app's BENCH_IDEAS).
+ */
+export const BENCH_IDEAS = Array.from({ length: 21 }, (_, i) => `b${i + 1}`);
+/** Prompt ideas an empty chat shows, drawn again for each new chat. */
+export const IDEAS_SHOWN = 5;
+
+/**
+ * What a new chat offers: a few drawn at random from the ideas validated for this model (suggestionsFor) plus the
+ * evaluations' short questions, so each new chat shows a different few (the native app's dfd39555).
+ */
+export function ideasFor(
+  modelId: string | undefined,
+  language: string | undefined,
+  installed: Iterable<string> = [],
+  random: () => number = Math.random
+): string[] {
+  if (!modelId) return [];
+  const pool = [...new Set([...suggestionsFor(modelId, language, installed), ...BENCH_IDEAS])];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  return pool.slice(0, IDEAS_SHOWN);
+}
+
 /** Below this many suggestions, the empty chat adds "Add a knowledge pack for more topics" (Iris). */
 export const MIN_SUGGESTIONS = 3;
 /** At most this many when the list is filled from other models. */
