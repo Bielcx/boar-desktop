@@ -91,6 +91,15 @@ export const DEFAULT_PERSONALITY_ID: PersonalityId = "succinct";
 
 export const MAX_TOKENS_OPTIONS = [256, 512, 1024, 2048] as const;
 
+/**
+ * The styles offered in Settings, the style sheet and Profiles. Custom is hidden (the native app's 4ed5037f): a prompt
+ * the user writes could make BOAR say anything, and a screenshot of it would pass as BOAR's own words. It still works
+ * where it's already chosen, and stays listed there so it can be switched away from.
+ */
+export function offeredStyles(current?: PersonalityId): Personality[] {
+  return PERSONALITIES.filter((p) => p.id !== "custom" || current === "custom");
+}
+
 export function getPersonality(id: PersonalityId): Personality {
   return PERSONALITIES.find((p) => p.id === id) ?? PERSONALITIES[0];
 }
