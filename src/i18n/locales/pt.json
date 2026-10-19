@@ -165,6 +165,7 @@
       "security": "Segurança (PIN)",
       "apiServer": "Servidor de API local"
     },
+    "filters": { "all": "Todos", "here": "Neste computador", "downloading": "Baixando", "mine": "Adicionados por você" },
     "installedModels": "Modelos instalados",
     "discoverHfModels": "Descobrir modelos GGUF no Hugging Face",
     "toasts": {

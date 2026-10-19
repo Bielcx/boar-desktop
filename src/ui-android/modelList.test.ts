@@ -17,3 +17,20 @@ describe("listedModels", () => {
     expect(listedModels(catalog, [{ ...m("hf-qwen3"), filename: "models/qwen3.gguf" }], {}, {}).map((x) => x.id)).not.toContain("hf-qwen3");
   });
 });
+
+describe("listedModels: downloads and filters (native app's Model Catalog)", () => {
+  const discovered = [m("hf-a"), m("hf-b")];
+  const present = { qwen3: true, "hf-a": true };
+  const downloading = (id: string) => id === "hf-b";
+
+  it("puts a download in progress right after the active model", () => {
+    expect(listedModels(catalog, discovered, present, { llm: "qwen3" }, downloading).map((x) => x.id)).toEqual(["qwen3", "hf-b", "hf-a", "qwen2.5", "bge"]);
+  });
+
+  it("filters to the models on this computer, downloading, or added by you", () => {
+    const ids = (f: Parameters<typeof listedModels>[5]) => listedModels(catalog, discovered, present, {}, downloading, f).map((x) => x.id);
+    expect(ids("here")).toEqual(["qwen3", "hf-a"]);
+    expect(ids("downloading")).toEqual(["hf-b"]);
+    expect(ids("mine")).toEqual(["hf-b", "hf-a"]);
+  });
+});

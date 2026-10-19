@@ -29,7 +29,7 @@ import { listDiscoveredModels, removeDiscoveredModel } from "../models/discovere
 import { resetAllAppData } from "../services/appReset";
 import { CatalogItemCard, CatalogRowState } from "./CatalogItemCard";
 import { ModelBrowser } from "./ModelBrowser";
-import { listedModels } from "./modelList";
+import { listedModels, MODEL_FILTERS, type ModelFilter } from "./modelList";
 import { PersonalitySettings } from "./PersonalitySettings";
 import { UsageStatsContent } from "./UsageStatsContent";
 import { VoiceSettings } from "./VoiceSettings";
@@ -75,6 +75,8 @@ export function ModelSetupScreen(props: Props) {
   const [hapticsEnabled, setHapticsEnabledState] = useState(true);
   const [showTech, setShowTechState] = useState(true);
   const [showHfPage, setShowHfPage] = useState(false);
+  // Settings › Models' filter (the native app's Model Catalog filter).
+  const [modelFilter, setModelFilter] = useState<ModelFilter>("all");
 
   const refreshDiscovered = useCallback(async () => {
     const models = await listDiscoveredModels();
@@ -243,6 +245,20 @@ export function ModelSetupScreen(props: Props) {
     ]);
   };
 
+  // One card for a model, in Settings › Models and for a file added from the Hugging Face search.
+  const renderCard = (item: CatalogModel) => (
+    <CatalogItemCard
+      item={item}
+      row={getRow(item)}
+      isActive={activeIds[item.kind] === item.id}
+      onDownload={download}
+      onUse={useModel}
+      onRemove={remove}
+      activating={activatingId === item.id}
+      busy={activatingId !== null}
+    />
+  );
+
   // If required on first run, display the 3-step Setup Wizard!
   if (requiredMode) {
     return <SetupWizardScreen onReady={(props as { onReady: () => void }).onReady} />;
@@ -276,23 +292,19 @@ export function ModelSetupScreen(props: Props) {
 
         <AccordionSection title={t("modelSetupScreen.sections.models")}>
           <Text style={styles.sectionHeading}>{t("modelSetupScreen.installedModels")}</Text>
+          <View style={styles.filterRow}>
+            {MODEL_FILTERS.map((f) => (
+              <Pressable key={f} onPress={() => setModelFilter(f)} style={[styles.filterChip, modelFilter === f && styles.filterChipOn]}>
+                <Text style={styles.filterChipText}>{t(`modelSetupScreen.filters.${f}`)}</Text>
+              </Pressable>
+            ))}
+          </View>
           <FlatList
-            data={listedModels(MODEL_CATALOG, discoveredModels, presence, activeIds)}
+            data={listedModels(MODEL_CATALOG, discoveredModels, presence, activeIds, isDownloading, modelFilter)}
             keyExtractor={(m) => m.id}
             scrollEnabled={false}
             contentContainerStyle={styles.list}
-            renderItem={({ item }) => (
-              <CatalogItemCard
-                item={item}
-                row={getRow(item)}
-                isActive={activeIds[item.kind] === item.id}
-                onDownload={download}
-                onUse={useModel}
-                onRemove={remove}
-                activating={activatingId === item.id}
-                busy={activatingId !== null}
-              />
-            )}
+            renderItem={({ item }) => renderCard(item)}
           />
 
           <Text style={styles.sectionHeading}>{t("modelSetupScreen.discoverHfModels")}</Text>
@@ -502,7 +514,7 @@ export function ModelSetupScreen(props: Props) {
           </View>
           <ScrollView contentContainerStyle={styles.browserWrapper}>
             <Text style={styles.linkNote}>{t("modelBrowser.pageNote")}</Text>
-            <ModelBrowser onAdded={refreshDiscovered} />
+            <ModelBrowser onAdded={refreshDiscovered} added={discoveredModels} renderAdded={renderCard} />
           </ScrollView>
         </View>
       )}
@@ -512,6 +524,10 @@ export function ModelSetupScreen(props: Props) {
 }
 
 const styles = StyleSheet.create({
+  filterRow: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginBottom: 8 },
+  filterChip: { borderRadius: 999, borderWidth: 1, borderColor: colors.border.default, paddingHorizontal: 10, paddingVertical: 4 },
+  filterChipOn: { backgroundColor: colors.emerald.bgSubtle, borderColor: colors.emerald.border },
+  filterChipText: { ...typography.ui.caption, color: colors.text.secondary },
   container: {
     flex: 1,
     backgroundColor: colors.bg.surface,

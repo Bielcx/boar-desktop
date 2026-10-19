@@ -5,6 +5,7 @@ import { Text, TextInput } from "./components/AppText";
 import { useTranslation } from "react-i18next";
 import { searchModels, listGgufFiles, toCatalogModel, formatParams, HF_SIZES, HF_SORTS, HFModelSummary, HFGgufFile, HFSize, HFSort } from "../services/modelBrowser";
 import { addDiscoveredModel } from "../models/discoveredModels";
+import type { CatalogModel } from "../models/manifest";
 import { useNetworkState } from "expo-network";
 import { isOnline } from "../services/connectivity.pure";
 
@@ -17,6 +18,10 @@ function formatBytes(bytes: number): string {
 interface Props {
   /** Called after a model is added to the discovered list, so the parent can refresh its own list/status. */
   onAdded: () => void;
+  /** Models already added from this search: their files show the catalog card (Download, progress, Use, Active). */
+  added?: CatalogModel[];
+  /** That card, from Settings › Models, so the browser downloads and activates the same way. */
+  renderAdded?: (model: CatalogModel) => React.ReactNode;
 }
 
 /**
@@ -26,7 +31,7 @@ interface Props {
  * Tone & Model list above, so it gets the same progress tracking, size
  * verification, and duplicate-download guard as every other model.
  */
-export function ModelBrowser({ onAdded }: Props) {
+export function ModelBrowser({ onAdded, added = [], renderAdded }: Props) {
   const online = isOnline(useNetworkState());
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
@@ -101,14 +106,15 @@ export function ModelBrowser({ onAdded }: Props) {
         const model = toCatalogModel(repoId, file);
         await addDiscoveredModel(model);
         onAdded();
-        Alert.alert(t("modelBrowser.addedTitle"), t("modelBrowser.addedMessage", { label: model.label }));
+        // With the catalog card at hand, the row turns into it (Download next); else say where to find it.
+        if (!renderAdded) Alert.alert(t("modelBrowser.addedTitle"), t("modelBrowser.addedMessage", { label: model.label }));
       } catch (e: any) {
         Alert.alert(t("modelBrowser.addFailedTitle"), e?.message ?? String(e));
       } finally {
         setAddingKey(null);
       }
     },
-    [onAdded, t]
+    [onAdded, renderAdded, t]
   );
 
   return (
@@ -160,6 +166,10 @@ export function ModelBrowser({ onAdded }: Props) {
               filesLoading !== item.id &&
               (filesByRepo[item.id] ?? []).map((file) => {
                 const key = `${item.id}/${file.filename}`;
+                // Added before: Add → Download → Use now → Active, on the same card as Settings › Models (native app).
+                const model = toCatalogModel(item.id, file);
+                const known = renderAdded && added.find((d) => d.id === model.id);
+                if (known) return <View key={key} style={{ marginTop: 8 }}>{renderAdded(known)}</View>;
                 return (
                   <View key={key} style={styles.fileRow}>
                     <View style={{ flex: 1 }}>
