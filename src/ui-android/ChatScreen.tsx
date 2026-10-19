@@ -55,7 +55,7 @@ import {
   AgentProfile,
 } from "../models/settings";
 import { ProfilesScreen } from "./ProfilesScreen";
-import { runDeepResearch, ResearchProgress } from "../services/orchestrator";
+import { aboutConversation, runDeepResearch, ResearchProgress } from "../services/orchestrator";
 import { runAdaptiveChat } from "../services/adaptiveChat";
 import { answerStyleFor, getPersonality, PersonalityId, PERSONALITIES } from "../constants/personalities";
 import {
@@ -705,6 +705,11 @@ export function ChatScreen({
         .slice(-VERBATIM_MESSAGE_COUNT)
         .map((m) => ({ role: m.role, text: m.role === "assistant" ? stripThinking(m.text) : m.text }));
       const history = { summary: sessionSummaryRef.current, turns: verbatimTurns };
+      // Every answered question so far, oldest first: what "summarize our conversation" is written from.
+      const conversation = priorMessages.flatMap((m, i) => {
+        const next = priorMessages[i + 1];
+        return m.role === "user" && next?.role === "assistant" ? [{ question: m.text, answer: stripThinking(next.text) }] : [];
+      });
 
       let firstToken = true;
       let firstTokenTime = 0;
@@ -752,11 +757,13 @@ export function ChatScreen({
         }
         chunks = result.sources;
         adaptiveTelemetry = { reasonCodes: result.receipt.reasonCodes, retrievalUsed: chunks.length > 0 };
-      } else if (deepResearchModeRef.current) {
+      } else if (deepResearchModeRef.current || aboutConversation(query, history, conversation)) {
         // Deep Research Mode is completely separate from adaptive routing
         // and untouched by it — orchestrator.ts's own sequential pipeline,
-        // same as before this integration.
-        setDeepResearchActive(true);
+        // same as before this integration. A message about the conversation itself ("summarize our conversation",
+        // "TL;DR") takes it too, outside Deep Research: it's written from the chat, with no search.
+        const research = deepResearchModeRef.current;
+        if (research) setDeepResearchActive(true);
         // The answer a meta follow-up ("summary", "continue") is written from: the last one with text.
         const lastAnswer = [...priorMessages].reverse().find((m) => m.role === "assistant");
         const result = await runDeepResearch(
@@ -765,11 +772,11 @@ export function ChatScreen({
           history,
           maxTokens,
           (p: ResearchProgress) => {
-            setProcessing({ messageId: assistantId, status: "thinking", label: researchStageLabel(p, t) });
+            setProcessing({ messageId: assistantId, status: "thinking", ...(research ? { label: researchStageLabel(p, t) } : {}) });
           },
           onToken,
           () => stopRequestedRef.current,
-          { previousAnswer: lastAnswer && stripThinking(lastAnswer.text) }
+          { previousAnswer: lastAnswer && stripThinking(lastAnswer.text), conversation }
         );
         // Written from the last answer: its numbers [n] are that answer's sources.
         chunks = result.fromPreviousAnswer ? lastAnswer?.citations ?? [] : result.citations;
