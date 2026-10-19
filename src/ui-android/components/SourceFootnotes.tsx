@@ -60,9 +60,11 @@ export function SourceFootnotes({ citations }: Props) {
               {isExpanded && (
                 <View style={styles.snippetBox}>
                   <View style={styles.snippetMeta}>
-                    <Text style={styles.snippetPackTag}>{t("sourceFootnotes.localIndex")}</Text>
+                    <Text style={styles.snippetPackTag}>{t("sourceFootnotes.from")}</Text>
+                    {/* Where it comes from: the user's own file, else the origin the pack stores ("Wikipedia — https://…"),
+                        never the raw chunk id ("pack:wiki-vital5:…"); built-in passages are not the user's documents. */}
                     <Text style={styles.snippetDocId} numberOfLines={1}>
-                      {c.docId || c.title}
+                      {c.collectionId ? t("sourceFootnotes.yourDocuments") : c.source || c.title}
                     </Text>
                   </View>
                   <Text style={styles.snippetText} numberOfLines={6}>

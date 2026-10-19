@@ -436,7 +436,8 @@
   },
   "sourceFootnotes": {
     "title": "Retrieved sources",
-    "localIndex": "LOCAL INDEX"
+    "from": "FROM",
+    "yourDocuments": "Your documents"
   },
   "promptIdeasCarousel": {
     "title": "Research prompt benchmarks",
