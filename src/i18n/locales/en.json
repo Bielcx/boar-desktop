@@ -379,6 +379,8 @@
     "offlineBody": "No internet connection. Everything works: answers, search and your library are all on this phone."
   },
   "chatScreen": {
+    "errorNoModel": "No answer model is loaded. Open Settings › Models to pick one.",
+    "errorGeneric": "Something went wrong while answering. Try again.",
     "initializingCore": "Initializing local offline core…",
     "mountingWeights": "Mounting local GGUF weights…",
     "indexingKnowledgeBase": "Indexing offline knowledge base…",

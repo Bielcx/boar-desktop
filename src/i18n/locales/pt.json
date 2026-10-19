@@ -379,6 +379,8 @@
     "offlineBody": "Sem conexão com a internet. Tudo funciona: respostas, busca e sua biblioteca estão neste celular."
   },
   "chatScreen": {
+    "errorNoModel": "Nenhum modelo de resposta está carregado. Abra Configurações › Modelos para escolher um.",
+    "errorGeneric": "Algo deu errado ao responder. Tente de novo.",
     "initializingCore": "Inicializando núcleo offline local…",
     "mountingWeights": "Carregando pesos GGUF locais…",
     "indexingKnowledgeBase": "Indexando base de conhecimento offline…",
