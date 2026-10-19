@@ -17,7 +17,7 @@ import { Text, TextInput } from "./components/AppText";
 import { Ambient } from "./components/Ambient";
 import { ChatEmptyState } from "./components/ChatEmptyState";
 import { ToneSheet } from "./components/ToneSheet";
-import { suggestionsFor } from "./chat/suggestions";
+import { ideasFor } from "./chat/suggestions";
 import { ModelManager } from "../models/ModelManager";
 import { LinearGradient } from "expo-linear-gradient";
 import { impact, notification, ImpactFeedbackStyle, NotificationFeedbackType } from "../services/haptics";
@@ -209,9 +209,11 @@ export function ChatScreen({
     };
     // Also re-read when Settings or My Documents closes (a pack added or removed there).
   }, [showEmptyState, showSettings, showKnowledgeBase, downloadsDone]);
+  // A different few for each new chat (ideasNonce changes with it).
+  const [ideasNonce, setIdeasNonce] = useState(0);
   const suggestions = useMemo(
-    () => suggestionsFor(activeModel?.id, i18n.language, installedCorpora),
-    [activeModel?.id, i18n.language, installedCorpora]
+    () => ideasFor(activeModel?.id, i18n.language, installedCorpora),
+    [activeModel?.id, i18n.language, installedCorpora, ideasNonce]
   );
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -581,6 +583,7 @@ export function ChatScreen({
   }, [stopAndAwaitGeneration]);
 
   const resetToNewChat = useCallback(async () => {
+    setIdeasNonce((n) => n + 1);
     stopSpeaking();
     await stopAndAwaitGeneration();
     await cancelBackgroundTask();

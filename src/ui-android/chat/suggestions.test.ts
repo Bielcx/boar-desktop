@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { coveredSuggestions, showsKnowledgeHint, SUGGESTION_SOURCES, suggestionsFor } from "./suggestions";
+import { BENCH_IDEAS, coveredSuggestions, ideasFor, IDEAS_SHOWN, showsKnowledgeHint, SUGGESTION_SOURCES, suggestionsFor } from "./suggestions";
 
 const ALL = ["wiki-vital5", "boar-preparedness"];
 
@@ -76,5 +76,30 @@ describe("coveredSuggestions (RT-1)", () => {
 describe("showsKnowledgeHint (Iris)", () => {
   it("adds the knowledge-pack card below three suggestions, including none", () => {
     expect([0, 1, 2, 3, 4].map(showsKnowledgeHint)).toEqual([true, true, true, false, false]);
+  });
+});
+
+describe("ideasFor (a different few per new chat)", () => {
+  it("draws 5 from the validated ideas plus the evaluations' short questions, none twice", () => {
+    let seed = 1;
+    const random = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const a = ideasFor("qwen3-4b-instruct-2507-q4km", "en", ALL, random);
+    const b = ideasFor("qwen3-4b-instruct-2507-q4km", "en", ALL, random);
+    expect(a).toHaveLength(IDEAS_SHOWN);
+    expect(new Set(a).size).toBe(IDEAS_SHOWN);
+    expect(a).not.toEqual(b);
+    const pool = new Set([...suggestionsFor("qwen3-4b-instruct-2507-q4km", "en", ALL), ...BENCH_IDEAS]);
+    for (const k of [...a, ...b]) expect(pool.has(k), k).toBe(true);
+    expect(ideasFor(undefined, "en", ALL)).toEqual([]);
+  });
+
+  it("has every idea's question and topic in both languages", () => {
+    for (const lang of ["en", "pt"]) {
+      const chat = JSON.parse(readFileSync(join(__dirname, `../../i18n/locales/${lang}.json`), "utf8")).chat;
+      for (const k of BENCH_IDEAS) {
+        expect(chat.suggestions[k], `${lang} ${k}`).toBeTruthy();
+        expect(chat.suggestionTopics[k], `${lang} ${k}`).toBeTruthy();
+      }
+    }
   });
 });
