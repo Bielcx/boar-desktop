@@ -116,6 +116,7 @@ test("first run -> chat answer with citations, Alert and Share on desktop", asyn
     await expect(receipt).toHaveText(/\d+\.\d s · \d+\.\d tok\/s/);
     await receipt.click();
     await expect(page.getByText(/^Total: /)).toBeVisible();
+    await expect(page.getByText(/^Mode: /)).toBeVisible(); // the answer style first
 
     // ---- Alert.alert, one button: window.alert ---------------------------------------------------------
     await page.getByRole("button", { name: "You're online" }).click();

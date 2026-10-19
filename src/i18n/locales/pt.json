@@ -633,6 +633,8 @@
       "ask": "Perguntar: {{question}}"
     },
     "receipt": {
+      "mode": "Modo",
+      "path": { "deep": "Pesquisa Profunda", "chat": "Desta conversa", "adaptive": "Roteamento adaptativo" },
       "sourcePassage": "Trecho da fonte",
       "localModel": "Modelo local",
       "noOfflineSource": "Sem fonte offline",
