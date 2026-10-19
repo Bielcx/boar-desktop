@@ -20,3 +20,13 @@ export function sessionTitleFor(generated: string, query: string): string {
   const sharesSomething = words(title).some((w) => qWords.has(w)) || numbers(title).some((n) => qNumbers.has(n));
   return title && !madeUpNumber && sharesSomething ? title : questionTitle(query);
 }
+
+/**
+ * A title a reasoning model wrote as "<think>…" before titles skipped the thinking (fixed Oct 16): the thinking
+ * dropped, else the chat's first question; null when the title needs no repair.
+ */
+export function repairedTitle(title: string, firstQuestion: string | undefined): string | null {
+  if (!title.includes("<think") && !title.includes("</think>")) return null;
+  const kept = title.replace(/<think>[\s\S]*?(<\/think>|$)/g, "").replace(/<\/?think>/g, "").trim();
+  return kept || (firstQuestion ? questionTitle(firstQuestion) : "New chat");
+}

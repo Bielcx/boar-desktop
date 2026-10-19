@@ -59,6 +59,7 @@ import { aboutConversation, runDeepResearch, ResearchProgress } from "../service
 import { runAdaptiveChat } from "../services/adaptiveChat";
 import { answerStyleFor, getPersonality, offeredStyles, PersonalityId } from "../constants/personalities";
 import {
+  repairThinkingTitles,
   createSession,
   addMessage as persistMessage,
   getMessages as getSessionMessages,
@@ -363,6 +364,8 @@ export function ChatScreen({
       speakAnswersRef.current = await getSpeakAnswers();
       setPackCount(await countKnowledgePacks());
       setDeepResearchEnabled(drMode);
+      // Chats a reasoning model titled "<think>…" before titles skipped its thinking: repaired once per start.
+      await repairThinkingTitles().catch(() => 0);
       await refreshSessions();
     })();
   }, [refreshSessions]);
