@@ -1,3 +1,5 @@
+import { isHealthQuestion } from "../routing/context";
+
 export type PersonalityId = "succinct" | "detailed" | "summary" | "custom";
 
 export interface Personality {
@@ -91,4 +93,13 @@ export const MAX_TOKENS_OPTIONS = [256, 512, 1024, 2048] as const;
 
 export function getPersonality(id: PersonalityId): Personality {
   return PERSONALITIES.find((p) => p.id === id) ?? PERSONALITIES[0];
+}
+
+/**
+ * The style an answer is written in. A health, first-aid or emergency question answers in Succinct even when Detailed
+ * is picked: a sentence-level audit of 15 Detailed answers (r4to, Oct 17) found 20 % of claims wrong, 5 of them safety
+ * errors ("a first-degree burn is painless"). A health question is not research (the native app's 711c2f0b).
+ */
+export function answerStyleFor(chosen: PersonalityId, query: string): PersonalityId {
+  return chosen === "detailed" && isHealthQuestion(query) ? "succinct" : chosen;
 }

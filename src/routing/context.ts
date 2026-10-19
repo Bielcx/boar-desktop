@@ -250,14 +250,54 @@ export const ACTION_INTENT =
 // "derramou água fervendo no braço", "got bitten", "está sangrando"): health when the
 // question asks what to do (gate ee1f2b7: 20/20 free answers, one said "medicinal oil").
 const INJURY_DESCRIBED =
-  /(^|[^\p{L}])(spill\p{L}*|splash\p{L}*|scald\p{L}*|burn\p{L}*|boiling|blister\p{L}*|bit|bitten|stung|sting\p{L}*|bleed\p{L}*|faint\p{L}*|passed out|chok\p{L}*|cut (my|his|her|their|him|herself|himself|myself)|fell (off|down|from)|broke (my|his|her|their)|twist\p{L}*|sprain\p{L}*|swallow\p{L}*|electrocut\p{L}*|derram\p{L}*|escald\p{L}*|queim\p{L}*|fervend\p{L}*|fervent\p{L}*|bolha\p{L}*|mord\p{L}*|picou|picad\p{L}*|sangr\p{L}*|desmai\p{L}*|engasg\p{L}*|cortou|caiu d\p{L}*|bateu a cabe[çc]a|torceu|quebrou|engoliu|choque el[ée]trico)(?![\p{L}])/iu;
+  /(^|[^\p{L}])(spill\p{L}*|splash\p{L}*|scald\p{L}*|burn\p{L}*|boiling|blister\p{L}*|bit|bitten|stung|sting\p{L}*|bleed\p{L}*|faint\p{L}*|passed out|chok\p{L}*|cut (my|his|her|their|him|herself|himself|myself)|fell (off|down|from)|broke (my|his|her|their)|twist\p{L}*|sprain\p{L}*|swallow\p{L}*|electrocut\p{L}*|derram\p{L}*|escald\p{L}*|queim\p{L}*|fervend\p{L}*|fervent\p{L}*|bolha\p{L}*|mord\p{L}*|picou|picad\p{L}*|sangr\p{L}*|desmai\p{L}*|engasg\p{L}*|cortou|caiu d\p{L}*|bateu a cabe[çc]a|torceu|quebrou|engoliu|choque el[ée]trico|collaps\p{L}*|desabou|desmaiou|se desmay\p{L}*)(?![\p{L}])/iu;
+
+// From r4to's context.ts (rferrari/boar-app PR #85, MIT), as the native app ported it (711c2f0b).
+// A venomous animal with a sting/bite, a child or a severity question; something swallowed; a person who doesn't
+// respond. PT/ES/EN, no action phrase needed ("Escorpião picou meu filho, é grave?", "Mi hijo se tragó una pila"):
+// these went to the model and came back "Scorpions do not sting children" (Sonar exp-29).
+const VENOMOUS = /(^|[^\p{L}])(escorpi\p{L}*|alacr[aá]n\p{L}*|scorpions?|aranhas?|ara[ñn]as?|spiders?|vespas?|abelhas?|avispas?|wasps?|bees?|marimbondos?|lacraia\p{L}*|centopeia\p{L}*|cobras?|serpientes?|víboras?|snakes?|jellyfish|[áa]gua-viva|medusas?)(?![\p{L}])/iu;
+
+const STUNG_OR_RISK = /(^|[^\p{L}])(pic\p{L}*|mord\p{L}*|ferro\p{L}*|stung|stings?|bit|bitten|bites?|grave|perigos\p{L}*|peligros\p{L}*|dangerous|deadly|mata|matar|crian[çc]\p{L}*|beb[êeé]s?|filh[oa]s?|hij[oa]s?|niñ[oa]s?|child\p{L}*|baby|babies|kids?)(?![\p{L}])/iu;
+
+const SWALLOWED = /(^|[^\p{L}])(engol\p{L}*|se trag\p{L}*|trag[oó]|swallow\p{L}*)(?![\p{L}])/iu;
+
+const UNRESPONSIVE = /(^|[^\p{L}])(sem responder|n[ãa]o responde\p{L}*|inconscient\p{L}*|desacordad\p{L}*|no responde|unresponsive|not responding|n[ãa]o est[áa] respirando|no respira|not breathing)(?![\p{L}])/iu;
+
+const HEALTH_ES = /(^|[^\p{L}])(picad[oa]s?|picó|mordid[oa]s?|mordió|quemad\p{L}*|quemó|atragant\p{L}*|envenen\p{L}*|intoxica\p{L}*|convulsi\p{L}*|desmay\p{L}*|sangrando|sangrad\p{L}*|sangre|fiebre|emergencia|primeros auxilios)(?![\p{L}])/iu;
+
+// "frostbitten" (saf-009): HEALTH's \bfrostbite\b misses the participle.
+const FROSTBITE = /(^|[^\p{L}])(frostbit\p{L}*|frostnip)(?![\p{L}])/iu;
+
+// Not a metaphor ("dor no peito de saudade", heartbreak): the same exclusion as the heart-attack card trigger.
+const CHEST_PAIN_METAPHOR = /saudade|cora[çc][ãa]o partido|heartbreak|broken heart|de amor|desamor|por (ela|ele|ti|vos)/iu;
+
+const CHEST_PAIN = /(^|[^\p{L}])(chest (pain|pains|tightness|pressure|hurts?)|pain in (my|his|her|their) chest|pressure (in|on) (my|his|her|their) chest|tight(ness)? in (my|his|her|their) chest|dor (forte )?no peito|aperto no peito|press[ãa]o no peito|dolor (fuerte )?(en el|de) pecho|opresi[óo]n en el pecho)(?![\p{L}])/iu;
+
+// Chest pain and its lay forms (Sonar exp-29: "my dad has chest pain" went to the model, which said "In Japan, dial 119").
+// A head injury described (Sonar exp-29: "my 6 year old hit his head hard… thrown up twice", "bateu a cabeça na borda da
+// piscina, apagou" went to the model): the head-injury card's own words.
+const HEAD_INJURY = /(^|[^\p{L}])(head injur\p{L}*|hit (his|her|my|their) head|bumped (his|her|my|their) head|fell on (his|her|my|their) head|concussion|bateu a cabe[çc]a|batida na cabe[çc]a|pancada na cabe[çc]a|caiu de cabe[çc]a|traumatismo cran\p{L}*|concuss[ãa]o|se golpe[óo] la cabeza|golpe en la cabeza|traumatismo craneal|conmoci[óo]n cerebral)(?![\p{L}])/iu;
+
+// "Should I put ice or butter on it?", "Should I stand in a doorway or run outside?": asking what to do, as a should-
+// question (safety track saf-004, saf-007; Sonar exp-29). Only next to a described injury or a disaster.
+// Not a trip being planned ("burning season — should I bring masks?", "earthquakes in Wellington? Should I worry?").
+export const SHOULD_INTENT = /(^|[^\p{L}])(should (i|we|you|he|she|they)(?! (worry|bring|pack|visit|go(?! to (the )?(hospital|doctor|er|a&e|clinic|emergency))|travel|book|plan|cancel|still|be worried|be concerned|avoid (going|traveling|travelling)))|devo|devemos|debo|debemos|qu[ée] hago|qu[ée] hacemos)(?![\p{L}])/iu;
 
 export function isHealthQuestion(query: string): boolean {
   return (
+    (VENOMOUS.test(query) && STUNG_OR_RISK.test(query)) ||
+    SWALLOWED.test(query) ||
+    UNRESPONSIVE.test(query) ||
+    HEALTH_ES.test(query) ||
     HEALTH.test(query) ||
     HEALTH_PT.test(query) ||
-    (DISASTER.test(query) && ACTION_INTENT.test(query)) ||
-    (INJURY_DESCRIBED.test(query) && ACTION_INTENT.test(query)) ||
+    (DISASTER.test(query) && (ACTION_INTENT.test(query) || SHOULD_INTENT.test(query))) ||
+    // "a bit" is not "bit" (bitten): "should I see Machu Picchu… if I'm a bit weak at hiking?" (Sonar exp-29).
+    (INJURY_DESCRIBED.test(query.replace(/\ba (little )?bit\b/gi, " ")) && (ACTION_INTENT.test(query) || SHOULD_INTENT.test(query))) ||
+    FROSTBITE.test(query) ||
+    (CHEST_PAIN.test(query) && !CHEST_PAIN_METAPHOR.test(query)) ||
+    HEAD_INJURY.test(query) ||
     // Health for the content, translation for the form (Sextant lng-009, gate 52a2310: the 4B wrote "Je suis
     // allergique au peanut" for a phrase the traveller shows a waiter): a phrase to translate that carries
     // health content stays on the health path, and without a source it declines.
