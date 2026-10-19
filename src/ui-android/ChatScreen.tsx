@@ -101,6 +101,7 @@ import { splitInlineBullets } from "../services/answerFormat";
 import { ReasoningPeek } from "./components/ReasoningPeek";
 import { splitThinking, stripThinking } from "../services/thinking";
 import { cleanCitations } from "../services/citations";
+import { groupSources, renumberCitations } from "../rag/sourceGroups";
 import { SourceFootnotes } from "./components/SourceFootnotes";
 import { ReceiptDetails, ReceiptToggle } from "./components/AnswerReceipt";
 import { receiptFromMeta, type Receipt } from "./components/receipt";
@@ -901,9 +902,13 @@ export function ChatScreen({
       }
 
       const wasStopped = stopRequestedRef.current;
+      // One source per article, best first; the answer's [n] follow (the native app's SourceGroups).
+      const grouped = groupSources(chunks, (c) => c.similarity ?? c.score);
+      chunks = grouped.items;
+      assistantText = renumberCitations(assistantText, grouped.renumber);
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === assistantId ? { ...m, citations: chunks, stopped: wasStopped } : m
+          m.id === assistantId ? { ...m, text: assistantText, citations: chunks, stopped: wasStopped } : m
         )
       );
       notification(wasStopped ? NotificationFeedbackType.Warning : NotificationFeedbackType.Success);

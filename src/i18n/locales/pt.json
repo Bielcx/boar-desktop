@@ -436,7 +436,8 @@
   },
   "sourceFootnotes": {
     "title": "Fontes consultadas",
-    "localIndex": "ÍNDICE LOCAL"
+    "from": "DE",
+    "yourDocuments": "Seus documentos"
   },
   "promptIdeasCarousel": {
     "title": "Prompts de pesquisa de referência",
