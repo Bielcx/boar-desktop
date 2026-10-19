@@ -1005,9 +1005,13 @@ export function ChatScreen({
       await pruneSessions(settings.maxSavedSessions);
     } catch (e: any) {
       peakRss.stop();
+      // Plain, localized words in the chat, never the raw exception (the native app's a612c19f); the raw text goes to
+      // the console and the execution record below.
+      console.warn("[chat] answer failed:", e);
+      const noModel = /model not loaded/i.test(String(e?.message ?? e));
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === assistantId ? { ...m, text: `Error: ${e?.message ?? e}` } : m
+          m.id === assistantId ? { ...m, text: t(noModel ? "chatScreen.errorNoModel" : "chatScreen.errorGeneric") } : m
         )
       );
       // Minimal failure record — adaptiveTelemetry is scoped inside the
@@ -1029,7 +1033,7 @@ export function ChatScreen({
       setLiveTokPerSec(null);
       setDeepResearchActive(false);
     }
-  }, [input, generating, activeSessionId, scope, profile, cancelBackgroundTask, refreshSessions]);
+  }, [input, generating, activeSessionId, scope, profile, cancelBackgroundTask, refreshSessions, t]);
 
   // send() itself isn't awaited by its callers (onPress/onSubmitEditing) —
   // stopAndAwaitGeneration needs a handle on the in-flight promise so a
