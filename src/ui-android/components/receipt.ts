@@ -11,6 +11,10 @@ export interface Receipt {
   tokPerSec: number;
   tokens: number;
   model?: string;
+  /** The answer style it was written in (a health question answers in Succinct whatever was picked); absent on older answers. */
+  style?: string;
+  /** How it was answered: absent for the normal answer, "deep" (Deep Research), "chat" (written from this chat), "adaptive". */
+  path?: "deep" | "chat" | "adaptive";
 }
 
 /** "9.1 s" under a minute, "2 min 5 s" above. */

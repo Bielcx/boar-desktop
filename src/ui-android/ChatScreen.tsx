@@ -740,6 +740,8 @@ export function ChatScreen({
       // for Deep Research and for the plain fixed-active-model path, so
       // existing QueryStats consumers see no shape change for those.
       let adaptiveTelemetry: Partial<QueryStats> | null = null;
+      // How the answer was written, for its receipt's Mode row.
+      let answerPath: Receipt["path"];
 
       if (scope) {
         // Asked of some documents only: the answer pipeline with its grounding rules (src/routing/answer.ts), the
@@ -768,6 +770,7 @@ export function ChatScreen({
         // "TL;DR") takes it too, outside Deep Research: it's written from the chat, with no search.
         const research = deepResearchModeRef.current;
         if (research) setDeepResearchActive(true);
+        answerPath = research ? "deep" : "chat";
         // The answer a meta follow-up ("summary", "continue") is written from: the last one with text.
         const lastAnswer = [...priorMessages].reverse().find((m) => m.role === "assistant");
         const result = await runDeepResearch(
@@ -859,6 +862,7 @@ export function ChatScreen({
                 );
               }
               if (result.modelUsed) setActiveModel(result.modelUsed);
+              answerPath = "adaptive";
               adaptiveTelemetry = {
                 adaptiveRoutingUsed: true,
                 modelId: result.plan.steps.find((s) => s.type === "generate")?.modelId,
@@ -931,7 +935,7 @@ export function ChatScreen({
       };
       recordQueryStats(finalStats);
       const receipt: Receipt | undefined = tokensGenerated > 0
-        ? { totalMs: durationMs, ttftMs: finalStats.ttftMs ?? ttftMs, tokPerSec: finalStats.tokPerSec, tokens: tokensGenerated, model: finalStats.modelId }
+        ? { totalMs: durationMs, ttftMs: finalStats.ttftMs ?? ttftMs, tokPerSec: finalStats.tokPerSec, tokens: tokensGenerated, model: finalStats.modelId, style, ...(answerPath ? { path: answerPath } : {}) }
         : undefined;
       if (receipt) setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, receipt } : m)));
       // Persisted (SQLite), survives reload/restart — telemetry.ts's

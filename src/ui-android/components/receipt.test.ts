@@ -12,7 +12,7 @@ describe("answer receipt", () => {
   });
 
   it("reads the receipt back from a message's meta, and nothing from older or broken meta", () => {
-    const receipt = { totalMs: 1270, ttftMs: 332, tokPerSec: 29.5, tokens: 23, model: "Qwen2.5-1.5B" };
+    const receipt = { totalMs: 1270, ttftMs: 332, tokPerSec: 29.5, tokens: 23, model: "Qwen2.5-1.5B", style: "succinct", path: "deep" };
     expect(receiptFromMeta(JSON.stringify({ receipt }))).toEqual(receipt);
     expect(receiptFromMeta(null)).toBeNull();
     expect(receiptFromMeta("{")).toBeNull();

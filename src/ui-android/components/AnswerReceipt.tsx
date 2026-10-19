@@ -32,7 +32,12 @@ export function ReceiptToggle({ receipt, open, onToggle, canOpen = true }: { rec
 export function ReceiptDetails({ receipt }: { receipt: Receipt }) {
   const { t } = useTranslation();
   const count = (tokens: number) => t("chat.receipt.tokenCount", { tokens, words: approxWords(tokens) });
+  // Mode first (the native app's 4feefea9): the answer style, then how it was written.
+  const mode = [receipt.style && t(`personalities.${receipt.style}.label`), receipt.path && t(`chat.receipt.path.${receipt.path}`)]
+    .filter(Boolean)
+    .join(" · ");
   const rows: [string, string][] = [
+    ...(mode ? [[t("chat.receipt.mode"), mode] as [string, string]] : []),
     [t("chat.receipt.start"), formatSeconds(receipt.ttftMs)],
     ...(receipt.model ? [[t("chat.receipt.model"), receipt.model] as [string, string]] : []),
     [t("chat.receipt.speedLabel"), t("chat.receipt.speedBoth", { rate: receipt.tokPerSec.toFixed(1), words: approxWords(receipt.tokPerSec) })],

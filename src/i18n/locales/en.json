@@ -633,6 +633,8 @@
       "ask": "Ask: {{question}}"
     },
     "receipt": {
+      "mode": "Mode",
+      "path": { "deep": "Deep Research", "chat": "From this chat", "adaptive": "Adaptive routing" },
       "sourcePassage": "Source passage",
       "localModel": "Local model",
       "noOfflineSource": "No offline source",
