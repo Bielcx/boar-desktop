@@ -37,7 +37,9 @@ const EN = {
   },
   chatScreen: {
     reasoningUnfinished: "Reasoning didn't finish before the reply ended (stopped or out of tokens). Click 💭 to read it.",
+    holdToReuse: "Click and hold any of your messages to copy it back into the input.",
   },
+  systemMonitor: { noRssNote: "The app's memory reading isn't available right now." },
   aboutScreen: {
     airGappedBody:
       "BOAR is an offline-first AI system exploring adaptive model routing, local retrieval, and resource-aware inference. It performs local LLM inference via llama.cpp and local hybrid retrieval (SQLite FTS5 + local embeddings) with zero cloud dependencies.",
@@ -78,7 +80,9 @@ const PT = {
   },
   chatScreen: {
     reasoningUnfinished: "O raciocínio não terminou antes do fim da resposta (interrompido ou sem tokens). Clique em 💭 para ler.",
+    holdToReuse: "Clique e segure qualquer mensagem sua para copiá-la de volta para o campo de texto.",
   },
+  systemMonitor: { noRssNote: "A leitura de memória do app não está disponível agora." },
   aboutScreen: {
     airGappedBody:
       "O BOAR é um sistema de IA offline-first que explora roteamento adaptativo de modelos, recuperação local e inferência sensível a recursos. Ele realiza inferência local de LLM via llama.cpp e busca híbrida local (SQLite FTS5 + embeddings locais) sem nenhuma dependência de nuvem.",

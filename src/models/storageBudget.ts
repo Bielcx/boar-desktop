@@ -50,7 +50,7 @@ export function checkStorageForDownload(input: StorageCheckInput): StorageCheck 
       reason: "disk",
       projectedBytes,
       message:
-        `Not enough free space on this phone: the download needs ${gb(stillNeeded)} and only ` +
+        `Not enough free space on this computer: the download needs ${gb(stillNeeded)} and only ` +
         `${gb(input.freeDiskBytes)} is free. Free up space or remove a model first.`,
     };
   }
