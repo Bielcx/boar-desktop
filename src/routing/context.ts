@@ -639,8 +639,8 @@ export const MIN_TERMS_FOR_COVERAGE = 3;
 /** Opens a knowledge answer that cites none of its sources (Boar, gate ea5978c): the reader must not take it as the library's. */
 export function uncitedPreface(pt: boolean): string {
   return pt
-    ? "Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela."
-    : "This answer is not from an offline source on this phone; check it before relying on it.";
+    ? "Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela."
+    : "This answer is not from an offline source on this computer; check it before relying on it.";
 }
 
 export const NO_SOURCE_INSTRUCTION =
