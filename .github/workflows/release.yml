@@ -1,7 +1,7 @@
 name: Release
 
-# Push a tag like v0.2.0 (it must match desktop/package.json's version): builds the Windows installer and
-# opens a draft GitHub release with it. Review the draft, then publish it by hand.
+# Push a tag like v0.2.0 (it must match desktop/package.json's version): builds the Windows installer, opens a draft
+# GitHub release with it, then adds the Linux AppImage and .deb to the same draft. Review it, then publish it by hand.
 on:
   push:
     tags: ["v*"]
@@ -63,6 +63,57 @@ jobs:
         # "latest", and releases/latest/download/BOAR-Setup.exe (the website's link) would stop resolving.
         run: |
           beta='> [!WARNING]
-          > **Beta.** BOAR for Windows is early software, made for builders who want to try it and help shape it. Expect rough edges, and keep anything important backed up. Found a bug? [Open an issue](https://github.com/'"$GH_REPO"'/issues). A security problem? See [SECURITY.md](https://github.com/'"$GH_REPO"'/blob/main/SECURITY.md).'
+          > **Beta.** BOAR desktop (Windows and Linux) is early software, made for builders who want to try it and help shape it. Expect rough edges, and keep anything important backed up. Found a bug? [Open an issue](https://github.com/'"$GH_REPO"'/issues). A security problem? See [SECURITY.md](https://github.com/'"$GH_REPO"'/blob/main/SECURITY.md).'
           gh release create "$GITHUB_REF_NAME" --draft --generate-notes --notes "$beta" --title "BOAR $GITHUB_REF_NAME (beta)" \
             BOAR-Setup-*.exe BOAR-Setup.exe SHA256SUMS.txt
+
+  linux:
+    # After the Windows job: it adds its files to the draft that job opened, and its checksums to SHA256SUMS.txt.
+    needs: windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # the release
+      id-token: write # the provenance attestation (Sigstore)
+      attestations: write
+      artifact-metadata: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - name: Tag matches the app version
+        run: |
+          v=$(node -p "require('./desktop/package.json').version")
+          [ "$GITHUB_REF_NAME" = "v$v" ] || { echo "tag $GITHUB_REF_NAME, desktop/package.json says $v"; exit 1; }
+      - run: npm ci --ignore-scripts
+      - run: npm ci
+        working-directory: desktop
+      # electron-builder builds for the system it runs on: package.json build.linux (AppImage and .deb, x64).
+      - run: npm run dist
+        working-directory: desktop
+      # BOAR.AppImage and BOAR.deb too: links that never change, for the website (releases/latest/download/...).
+      - name: Copies
+        working-directory: desktop/release
+        run: |
+          cp BOAR-*.AppImage BOAR.AppImage
+          cp BOAR-*.deb BOAR.deb
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: |
+            desktop/release/BOAR*.AppImage
+            desktop/release/BOAR*.deb
+      - name: Add to the draft release
+        working-directory: desktop/release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release download "$GITHUB_REF_NAME" --pattern SHA256SUMS.txt
+          sha256sum BOAR*.AppImage BOAR*.deb >> SHA256SUMS.txt
+          gh release upload "$GITHUB_REF_NAME" --clobber BOAR*.AppImage BOAR*.deb SHA256SUMS.txt

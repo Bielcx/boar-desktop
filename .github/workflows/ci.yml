@@ -25,8 +25,12 @@ jobs:
       - run: npm test
 
   desktop:
-    # desktop/ pins Windows x64 native packages (node-llama-cpp, whisper), so it runs on Windows.
-    runs-on: windows-latest
+    # Both systems the app ships for: npm installs each one's native packages (node-llama-cpp, whisper).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: desktop

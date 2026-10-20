@@ -1,6 +1,6 @@
 # Releasing
 
-Releases are built by GitHub Actions (`.github/workflows/release.yml`) on Windows, from a tag.
+Releases are built by GitHub Actions (`.github/workflows/release.yml`) on Windows and Linux, from a tag.
 
 1. Bump `version` in `desktop/package.json` (e.g. `0.2.0`) and commit it on `main`.
 2. Tag that commit with the same version and push the tag:
@@ -12,15 +12,16 @@ Releases are built by GitHub Actions (`.github/workflows/release.yml`) on Window
 
 3. The workflow checks the tag matches `desktop/package.json`, runs `npm run dist` and opens a **draft** release
    with `BOAR-Setup-0.2.0.exe`, the same file as `BOAR-Setup.exe`, `SHA256SUMS.txt`, and notes generated from the
-   commits since the last release.
+   commits since the last release. A Linux job then adds `BOAR-0.2.0-x86_64.AppImage` and `BOAR-0.2.0-amd64.deb`
+   (and `BOAR.AppImage` / `BOAR.deb` copies) to the same draft, and their checksums to `SHA256SUMS.txt`.
 4. Open the draft on GitHub, edit the notes, try the installer, and press **Publish**.
 
 To build the same installer locally: `cd desktop && npm run dist` (see `desktop/docs/05-pacote.md`).
 
 ## Download link for the website
 
-`https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe` always serves the newest published
-release. Drafts and pre-releases don't count as "latest", so the link moves only when you press Publish.
+`https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe` (and `.../BOAR.AppImage`,
+`.../BOAR.deb` for Linux) always serves the newest published release. Drafts and pre-releases don't count as "latest", so the link moves only when you press Publish.
 
 ## Notes
 
