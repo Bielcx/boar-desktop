@@ -1000,7 +1000,7 @@ export function createAnswerer(deps: AnswerDeps) {
       if (fromMemory && genLlm && !req.answerAnyway && isPhraseQuestion(req.query)) {
         reasonCodes.push("grounding:phrase-no-source-declined");
         markVisible();
-        const message = pt ? "Não encontrei isso no acervo deste celular." : "I didn't find this in this phone's library.";
+        const message = pt ? "Não encontrei isso no acervo deste computador." : "I didn't find this in this computer's library.";
         emit({ type: "warning", answerId, code: "weak_sources", declined: true, message });
         finalText = message;
         return finish(genTier, "success", message, [], receipt({ retrievalMs }));
@@ -1009,7 +1009,7 @@ export function createAnswerer(deps: AnswerDeps) {
         // Product decision (Iris/Boar): the compact model doesn't answer from memory unless asked to.
         reasonCodes.push("grounding:declined-compact");
         markVisible();
-        const message = pt ? "Não encontrei isso no acervo deste celular." : "I didn't find this in this phone's library.";
+        const message = pt ? "Não encontrei isso no acervo deste computador." : "I didn't find this in this computer's library.";
         emit({ type: "warning", answerId, code: "weak_sources", declined: true, message });
         // The decline is the answer's text too: a screen never shows an empty answer (Boar, gate 20e8c65).
         finalText = message;
@@ -1037,7 +1037,7 @@ export function createAnswerer(deps: AnswerDeps) {
         return finish(genTier, "error", "", sources, receipt({ retrievalMs }), {
           code: "no_model",
           message: lowRamBlocked
-            ? "The installed models are too large for this phone's memory. Install the Compact model, or confirm one in Models to run it anyway."
+            ? "The installed models are too large for this computer's memory. Install the Compact model, or confirm one in Models to run it anyway."
             : "No language model is installed.",
         });
       }
@@ -1238,7 +1238,7 @@ export function createAnswerer(deps: AnswerDeps) {
       // the decline, both models, unless asked to answer anyway.
       if (!health && gen.mode !== "multipass" && !req.answerAnyway && wrongScriptSentences(req.query, text).length) {
         reasonCodes.push("grounding:wrong-script-declined");
-        const message = pt ? "Não encontrei isso no acervo deste celular." : "I didn't find this in this phone's library.";
+        const message = pt ? "Não encontrei isso no acervo deste computador." : "I didn't find this in this computer's library.";
         emit({ type: "warning", answerId, code: "weak_sources", declined: true, message });
         finalText = message;
         return finish(genTier, "success", message, [], baseReceipt);
@@ -1251,7 +1251,7 @@ export function createAnswerer(deps: AnswerDeps) {
           reasonCodes.push("grounding:false-claim-declined-compact");
           const message = sources.length
             ? pt ? "Os trechos encontrados não sustentam esta resposta." : "The passages found don't support this answer."
-            : pt ? "Não encontrei isso no acervo deste celular." : "I didn't find this in this phone's library.";
+            : pt ? "Não encontrei isso no acervo deste computador." : "I didn't find this in this computer's library.";
           emit({ type: "warning", answerId, code: "weak_sources", declined: true, message });
           finalText = message;
           return finish(genTier, "success", message, [], baseReceipt);
@@ -1314,7 +1314,7 @@ export function createAnswerer(deps: AnswerDeps) {
         if (onTopicSources > 0) reasonCodes.push("grounding:uncited-on-topic");
         else if (sources.length && isCompactModel(genLlm) && !req.answerAnyway) {
           reasonCodes.push("grounding:uncited-declined-compact");
-          const message = pt ? "Não encontrei isso no acervo deste celular." : "I didn't find this in this phone's library.";
+          const message = pt ? "Não encontrei isso no acervo deste computador." : "I didn't find this in this computer's library.";
           emit({ type: "warning", answerId, code: "weak_sources", declined: true, message });
           finalText = message;
           return finish(genTier, "success", message, [], baseReceipt);

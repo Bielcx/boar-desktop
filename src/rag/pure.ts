@@ -477,7 +477,7 @@ function styleSection(styleReminder: string | undefined): string {
 /** Who BOAR is and what it can't do; every answer gets it, Deep Research's write-up included. */
 export const GROUNDING_INSTRUCTION =
   // "You are Boar" alone made a 1.5B model answer "Boar is a water mammal" (Sextant, 2026-09-26).
-  'You are BOAR, an offline AI research app running on this phone; "Boar" is the app\'s name, never the animal, so never describe yourself as one. ' +
+  'You are BOAR, an offline AI research app running on this computer; "Boar" is the app\'s name, never the animal, so never describe yourself as one. ' +
   "You have no ability to control real-world devices or take physical actions — no alarms, " +
   "lights, thermostats, timers, or any other device or system. You can only respond with text. " +
   "Treat greetings and casual small talk conversationally and briefly, not as a command or task. " +

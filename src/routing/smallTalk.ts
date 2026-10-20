@@ -61,8 +61,8 @@ const REPLY: Record<Kind, { en: string; pt: string }> = {
 };
 
 const ABOUT = {
-  en: "I'm BOAR, a research assistant that runs entirely on this phone. I answer from the library on it (Wikipedia and the packs you installed) and show the sources behind each answer. Nothing you ask leaves the phone.",
-  pt: "Sou o BOAR, um assistente de pesquisa que roda inteiro neste celular. Respondo a partir da biblioteca dele (a Wikipédia e os pacotes que você instalou) e mostro as fontes de cada resposta. Nada do que você pergunta sai do celular.",
+  en: "I'm BOAR, a research assistant that runs entirely on this computer. I answer from the library on it (Wikipedia and the packs you installed) and show the sources behind each answer. Nothing you ask leaves the computer.",
+  pt: "Sou o BOAR, um assistente de pesquisa que roda inteiro neste computador. Respondo a partir da biblioteca dele (a Wikipédia e os pacotes que você instalou) e mostro as fontes de cada resposta. Nada do que você pergunta sai do computador.",
 };
 
 export interface SmallTalkReply {
@@ -79,11 +79,11 @@ export function smallTalkReply(message: string, pt: boolean, now: Date = new Dat
   if (ABOUT_RE.test(n)) return { kind: "about", text: ABOUT[lang] };
   if (TIME_RE.test(n)) {
     const t = now.toLocaleTimeString(lang === "pt" ? "pt-BR" : "en-US", { hour: "2-digit", minute: "2-digit" });
-    return { kind: "time", text: lang === "pt" ? `São ${t}, pelo relógio deste celular.` : `It's ${t} by this phone's clock.` };
+    return { kind: "time", text: lang === "pt" ? `São ${t}, pelo relógio deste computador.` : `It's ${t} by this computer's clock.` };
   }
   if (DATE_RE.test(n)) {
     const d = now.toLocaleDateString(lang === "pt" ? "pt-BR" : "en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
-    return { kind: "date", text: lang === "pt" ? `Hoje é ${d}, pelo relógio deste celular.` : `Today is ${d}, by this phone's clock.` };
+    return { kind: "date", text: lang === "pt" ? `Hoje é ${d}, pelo relógio deste computador.` : `Today is ${d}, by this computer's clock.` };
   }
   const k = kinds(message);
   if (!k) return null;

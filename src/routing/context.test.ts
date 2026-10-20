@@ -855,7 +855,7 @@ describe("stripModelDisclaimer (gate cd1478a: the notice twice)", () => {
       ["Esta resposta não está em um banco de dados offline. Em Portugal, não é estritamente esperado dar gorjeta.", true, "Em Portugal, não é estritamente esperado dar gorjeta."],
       ["Essa resposta não está em uma fonte offline. Você pode ir de ônibus do aeroporto.", true, "Você pode ir de ônibus do aeroporto."],
       ["Esta resposta não vem de uma fonte offline. As estações do ano existem devido à inclinação do eixo.", true, "As estações do ano existem devido à inclinação do eixo."],
-      ["Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nEsta resposta não está em um banco de dados offline. O ABS detecta a rotação das rodas.", true, "O ABS detecta a rotação das rodas."],
+      ["Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nEsta resposta não está em um banco de dados offline. O ABS detecta a rotação das rodas.", true, "O ABS detecta a rotação das rodas."],
       ["I don't have a source for this. TCP is reliable; UDP is faster.", false, "TCP is reliable; UDP is faster."],
     ];
     for (const [input, pt, out] of cases) expect(stripModelDisclaimer(input, pt), input).toBe(out);
