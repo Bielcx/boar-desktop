@@ -392,7 +392,7 @@ export function UsageStatsContent() {
               highlight={colors.text.heading}
             />
             <TelemetryRow label="Context Window (nCtx)" value={`${modelInfo.nCtx} tokens`} />
-            <TelemetryRow label="Compute Threads" value={`${modelInfo.nThreads} threads`} />
+            <TelemetryRow label="Compute Threads" value={modelInfo.nThreads ? `${modelInfo.nThreads} threads` : "Auto (all cores)"} />
             {modelCatalogEntry && (
               <TelemetryRow label="Open Weights License" value={modelCatalogEntry.license} />
             )}
