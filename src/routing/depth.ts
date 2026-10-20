@@ -224,12 +224,13 @@ export function planAnswer(i: DepthInput): AnswerPlan {
   if (complete) reasonCodes.push(i.requestedTier === "deep" ? "depth:deep-requested" : "depth:always-complete");
 
   // Instant: only as the first layer of an automatic answer, and only when
-  // there are sources to quote. It may stand as the whole answer only for a
-  // lookup when the user did not ask for complete answers.
+  // there are sources to quote. On a PC it never stands as the whole answer:
+  // the model's answer comes about a second later (Qwen3 4B on a GTX 1650), and
+  // with a Wikipedia pack the best sentence was wrong for "What is the capital of
+  // Australia?" ("Capital gains tax is collected…", bench --full --wiki, Oct 20).
+  // The phones' "may-finish" saved a slow model the whole answer.
   let instant: InstantMode = "off";
-  if (i.requestedTier === "auto" && i.quickFirst && !retrievalIrrelevant) {
-    instant = !complete && i.taskType === "lookup" ? "may-finish" : "preview";
-  }
+  if (i.requestedTier === "auto" && i.quickFirst && !retrievalIrrelevant) instant = "preview";
   reasonCodes.push(`instant:${instant}`);
 
   let generation: GenerationPlan | null = null;

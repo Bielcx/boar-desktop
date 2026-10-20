@@ -159,13 +159,12 @@ async function collect(query: string, tier?: "auto" | "fast" | "deep") {
 const types = (events: AnswerEvent[]) => events.map((e) => (e.type === "stage" ? `stage:${e.stage}` : e.type));
 
 describe("answer(): instant tier", () => {
-  it("answers a confident lookup from the source with no model load", async () => {
+  it("previews a confident lookup from the source, then the model answers (on a PC it never stands alone)", async () => {
     const { events, result } = await collect("What is the capital of Australia?");
-    expect(types(events)).toEqual(["stage:retrieving", "sources", "instant", "done"]);
-    expect(result.tier).toBe("instant");
-    expect(result.receipt.modelId).toBe("extractive");
-    expect(result.text).toMatch(/^Canberra is the capital city of Australia\./);
-    expect(f.loads).toHaveLength(0);
+    expect(types(events).slice(0, 3)).toEqual(["stage:retrieving", "sources", "instant"]);
+    expect(result.tier).toBe("fast");
+    expect(result.receipt.reasonCodes).not.toContain("instant:final");
+    expect(f.generations).toHaveLength(1);
     const instant = events.find((e) => e.type === "instant")!;
     // sourceIndex points into the emitted (compressed) sources.
     const sources = (events.find((e) => e.type === "sources") as any).sources as RetrievedChunk[];
@@ -190,7 +189,6 @@ describe("answer(): instant tier", () => {
     const { events, result } = await collect("What is the capital of Australia and where is it?");
     expect(types(events)).toContain("instant");
     expect(result.tier).toBe("fast");
-    expect(result.receipt.reasonCodes).toContain("instant:not-final-compound");
     expect(result.receipt.reasonCodes).not.toContain("instant:final");
     expect(f.generations).toHaveLength(1);
   });
@@ -604,7 +602,7 @@ describe("answer(): CR-1 low-RAM phone (3.8 GB)", () => {
     expect(f.loads).toEqual([]);
     expect(result.outcome).toBe("error");
     expect(result.receipt).toBeDefined();
-    expect((await collect("Why was Canberra chosen?")).events.at(-1)).toMatchObject({ type: "done", error: { code: "no_model", message: expect.stringMatching(/too large for this phone's memory/) } });
+    expect((await collect("Why was Canberra chosen?")).events.at(-1)).toMatchObject({ type: "done", error: { code: "no_model", message: expect.stringMatching(/too large for this computer's memory/) } });
   });
 });
 
@@ -686,7 +684,7 @@ describe("answer(): topic guard for every snippet (Prism RT-1)", () => {
     f.deps.engine.generate = async () => "As estações existem por causa da inclinação do eixo.";
     const { events } = await collect("Por que existem as estacoes do ano?");
     expect(events.find((e) => e.type === "sources")).toBeUndefined();
-    expect((events.find((e) => e.type === "done") as any).finalText).toBe("Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nAs estações existem por causa da inclinação do eixo.");
+    expect((events.find((e) => e.type === "done") as any).finalText).toBe("Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nAs estações existem por causa da inclinação do eixo.");
   });
 
   it("gate ea5978c: the compact model with no on-topic source declines; answerAnyway keeps the answer with the line", async () => {
@@ -759,7 +757,7 @@ describe("answer(): topic guard for every snippet (Prism RT-1)", () => {
     f.retrieved = [];
     f.deps.engine.generate = async () => "It was a compromise between Sydney and Melbourne.";
     const first = await collect("Why was Canberra chosen as the capital of Australia?");
-    expect((first.events.find((e) => e.type === "done") as any).finalText).toMatch(/^This answer is not from an offline source on this phone/);
+    expect((first.events.find((e) => e.type === "done") as any).finalText).toMatch(/^This answer is not from an offline source on this computer/);
     expect(first.events.filter((e) => e.type === "warning")).toHaveLength(1);
     f = makeFake();
     f.installed = [lfm];
@@ -768,7 +766,7 @@ describe("answer(): topic guard for every snippet (Prism RT-1)", () => {
     f.deps.engine.generate = async () => "This answer is not from an offline source. It was a compromise.";
     const second = await collect("Why was Canberra chosen as the capital of Australia?");
     // The app's line replaces the model's own (gate cd1478a): one notice, never two, never none.
-    expect((second.events.find((e) => e.type === "done") as any).finalText).toBe("This answer is not from an offline source on this phone; check it before relying on it.\n\nIt was a compromise.");
+    expect((second.events.find((e) => e.type === "done") as any).finalText).toBe("This answer is not from an offline source on this computer; check it before relying on it.\n\nIt was a compromise.");
   });
 
   it("an answer that cites its source gets no line", async () => {
@@ -794,10 +792,10 @@ describe("answer(): topic guard for every snippet (Prism RT-1)", () => {
     f.retrieved = [WALIPINI];
     const { events, result } = await collect("Why do we have seasons on Earth?");
     expect(f.generations).toHaveLength(0);
-    expect(events.find((e) => e.type === "warning")).toMatchObject({ code: "weak_sources", declined: true, message: "I didn't find this in this phone's library." });
-    expect(events.at(-1)).toMatchObject({ type: "done", outcome: "success", finalText: "I didn't find this in this phone's library." });
+    expect(events.find((e) => e.type === "warning")).toMatchObject({ code: "weak_sources", declined: true, message: "I didn't find this in this computer's library." });
+    expect(events.at(-1)).toMatchObject({ type: "done", outcome: "success", finalText: "I didn't find this in this computer's library." });
     // The decline is the answer's text: a screen never shows an empty answer (gate 20e8c65).
-    expect(result.text).toBe("I didn't find this in this phone's library.");
+    expect(result.text).toBe("I didn't find this in this computer's library.");
     expect(result.receipt.reasonCodes).toContain("grounding:declined-compact");
 
     f = makeFake();
@@ -1072,15 +1070,13 @@ describe("answer(): PT questions naming identifiers (ea21e82 v2-pt)", () => {
 });
 
 describe("answer(): the instant snippet says when the source is in another language (Quill, Sextant q8)", () => {
-  it("PT question, English source: 'Da fonte offline (em inglês):' in the snippet and the final text; EN question: none", async () => {
+  it("PT question, English source: 'Da fonte offline (em inglês):' in the snippet; EN question: none", async () => {
     const MONSOON = chunk("m", "Monsoon", "A monsoon is traditionally a seasonal reversing wind accompanied by corresponding changes in precipitation.");
     f.retrieved = [MONSOON];
     f.deps.englishNames = () => ["Monsoon"];
     const pt = await collect("O que é uma monção?");
     const inst = pt.events.find((e) => e.type === "instant") as any;
     expect(inst.snippet.text).toMatch(/^Da fonte offline \(em inglês\):\nA monsoon is/);
-    expect(pt.result.tier).toBe("instant");
-    expect(pt.result.text).toMatch(/^Da fonte offline \(em inglês\):/);
     f = makeFake();
     f.retrieved = [MONSOON];
     const en = await collect("What is a monsoon?");
@@ -1313,7 +1309,7 @@ describe("answer(): trv-009 PT, a yes/no question with no source on topic (gate 
     const { events, result } = await collect("É esperado dar gorjeta em restaurantes em Portugal?");
     expect(f.generations).toHaveLength(0);
     expect(events.find((e) => e.type === "warning")).toMatchObject({ code: "weak_sources", declined: true });
-    expect(result.text).toBe("Não encontrei isso no acervo deste celular.");
+    expect(result.text).toBe("Não encontrei isso no acervo deste computador.");
     expect(result.receipt.reasonCodes).toContain("task:lookup");
   });
 });
@@ -1344,7 +1340,7 @@ describe("answer(): trv-009 PT, exact question and gate sources (bc7db6d)", () =
     expect(events.find((e) => e.type === "sources")).toBeUndefined();
     expect(f.generations).toHaveLength(0);
     expect(events.find((e) => e.type === "warning")).toMatchObject({ code: "weak_sources", declined: true });
-    expect(result.text).toBe("Não encontrei isso no acervo deste celular.");
+    expect(result.text).toBe("Não encontrei isso no acervo deste computador.");
   });
 });
 
@@ -1423,7 +1419,7 @@ describe("answer(): one 'not from an offline source' notice (gate cd1478a, dup-d
     const seen: any[] = [];
     f.deps.engine.generate = async (o) => (seen.push(o), "Esta resposta não está em um banco de dados offline. Em Portugal, não é estritamente esperado dar gorjeta.");
     const { result } = await collect("É esperado dar gorjeta em restaurantes em Portugal?");
-    expect(result.text).toBe("Esta resposta não vem de uma fonte offline deste celular; confira antes de confiar nela.\n\nEm Portugal, não é estritamente esperado dar gorjeta.");
+    expect(result.text).toBe("Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nEm Portugal, não é estritamente esperado dar gorjeta.");
     expect(result.text.match(/offline/g)).toHaveLength(1);
     expect(JSON.stringify(seen[0].messages)).not.toMatch(/Begin by saying/);
   });
@@ -1433,7 +1429,7 @@ describe("answer(): one 'not from an offline source' notice (gate cd1478a, dup-d
     f.retrieved = [];
     f.deps.engine.generate = async () => "This answer is not from an offline source. Brazil uses Type C and N plugs.";
     const { result } = await collect("Which plug type does Brazil use?");
-    expect(result.text).toBe("This answer is not from an offline source on this phone; check it before relying on it.\n\nBrazil uses Type C and N plugs.");
+    expect(result.text).toBe("This answer is not from an offline source on this computer; check it before relying on it.\n\nBrazil uses Type C and N plugs.");
   });
 });
 
@@ -1447,7 +1443,7 @@ describe("answer(): trv-007-pt, a Thai word in Khmer script (gate 39a2508)", () 
       f.retrieved = [];
       f.deps.engine.generate = async () => khmer;
       const { result } = await collect(q);
-      expect(result.text, String(big)).toBe("Não encontrei isso no acervo deste celular.");
+      expect(result.text, String(big)).toBe("Não encontrei isso no acervo deste computador.");
       // No source: a phrase question is declined before generation (91b17a2); with a source, the script check.
       expect(result.receipt.reasonCodes.some((c) => /grounding:(phrase-no-source|wrong-script)-declined/.test(c)), String(big)).toBe(true);
     }
@@ -1511,14 +1507,6 @@ describe("answer(): today's date (Prism TD-1)", () => {
     f.generations.length = 0;
     await collect("Why was Canberra chosen as the capital of Australia?");
     expect(f.generations[0].messages!.at(-1)!.content).not.toContain("Today is");
-  });
-});
-
-describe("answer(): the instant answer cites its source (Quill, CT-2)", () => {
-  it("done.cited has the snippet's source although the text has no [n]", async () => {
-    const { events, result } = await collect("What is the capital of Australia?");
-    expect(result.tier).toBe("instant");
-    expect((events.find((e) => e.type === "done") as any).cited).toEqual([1]);
   });
 });
 
@@ -1740,12 +1728,6 @@ describe("answer(): execution telemetry (regression since 4e4f49d: nothing recor
     await collect("What is the capital of Australia and where is it?");
     await collect("What is the capital of Australia and where is it?");
     expect(f.records.map((r) => r.modelResidency)).toEqual(["cold", "resident"]);
-  });
-
-  it("records nothing for an instant excerpt answered without a model", async () => {
-    const { result } = await collect("What is the capital of Australia?");
-    expect(result.tier).toBe("instant");
-    expect(f.records).toHaveLength(0);
   });
 
   it("records nothing when the model never generated (load failed)", async () => {
