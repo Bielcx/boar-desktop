@@ -49,6 +49,22 @@ vi.mock("expo-document-picker", () => import("../src/shims/expo-document-picker"
 vi.mock("expo-pdf-text-extract", () => import("../src/shims/expo-pdf-text-extract"));
 vi.mock("bundled-assets", () => ({ excludeFromBackup: async () => {} }));
 vi.mock("react-native", () => ({ Platform: { OS: "web", select: (o: any) => o.web ?? o.default } }));
+// --k / --context-tokens: the normal (fast) answer's sources and their token budget, instead of the phone-tuned
+// quickBudget (src/routing/depth.ts: 3-4 sources, 450-700 tokens). Applied to the plan answer() runs.
+vi.mock("../../src/routing/depth", async (importOriginal) => {
+  const m = await importOriginal<typeof import("../../src/routing/depth")>();
+  const n = (v: string | undefined) => (v && v.trim() !== "" && Number.isFinite(Number(v)) ? Number(v) : undefined);
+  const k = n(process.env.BOAR_BENCH_K);
+  const tokens = n(process.env.BOAR_BENCH_CONTEXT_TOKENS);
+  return {
+    ...m,
+    planAnswer: (i: Parameters<typeof m.planAnswer>[0]) => {
+      const p = m.planAnswer(i);
+      if (p.generation?.tier !== "fast") return p;
+      return { ...p, generation: { ...p.generation, ...(k ? { retrieveK: k } : {}), ...(tokens ? { contextTokens: tokens } : {}) } };
+    },
+  };
+});
 // llama.rn = the shim, with the bench's knobs applied to every LLM context and each completion's timings recorded.
 // The seed makes sampling repeatable (the app sends none); temperature stays the app's.
 vi.mock("llama.rn", async () => {
@@ -193,6 +209,14 @@ it("benchmark", async () => {
     const src = path.join(MODELS_DIR, path.basename(m.filename));
     if (!fs.existsSync(src)) throw new Error(`missing ${src}`);
     fs.linkSync(src, path.join(dataDir, "documents", m.filename));
+  }
+  // --wiki: one English Wikipedia shard installed next to the bundled corpus (as bench/docs.run.ts does), so retrieval
+  // finds what a user with a pack gets: more sources, and longer ones, for the context budget to cut.
+  const wikiShard = path.join(MODELS_DIR, "corpus", "boar-wiki-en-00.sqlite");
+  if (env.BOAR_BENCH_WIKI === "1") {
+    if (!fs.existsSync(wikiShard)) throw new Error(`--wiki: missing ${wikiShard}`);
+    fs.mkdirSync(path.join(dataDir, "documents", "corpus"), { recursive: true });
+    fs.linkSync(wikiShard, path.join(dataDir, "documents", "corpus", path.basename(wikiShard)));
   }
 
   // Peak RAM (this process holds the models: RSS includes mmap'd weights) and VRAM (node-llama-cpp's reading).
@@ -386,7 +410,10 @@ it("benchmark", async () => {
         commit,
         model: llm.id,
         nCtx,
-        threads: num(env.BOAR_BENCH_THREADS) ?? "app default (4)",
+        threads: num(env.BOAR_BENCH_THREADS) ?? "app default (auto)",
+        retrieveK: num(env.BOAR_BENCH_K) ?? "app default",
+        contextTokens: num(env.BOAR_BENCH_CONTEXT_TOKENS) ?? "app default",
+        wikiPack: env.BOAR_BENCH_WIKI === "1" ? path.basename(wikiShard) : null,
         gpuLayers: num(env.BOAR_GPU_LAYERS) ?? "auto",
         seed: num(env.BOAR_BENCH_SEED) ?? 42,
         backend: state.backend,
