@@ -43,6 +43,7 @@ import {
   getMaxTokensChoice,
   autoMaxTokens,
   fitToContext,
+  DEFAULT_MAX_TOKENS,
   getMemorySettings,
   MemorySettings as MemorySettingsType,
   DEFAULT_MEMORY_SETTINGS,
@@ -57,7 +58,7 @@ import {
 import { ProfilesScreen } from "./ProfilesScreen";
 import { aboutConversation, runDeepResearch, ResearchProgress } from "../services/orchestrator";
 import { runAdaptiveChat } from "../services/adaptiveChat";
-import { answerStyleFor, getPersonality, offeredStyles, PersonalityId } from "../constants/personalities";
+import { DEFAULT_PERSONALITY_ID, getPersonality, isSmallTalk, offeredStyles, PersonalityId, promptFor, shortAnswerReason, SMALL_MODEL_BYTES } from "../constants/personalities";
 import {
   repairThinkingTitles,
   createSession,
@@ -105,7 +106,7 @@ import { cleanCitations } from "../services/citations";
 import { groupSources, renumberCitations } from "../rag/sourceGroups";
 import { SourceFootnotes } from "./components/SourceFootnotes";
 import { ReceiptDetails, ReceiptToggle } from "./components/AnswerReceipt";
-import { receiptFromMeta, type Receipt } from "./components/receipt";
+import { errorFromMeta, receiptFromMeta, type ChatError, type Receipt } from "./components/receipt";
 import { recordQueryStats, trackPeakRss, startAppMemoryTracking, QueryStats } from "../services/telemetry";
 import { recordExecution } from "../services/executionTelemetry";
 import { getMemoryInfo } from "ram-monitor";
@@ -122,6 +123,8 @@ interface Message {
   interruptedByBackground?: boolean;
   feedback?: "up" | "down" | null;
   receipt?: Receipt;
+  /** Why it failed: stays under the answer after the next question and in the saved chat. */
+  error?: ChatError;
 }
 
 const VERBATIM_MESSAGE_COUNT = 6;
@@ -176,7 +179,7 @@ export function ChatScreen({
   const showSettingsRef = useRef(false);
   showSettingsRef.current = showSettings;
   const [deviceEvalRequest, setDeviceEvalRequest] = useState<EvalRequest | null>(null);
-  const [personalityId, setPersonalityIdState] = useState<PersonalityId>("succinct");
+  const [personalityId, setPersonalityIdState] = useState<PersonalityId>(DEFAULT_PERSONALITY_ID);
   const [processing, setProcessing] = useState<{ messageId: string; status: ProcessingStatus; label?: string } | null>(null);
   const [deepResearchActive, setDeepResearchActive] = useState(false);
   const [deepResearchEnabled, setDeepResearchEnabled] = useState(false);
@@ -629,7 +632,7 @@ export function ChatScreen({
     await cancelBackgroundTask();
     const records = await getSessionMessages(id);
     followBottom.current = true;
-    setMessages(records.map((r) => ({ id: r.id, role: r.role, text: r.text, feedback: r.feedback, receipt: receiptFromMeta(r.meta) ?? undefined })));
+    setMessages(records.map((r) => ({ id: r.id, role: r.role, text: r.text, feedback: r.feedback, receipt: receiptFromMeta(r.meta) ?? undefined, error: errorFromMeta(r.meta) ?? undefined })));
     setActiveSessionId(id);
     const saved = await getSessionScope(id).catch(() => null);
     setScope(saved?.collections.length ? saved.collections : null);
@@ -699,13 +702,20 @@ export function ChatScreen({
         profile ? profile.personalityId : getPersonalityId(),
         getCustomSystemPrompt(),
       ]);
-      // A length picked by hand is kept as is; Auto fits the context the model was opened with.
-      const maxTokens =
+      // A length picked by hand is kept as is; Auto fits the context the model was opened with. A thank-you or greeting:
+      // Succinct's length in any style (a model that thinks first would spend a smaller budget on reasoning).
+      const budget =
         maxTokensChoice ?? fitToContext(autoMaxTokens(activePersonalityId, deepResearchModeRef.current), llamaEngine.getModelInfo()?.nCtx);
-      const style = answerStyleFor(activePersonalityId, query);
-      const personality = getPersonality(style);
-      const systemPrompt = style === "custom" ? profile?.customPrompt?.trim() || customPrompt : personality.systemPrompt;
-      const styleReminder = style === "custom" ? undefined : personality.styleReminder;
+      const maxTokens = isSmallTalk(query) ? Math.min(budget, DEFAULT_MAX_TOKENS) : budget;
+      // Health and seed-phrase questions answer short even under Detailed, a follow-up in such a chat too (native ShortAnswer).
+      const previousQuestion = [...messagesRef.current].reverse().find((m) => m.role === "user")?.text;
+      const shortReason = shortAnswerReason(activePersonalityId, query, previousQuestion);
+      const style = shortReason ? "succinct" : activePersonalityId;
+      // A small answer model (the 1.5B) gets Detailed without D4's "Always do what the user asks" (native 70accb9d).
+      const smallModel = (activeModelRef.current?.sizeBytes ?? Number.MAX_SAFE_INTEGER) < SMALL_MODEL_BYTES;
+      const prompt = promptFor(getPersonality(style), smallModel);
+      const systemPrompt = style === "custom" ? profile?.customPrompt?.trim() || customPrompt : prompt.systemPrompt;
+      const styleReminder = style === "custom" ? undefined : prompt.styleReminder;
 
       const priorMessages = messagesRef.current.filter((m) => m.text.length > 0);
       const verbatimTurns: ConversationTurn[] = priorMessages
@@ -912,13 +922,15 @@ export function ChatScreen({
       }
 
       const wasStopped = stopRequestedRef.current;
+      // Ended without a word, not stopped: say so, with Try again, instead of an empty bubble (native f9247ea3).
+      const emptyError: ChatError | undefined = !wasStopped && assistantText.trim().length === 0 ? "errorEmpty" : undefined;
       // One source per article, best first; the answer's [n] follow (the native app's SourceGroups).
       const grouped = groupSources(chunks, (c) => c.similarity ?? c.score);
       chunks = grouped.items;
       assistantText = renumberCitations(assistantText, grouped.renumber);
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === assistantId ? { ...m, text: assistantText, citations: chunks, stopped: wasStopped } : m
+          m.id === assistantId ? { ...m, text: assistantText, citations: chunks, stopped: wasStopped, error: emptyError } : m
         )
       );
       notification(wasStopped ? NotificationFeedbackType.Warning : NotificationFeedbackType.Success);
@@ -938,7 +950,7 @@ export function ChatScreen({
       };
       recordQueryStats(finalStats);
       const receipt: Receipt | undefined = tokensGenerated > 0
-        ? { totalMs: durationMs, ttftMs: finalStats.ttftMs ?? ttftMs, tokPerSec: finalStats.tokPerSec, tokens: tokensGenerated, model: finalStats.modelId, style, ...(answerPath ? { path: answerPath } : {}) }
+        ? { totalMs: durationMs, ttftMs: finalStats.ttftMs ?? ttftMs, tokPerSec: finalStats.tokPerSec, tokens: tokensGenerated, model: finalStats.modelId, style, ...(answerPath ? { path: answerPath } : {}), ...(shortReason && shortReason !== "smalltalk" ? { styleNote: shortReason } : {}) }
         : undefined;
       if (receipt) setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, receipt } : m)));
       // Persisted (SQLite), survives reload/restart — telemetry.ts's
@@ -966,9 +978,9 @@ export function ChatScreen({
         outcome: finalStats.outcome ?? (wasStopped ? "cancelled" : "success"),
       }).catch(() => {});
 
-      if (assistantText.trim().length > 0) {
+      if (assistantText.trim().length > 0 || emptyError) {
         await persistMessage(sessionId, "assistant", assistantText, assistantId);
-        if (receipt) setMessageMeta(assistantId, JSON.stringify({ receipt })).catch(() => {});
+        if (receipt || emptyError) setMessageMeta(assistantId, JSON.stringify({ receipt, error: emptyError })).catch(() => {});
       }
 
       const settings = memorySettingsRef.current;
@@ -1015,12 +1027,12 @@ export function ChatScreen({
       // Plain, localized words in the chat, never the raw exception (the native app's a612c19f); the raw text goes to
       // the console and the execution record below.
       console.warn("[chat] answer failed:", e);
-      const noModel = /model not loaded/i.test(String(e?.message ?? e));
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === assistantId ? { ...m, text: t(noModel ? "chatScreen.errorNoModel" : "chatScreen.errorGeneric") } : m
-        )
-      );
+      const error: ChatError = /model not loaded/i.test(String(e?.message ?? e)) ? "errorNoModel" : "errorGeneric";
+      setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, text: assistantText, error } : m)));
+      // Saved with the failure, so the line is still there when the chat opens again (native fc1711a2).
+      persistMessage(sessionId, "assistant", assistantText, assistantId)
+        .then(() => setMessageMeta(assistantId, JSON.stringify({ error })))
+        .catch(() => {});
       // Minimal failure record — adaptiveTelemetry is scoped inside the
       // inner try block above, not accessible here, so this can't say
       // whether adaptive routing was involved; still worth capturing that
@@ -1053,6 +1065,13 @@ export function ChatScreen({
       sendTaskRef.current = null;
     });
   }, [send, scrollToBottom]);
+
+  // Try again under an answer that came back empty: asks its question again.
+  const retryAnswer = useCallback((answerId: string) => {
+    const i = messagesRef.current.findIndex((m) => m.id === answerId);
+    const q = messagesRef.current.slice(0, Math.max(i, 0)).reverse().find((m) => m.role === "user")?.text;
+    if (q) handleSend(q);
+  }, [handleSend]);
 
   // Wide desktop window: the drawer is a fixed sidebar and the chat a reading column (desktopLayout.tsx).
   const wide = useWideLayout();
@@ -1297,6 +1316,8 @@ export function ChatScreen({
                 : splitInlineBullets(cleanCitations(split.answer, item.citations?.length))
               : item.text;
             const reasoningShown = shownReasoning.has(item.id);
+            // A Deep Research answer keeps its mark in the history: the border and the header in the mode's color.
+            const researched = item.role === "assistant" && item.receipt?.path === "deep";
 
             return (
               <Pressable
@@ -1306,7 +1327,7 @@ export function ChatScreen({
                   styles.bubble,
                   item.role === "user"
                     ? [styles.userBubble, { backgroundColor: colors.bg.cardHover }]
-                    : [styles.assistantBubble, { backgroundColor: colors.bg.surface, borderColor: colors.border.default }],
+                    : [styles.assistantBubble, { backgroundColor: colors.bg.surface, borderColor: researched ? colors.frontier.badgeBorder : colors.border.default }, researched && { borderWidth: 1.5 }],
                 ]}
               >
                 {/* Bubble role label */}
@@ -1320,10 +1341,10 @@ export function ChatScreen({
                         styles.bubbleRoleLabel,
                         item.role === "user"
                           ? [styles.userRoleLabel, { color: colors.text.accentCyan }]
-                          : [styles.assistantRoleLabel, { color: colors.text.accentEmerald }],
+                          : [styles.assistantRoleLabel, { color: researched ? colors.frontier.text : colors.text.accentEmerald }],
                       ]}
                     >
-                      {item.role === "user" ? t("chatScreen.roleYou") : t("chatScreen.roleAssistant")}
+                      {item.role === "user" ? t("chatScreen.roleYou") : researched ? t("chatScreen.roleDeepResearch") : t("chatScreen.roleAssistant")}
                     </Text>
                   </View>
                 </View>
@@ -1370,6 +1391,24 @@ export function ChatScreen({
                 {item.timedOut && (
                   <View style={[styles.stoppedBadge, { backgroundColor: colors.amber.bgSubtle, borderColor: colors.amber.border }]}>
                     <Text style={[styles.stoppedTag, { color: colors.text.accentAmber }]}>⏱ {t("chatScreen.stageTimedOut")}</Text>
+                  </View>
+                )}
+
+                {/* BOAR answered in another style than the one picked: say so, once, under it. */}
+                {item.receipt?.styleNote && !isStreamingThis && (
+                  <Text style={[styles.styleNote, { color: colors.text.dim }]}>{t(`chatScreen.styleNote.${item.receipt.styleNote}`)}</Text>
+                )}
+
+                {item.error && !isStreamingThis && !item.stopped && (
+                  <View style={styles.errorNote}>
+                    <Text style={[styles.errorText, { color: colors.crimson[400] }]}>{t(`chatScreen.${item.error}`)}</Text>
+                    {item.error === "errorEmpty" && !generating && (
+                      <Pressable onPress={() => retryAnswer(item.id)} style={[styles.retryBtn, { borderColor: colors.border.elevated }]}>
+                        <Text style={{ color: colors.text.primary }}>{t("chatScreen.tryAgain")}</Text>
+                      </Pressable>
+                    )}
+                    {/* Holding a question already copies it back to the input (reuseMessage); say so where it helps. */}
+                    <Text style={[styles.styleNote, { color: colors.text.primary }]}>{t("chatScreen.holdToReuse")}</Text>
                   </View>
                 )}
 
@@ -1537,11 +1576,16 @@ export function ChatScreen({
             )}
             <TextInput
               ref={inputRef}
-              style={[styles.input, { backgroundColor: colors.bg.input, color: colors.text.primary, borderColor: colors.border.default }]}
+              style={[
+                styles.input,
+                { backgroundColor: colors.bg.input, color: colors.text.primary, borderColor: colors.border.default },
+                // Deep Research on: the field's border in the mode's color and its own placeholder, right where you type.
+                deepResearchEnabled && { borderColor: colors.frontier.badgeBorder, borderWidth: 1.5 },
+              ]}
               value={input}
               onChangeText={setInput}
-              placeholder={t("chatScreen.inputPlaceholder")}
-              placeholderTextColor={colors.text.dim}
+              placeholder={t(deepResearchEnabled ? "chatScreen.deepResearchPlaceholder" : "chatScreen.inputPlaceholder")}
+              placeholderTextColor={deepResearchEnabled ? colors.frontier.text : colors.text.dim}
               editable={ready && !generating}
               onSubmitEditing={() => handleSend()}
               returnKeyType="send"
@@ -1623,6 +1667,10 @@ export function ChatScreen({
 }
 
 const styles = StyleSheet.create({
+  styleNote: { fontSize: 12, marginTop: 4 },
+  errorNote: { marginTop: 4, gap: 6, alignItems: "flex-start" },
+  errorText: { fontSize: 15 },
+  retryBtn: { borderWidth: 1, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6 },
   scopeBar: { paddingHorizontal: spacing.md, paddingVertical: 6, alignItems: "flex-start" },
   scopeChip: { flexDirection: "row", alignItems: "center", gap: 8, maxWidth: "100%", borderWidth: 1, borderRadius: 999, paddingHorizontal: 12, paddingVertical: 4 },
   scopeChipText: { fontSize: 12, fontWeight: "600", flexShrink: 1 },

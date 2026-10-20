@@ -35,6 +35,8 @@
   "modelBrowser": {
     "hint": "Search Hugging Face for other GGUF models. Not vetted by BOAR — check RAM fit and licensing yourself on the model's page before downloading.",
     "searchPlaceholder": "e.g. llama 3.2 3b instruct",
+    "errorOffline": "No connection. Searching Hugging Face needs the internet; the models on this computer still work.",
+    "errorGeneric": "Hugging Face didn't answer. Try again in a moment.",
     "searchFailedTitle": "Search failed",
     "loadFilesFailedTitle": "Couldn't load files",
     "addedTitle": "Added",
@@ -74,7 +76,7 @@
     "removeModelTitle": "Remove Model Weights?",
     "removeCorpusMessage": "This deletes the local dataset and frees {{size}}. Its topics will not be searchable offline until re-downloaded.",
     "removeModelMessage": "This deletes the local weights file and frees {{size}}.",
-    "removeAssetButton": "Remove Asset",
+    "removeAssetButton": "Remove",
     "kind": {
       "llm": "LLM",
       "embedding": "EMBEDDING",
@@ -381,6 +383,12 @@
   },
   "chatScreen": {
     "errorNoModel": "No answer model is loaded. Open Settings › Models to pick one.",
+    "roleDeepResearch": "BOAR · 🔬 DEEP RESEARCH",
+    "deepResearchPlaceholder": "Deep Research question…",
+    "errorEmpty": "The model stopped without writing an answer.",
+    "tryAgain": "Try again",
+    "holdToReuse": "Press and hold any of your messages to copy it back into the input.",
+    "styleNote": {"health": "Short answer: health questions are kept brief.", "seed": "Short answer: seed-phrase questions are kept brief, for your safety."},
     "errorGeneric": "Something went wrong while answering. Try again.",
     "initializingCore": "Initializing local offline core…",
     "mountingWeights": "Mounting local GGUF weights…",
@@ -460,7 +468,7 @@
     },
     "detailed": {
       "label": "Thorough & Detailed",
-      "description": "Structured, thorough explanations with comparisons and reasoning."
+      "description": "Structured, in-depth answers on what it knows well."
     },
     "summary": {
       "label": "Executive Summary",

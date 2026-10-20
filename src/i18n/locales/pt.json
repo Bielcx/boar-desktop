@@ -35,6 +35,8 @@
   "modelBrowser": {
     "hint": "Busque outros modelos GGUF no Hugging Face. Não verificados pelo BOAR — confira o uso de RAM e a licença na página do modelo antes de baixar.",
     "searchPlaceholder": "ex.: llama 3.2 3b instruct",
+    "errorOffline": "Sem conexão. A busca no Hugging Face precisa de internet; os modelos neste computador continuam funcionando.",
+    "errorGeneric": "O Hugging Face não respondeu. Tente de novo em instantes.",
     "searchFailedTitle": "Falha na busca",
     "loadFilesFailedTitle": "Não foi possível carregar os arquivos",
     "addedTitle": "Adicionado",
@@ -74,7 +76,7 @@
     "removeModelTitle": "Remover pesos do modelo?",
     "removeCorpusMessage": "Isso exclui o conjunto de dados local e libera {{size}}. Os tópicos não estarão disponíveis offline até serem baixados novamente.",
     "removeModelMessage": "Isso exclui o arquivo de pesos local e libera {{size}}.",
-    "removeAssetButton": "Remover Recurso",
+    "removeAssetButton": "Remover",
     "kind": {
       "llm": "LLM",
       "embedding": "EMBEDDING",
@@ -381,6 +383,12 @@
   },
   "chatScreen": {
     "errorNoModel": "Nenhum modelo de resposta está carregado. Abra Configurações › Modelos para escolher um.",
+    "roleDeepResearch": "BOAR · 🔬 DEEP RESEARCH",
+    "deepResearchPlaceholder": "Pergunta para o Deep Research…",
+    "errorEmpty": "O modelo parou sem escrever uma resposta.",
+    "tryAgain": "Tentar de novo",
+    "holdToReuse": "Toque e segure qualquer mensagem sua para copiá-la de volta para o campo de texto.",
+    "styleNote": {"health": "Resposta curta: perguntas de saúde ficam breves.", "seed": "Resposta curta: perguntas sobre frase-semente ficam breves, para sua segurança."},
     "errorGeneric": "Algo deu errado ao responder. Tente de novo.",
     "initializingCore": "Inicializando núcleo offline local…",
     "mountingWeights": "Carregando pesos GGUF locais…",
@@ -460,7 +468,7 @@
     },
     "detailed": {
       "label": "Completo e Detalhado",
-      "description": "Explicações estruturadas e completas, com comparações e raciocínio."
+      "description": "Respostas estruturadas e aprofundadas sobre o que conhece bem."
     },
     "summary": {
       "label": "Resumo Executivo",

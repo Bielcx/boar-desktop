@@ -44,6 +44,12 @@ export function ModelBrowser({ onAdded, added = [], renderAdded }: Props) {
   const [filesLoading, setFilesLoading] = useState<string | null>(null);
   const [addingKey, setAddingKey] = useState<string | null>(null);
 
+  // Plain words, never the exception text (native af239efc): fetch throws a TypeError when it can't reach the host.
+  const browseError = useCallback(
+    (e: unknown) => t(e instanceof TypeError || !navigator.onLine ? "modelBrowser.errorOffline" : "modelBrowser.errorGeneric"),
+    [t]
+  );
+
   const runSearch = useCallback(async (next: { size?: HFSize; sort?: HFSort } = {}) => {
     if (!online) return;
     setSearching(true);
@@ -51,12 +57,12 @@ export function ModelBrowser({ onAdded, added = [], renderAdded }: Props) {
     try {
       setResults(await searchModels(query, next.size ?? size, next.sort ?? sort));
     } catch (e: any) {
-      Alert.alert(t("modelBrowser.searchFailedTitle"), e?.message ?? String(e));
+      Alert.alert(t("modelBrowser.searchFailedTitle"), browseError(e));
       setResults([]);
     } finally {
       setSearching(false);
     }
-  }, [online, query, size, sort, t]);
+  }, [online, query, size, sort, t, browseError]);
 
   // Opening the page browses what's trending; nothing is asked of Hugging Face before that.
   useEffect(() => {
@@ -88,14 +94,14 @@ export function ModelBrowser({ onAdded, added = [], renderAdded }: Props) {
           const files = await listGgufFiles(repoId);
           setFilesByRepo((prev) => ({ ...prev, [repoId]: files }));
         } catch (e: any) {
-          Alert.alert(t("modelBrowser.loadFilesFailedTitle"), e?.message ?? String(e));
+          Alert.alert(t("modelBrowser.loadFilesFailedTitle"), browseError(e));
           setExpandedRepo(null);
         } finally {
           setFilesLoading(null);
         }
       }
     },
-    [expandedRepo, filesByRepo, t]
+    [expandedRepo, filesByRepo, t, browseError]
   );
 
   const addFile = useCallback(
@@ -109,12 +115,12 @@ export function ModelBrowser({ onAdded, added = [], renderAdded }: Props) {
         // With the catalog card at hand, the row turns into it (Download next); else say where to find it.
         if (!renderAdded) Alert.alert(t("modelBrowser.addedTitle"), t("modelBrowser.addedMessage", { label: model.label }));
       } catch (e: any) {
-        Alert.alert(t("modelBrowser.addFailedTitle"), e?.message ?? String(e));
+        Alert.alert(t("modelBrowser.addFailedTitle"), browseError(e));
       } finally {
         setAddingKey(null);
       }
     },
-    [onAdded, renderAdded, t]
+    [onAdded, renderAdded, t, browseError]
   );
 
   return (
