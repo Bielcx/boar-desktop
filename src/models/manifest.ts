@@ -162,7 +162,7 @@ export const MODEL_CATALOG: CatalogModel[] = [
     sourceUrl:
       "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/9eadc66189c7641e1ddd226b8267a9119b2ce2d4/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
     license: "Apache-2.0",
-    description: "1.5B dense, fast (~11-18 tok/s) and light. ~1.0GB. Compact answer model for phones with little RAM.",
+    description: "1.5B dense, fast (~11-18 tok/s) and light. ~1.0GB. Compact answer model for computers with little RAM.",
     required: false,
     answerTier: "compact",
     // Real-device Phase 9 test ("whats up?" -> a long, rambling,
@@ -202,7 +202,7 @@ export const MODEL_CATALOG: CatalogModel[] = [
     sourceUrl: "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-GGUF/resolve/49c14831707011e64d70b2ebd8462ba08d608434/LFM2.5-8B-A1B-Q4_K_M.gguf",
     license: "LFM Open License v1.0",
     description:
-      "Mixture of experts: 8B total, about 1B active per token. About 13 tok/s on a 12 GB phone (Oct 18) and the best reasoning, but it thinks before answering, so give it a bigger answer budget. ~5.2GB.",
+      "Mixture of experts: 8B total, about 1B active per token, so it runs fast for its size, with the best reasoning, but it thinks before answering, so give it a bigger answer budget. ~5.2GB.",
     required: false,
   },
   {

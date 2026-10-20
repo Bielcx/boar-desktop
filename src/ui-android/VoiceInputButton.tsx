@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, Animated, Alert, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { Text } from "./components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
 import { isVoiceInputAvailable, startListening, stopListening, VoiceEvent } from "../voice/VoiceInput";
@@ -65,6 +66,7 @@ function AuraRing({ active, delay }: { active: boolean; delay: number }) {
  * pretending to listen.
  */
 export function VoiceInputButton({ disabled, onTranscript, onListeningChange }: Props) {
+  const { t } = useTranslation();
   const [available, setAvailable] = useState<boolean | null>(null);
   const [listening, setListening] = useState(false);
   const pulse = useRef(new Animated.Value(1)).current;
@@ -95,9 +97,8 @@ export function VoiceInputButton({ disabled, onTranscript, onListeningChange }: 
   const handlePress = async () => {
     if (available === false) {
       Alert.alert(
-        "Voice input unavailable",
-        "No on-device speech recognition service was found on this device " +
-          "(common on GrapheneOS / de-Googled builds). Type your question instead."
+        t("voiceSettings.title"),
+        t("voiceSettings.unavailableNote")
       );
       return;
     }

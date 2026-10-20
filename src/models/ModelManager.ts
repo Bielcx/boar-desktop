@@ -274,7 +274,7 @@ export class ModelManager {
     const kept = (await FileSystem.getInfoAsync(destPath).catch(() => null)) as { exists: boolean; size?: number } | null;
     return new DownloadError(
       { code: "paused", bytesDone: kept?.exists ? kept.size ?? 0 : 0, bytesTotal: asset.sizeBytes, stallS },
-      `Download of ${asset.label} paused (no progress for ${stallS}s) — tap Retry to resume, or check your connection.`
+      `Download of ${asset.label} paused (no progress for ${stallS}s) — click Retry to resume, or check your connection.`
     );
   }
 
@@ -318,7 +318,7 @@ export class ModelManager {
     // Not getInfoAsync: it measured a content:// file over 2 GB as 0 bytes (IMP-2GB).
     const measured = await measureFile(srcUri);
     if (measured.kind === "empty") {
-      throw new AssetIntegrityError("empty-file", "The selected file is empty (0 bytes). Copy it to the phone again.", true);
+      throw new AssetIntegrityError("empty-file", "The selected file is empty (0 bytes). Copy it again.", true);
     }
     if (measured.kind === "unreadable") {
       throw new AssetIntegrityError("unreadable-file", "The selected file could not be read.", true);

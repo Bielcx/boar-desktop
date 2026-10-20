@@ -111,7 +111,7 @@ export function pinVault(dataDir: string, device: DeviceSeal, now: () => number 
     async enable(pin: unknown): Promise<string> {
       if (!validPin(pin)) throw new Error("The PIN must be 4 to 8 digits.");
       if (read()) throw new Error("A PIN is already set.");
-      if (!device.available()) throw new Error("Windows can't protect the key on this account (safeStorage unavailable).");
+      if (!device.available()) throw new Error("The system can't protect the key on this account (safeStorage unavailable).");
       const dataKey = randomBytes(32);
       await store(pin, dataKey);
       return dataKey.toString("base64");
