@@ -7,14 +7,14 @@ import type { HandlerContext } from "./context";
 /**
  * "PinLock" (Settings > Security): the PIN that opens BOAR and the key its chats are sealed with (the native app's
  * PinLock.kt, same scheme). A random data key seals the chat text in the page (src/security/textCipher.ts); here it is
- * stored sealed twice: with a key derived from the PIN (PBKDF2-HMAC-SHA256), then with the Windows user's DPAPI key
- * (Electron safeStorage), so a copy of the files can't be opened, or brute-forced, on another computer or account.
+ * stored sealed twice: with a key derived from the PIN (PBKDF2-HMAC-SHA256), then with the system account's key
+ * (Electron safeStorage: DPAPI on Windows, the Keychain on macOS, the Secret Service keyring on Linux), so a copy of the files can't be opened, or brute-forced, on another computer or account.
  * The PIN itself is never stored. Wrong tries and the wait after them are counted here, out of the page's reach.
  * Stored in <userData>/pin.json, outside the folders the page can reach. Notes: docs/06-seguranca.md, item 10.
  */
 export const ITERATIONS = 210_000;
 
-/** The second seal: DPAPI on Windows (safeStorage); tests pass their own. */
+/** The second seal: the system's own key store (safeStorage); tests pass their own. */
 export interface DeviceSeal {
   available(): boolean;
   seal(b: Buffer): Buffer;
@@ -133,10 +133,23 @@ export function pinVault(dataDir: string, device: DeviceSeal, now: () => number 
   };
 }
 
+/**
+ * Whether safeStorage really protects the key. On Linux without a keyring (GNOME Keyring, KWallet) it falls back to
+ * "basic_text", a key hard-coded in Chromium: isEncryptionAvailable() still says yes, but anyone with the files could
+ * open them, so no PIN there.
+ */
+export function sealAvailable(
+  platform: NodeJS.Platform,
+  s: { isEncryptionAvailable(): boolean; getSelectedStorageBackend?(): string }
+): boolean {
+  if (!s.isEncryptionAvailable()) return false;
+  return platform !== "linux" || (s.getSelectedStorageBackend?.() ?? "basic_text") !== "basic_text";
+}
+
 export function register(ctx: HandlerContext): void {
   const { safeStorage } = require("electron") as typeof import("electron");
   const device: DeviceSeal = {
-    available: () => safeStorage.isEncryptionAvailable(),
+    available: () => sealAvailable(process.platform, safeStorage),
     seal: (b) => safeStorage.encryptString(b.toString("base64")),
     open: (b) => Buffer.from(safeStorage.decryptString(b), "base64"),
   };
