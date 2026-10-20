@@ -34,11 +34,11 @@ describe("answer length", () => {
     resetSettingsCache();
   });
 
-  it("is Auto on a fresh install: 512, and 1024 for the Detailed style so answers don't stop mid-sentence", async () => {
+  it("is Auto on a fresh install: 1024 for Detailed (the default) so answers don't stop mid-sentence, 512 otherwise", async () => {
     expect(await getMaxTokensChoice()).toBeUndefined();
-    expect(await getMaxTokens()).toBe(512);
-    await setPersonalityId("detailed");
     expect(await getMaxTokens()).toBe(1024);
+    await setPersonalityId("succinct");
+    expect(await getMaxTokens()).toBe(512);
   });
 
   it("is Auto 2048 with Deep Research on, in any style, and a pick still wins", async () => {

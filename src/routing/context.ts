@@ -284,6 +284,20 @@ const HEAD_INJURY = /(^|[^\p{L}])(head injur\p{L}*|hit (his|her|my|their) head|b
 // Not a trip being planned ("burning season — should I bring masks?", "earthquakes in Wellington? Should I worry?").
 export const SHOULD_INTENT = /(^|[^\p{L}])(should (i|we|you|he|she|they)(?! (worry|bring|pack|visit|go(?! to (the )?(hospital|doctor|er|a&e|clinic|emergency))|travel|book|plan|cancel|still|be worried|be concerned|avoid (going|traveling|travelling)))|devo|devemos|debo|debemos|qu[ée] hago|qu[ée] hacemos)(?![\p{L}])/iu;
 
+// Seed phrases and wallet backups (the native app's 42456919, with the Spanish and hyphenated forms of 94c830c5 and
+// f172d71d): a wrong detail loses the coins.
+const SEED_PHRASE =
+  /(?<![\p{L}\p{N}])(seed[- ]?phrases?|recovery (phrases?|words|seeds?)|mnemonic (phrases?|words|seeds?)|wallet back ?ups?|back(ing|ed)? ?up (my|your|the|a|our) (\p{L}+ )?wallets?|frases?[- ](sementes?|de recupera[çc][ãa]o)|palavras[- ](de recupera[çc][ãa]o|sementes?)|frases?[- ](semillas?|de recuperaci[óo]n)|palabras[- ](semillas?|de recuperaci[óo]n)|copias? de seguridad (de la|de mi|de tu|del) (\p{L}+ )?(cartera|billetera|monedero)s?|backup (da|de|das|de uma|da minha|da sua) (\p{L}+ )?carteiras?)(?![\p{L}\p{N}])/iu;
+// "Mnemonic", "private key" and "12/24 words" count only next to a wallet or a coin (an SSH private key is not one).
+const SEED_WORDS =
+  /(?<![\p{L}\p{N}])(mnemonic|private keys?|chaves? privadas?|claves? privadas?|(12|24|twelve|twenty[- ]four)[- ]words?|(12|24|doze|vinte e quatro) palavras)(?![\p{L}\p{N}])/iu;
+const CRYPTO_CONTEXT =
+  /(?<![\p{L}\p{N}])(wallets?|carteiras?|billeteras?|carteras?|monederos?|crypto\p{L}*|cripto\p{L}*|bitcoins?|btc|ethereum|eth|coins?|moedas?|blockchain|metamask|ledger|trezor|seed|semente|bip ?39)(?![\p{L}\p{N}])/iu;
+
+export function isSeedPhraseQuestion(query: string): boolean {
+  return SEED_PHRASE.test(query) || (SEED_WORDS.test(query) && CRYPTO_CONTEXT.test(query));
+}
+
 export function isHealthQuestion(query: string): boolean {
   return (
     (VENOMOUS.test(query) && STUNG_OR_RISK.test(query)) ||

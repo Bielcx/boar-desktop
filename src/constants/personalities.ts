@@ -1,4 +1,5 @@
-import { isHealthQuestion } from "../routing/context";
+import { isHealthQuestion, isSeedPhraseQuestion } from "../routing/context";
+import { classifyTask } from "../routing/classify";
 
 export type PersonalityId = "succinct" | "detailed" | "summary" | "custom";
 
@@ -16,7 +17,16 @@ export interface Personality {
    * its takeaway and bullets, and "detailed" answers got about 70% longer.
    */
   styleReminder?: string;
+  /**
+   * For a small answer model (under SMALL_MODEL_BYTES): Detailed without D4's "Always do what the user asks", which made
+   * the 1.5B follow first-aid asks with wrong steps in r4to's engine tests (the native app's 70accb9d, Oct 18).
+   */
+  systemPromptSmall?: string;
+  styleReminderSmall?: string;
 }
+
+/** Models smaller than this file size are "small" for promptFor (Qwen2.5 1.5B is 1.0 GB, Qwen3 4B 2.5 GB). */
+export const SMALL_MODEL_BYTES = 2_000_000_000;
 
 /**
  * Response-style presets. Local models on phone hardware default to long,
@@ -58,13 +68,25 @@ export const PERSONALITIES: Personality[] = [
     id: "detailed",
     label: "Thorough & Detailed",
     icon: "📚",
-    description: "Structured, thorough explanations with comparisons and reasoning.",
+    description: "Structured, in-depth answers on what it knows well.",
+    // r4to's D4 wording (the native app's 42456919): depth only on what it knows, no invented figures or names.
     systemPrompt:
-      "You are Boar, an analytical research partner. Provide thorough, structured " +
-      "explanations with comparisons and evidence.",
+      "You are Boar, an analytical research partner. Provide thorough, structured explanations. Explain in depth what " +
+      "you know well, up to 3–5 paragraphs. Leave out figures and names you are not sure of. State only facts you are " +
+      "sure of. Never invent names, numbers, dates, places or quotes. If you don't know, say so in one sentence. A " +
+      "shorter correct answer beats a longer one. This rule covers facts only. Always do what the user asks: write " +
+      "code, give examples, make tables, and calculate from numbers given in the question.",
     styleReminder:
-      "Be thorough: 3-5 paragraphs that cover the key points in depth, with reasons, " +
-      "comparisons and examples. Don't repeat yourself.",
+      "Be thorough: 3-5 paragraphs that cover the key points in depth. Leave out figures and names you are not sure " +
+      "of. Don't repeat yourself.",
+    systemPromptSmall:
+      "You are Boar, an analytical research partner. Provide thorough, structured explanations. Explain in depth what " +
+      "you know well, up to 3–5 paragraphs. Leave out examples, figures and names you are not sure of. State only " +
+      "facts you are sure of. Never invent names, numbers, dates, places or quotes. If you don't know, say so in one " +
+      "sentence. A shorter correct answer beats a longer one.",
+    styleReminderSmall:
+      "Be thorough: 3-5 paragraphs that cover the key points in depth. Leave out examples, figures and names you are " +
+      "not sure of. Don't repeat yourself.",
   },
   {
     id: "summary",
@@ -72,7 +94,7 @@ export const PERSONALITIES: Personality[] = [
     icon: "📋",
     description: "One top-line takeaway, then 3 key bullet points.",
     systemPrompt:
-      "You are Boar, Provide a 1-sentence top-line key takeaway followed by 3 short bullet " +
+      "You are Boar. Provide a 1-sentence top-line key takeaway followed by 3 short bullet " +
       "points summarizing the answer.",
     styleReminder:
       "Use exactly this format and nothing else:\n" +
@@ -87,7 +109,8 @@ export const PERSONALITIES: Personality[] = [
   },
 ];
 
-export const DEFAULT_PERSONALITY_ID: PersonalityId = "succinct";
+/** Detailed, as the native app (its personalities.json defaultId). */
+export const DEFAULT_PERSONALITY_ID: PersonalityId = "detailed";
 
 export const MAX_TOKENS_OPTIONS = [256, 512, 1024, 2048] as const;
 
@@ -104,11 +127,35 @@ export function getPersonality(id: PersonalityId): Personality {
   return PERSONALITIES.find((p) => p.id === id) ?? PERSONALITIES[0];
 }
 
+/** A style's system prompt and reminder; a small answer model gets the style's small-model texts where it has them. */
+export function promptFor(p: Personality, smallModel: boolean): { systemPrompt: string; styleReminder?: string } {
+  return smallModel && p.systemPromptSmall
+    ? { systemPrompt: p.systemPromptSmall, styleReminder: p.styleReminderSmall }
+    : { systemPrompt: p.systemPrompt, styleReminder: p.styleReminder };
+}
+
+/** Why a question picked under Detailed is answered in Succinct: a health or seed-phrase question, or small talk. */
+export type ShortReason = "health" | "seed" | "smalltalk";
+
+/** A thank-you or greeting ("thanks, that helps"): Succinct's length, not a Detailed essay (the native app, X6, Oct 18). */
+export const isSmallTalk = (question: string) => classifyTask(question) === "greeting";
+
+const reasonFor = (q: string): ShortReason | null => (isHealthQuestion(q) ? "health" : isSeedPhraseQuestion(q) ? "seed" : null);
+
 /**
- * The style an answer is written in. A health, first-aid or emergency question answers in Succinct even when Detailed
- * is picked: a sentence-level audit of 15 Detailed answers (r4to, Oct 17) found 20 % of claims wrong, 5 of them safety
- * errors ("a first-degree burn is painless"). A health question is not research (the native app's 711c2f0b).
+ * Why Detailed answers short (the native app's ShortAnswer): a health or first-aid question (a sentence-level audit of
+ * 15 Detailed answers, r4to, Oct 17, found 20 % of claims wrong, 5 of them safety errors), a seed-phrase question (a
+ * wrong detail loses the coins), or small talk. A follow-up in such a chat counts too ("and for how long?" after a
+ * burn question). Null: the pick stands.
  */
-export function answerStyleFor(chosen: PersonalityId, query: string): PersonalityId {
-  return chosen === "detailed" && isHealthQuestion(query) ? "succinct" : chosen;
+export function shortAnswerReason(chosen: PersonalityId, question: string, previousQuestion?: string): ShortReason | null {
+  if (chosen !== "detailed") return null;
+  // Before the follow-up check: "thanks" after a burn question is small talk, not first aid.
+  if (isSmallTalk(question)) return "smalltalk";
+  return reasonFor(question) ?? (previousQuestion ? reasonFor(previousQuestion) : null);
+}
+
+/** The style an answer is written in: Succinct when Detailed has a reason to answer short. */
+export function answerStyleFor(chosen: PersonalityId, question: string, previousQuestion?: string): PersonalityId {
+  return shortAnswerReason(chosen, question, previousQuestion) ? "succinct" : chosen;
 }

@@ -17,6 +17,12 @@ const PATTERNS: Array<{ type: TaskType; test: RegExp }> = [
   { type: "translate", test: /\btranslate\b/i },
   { type: "code", test: /```|\b(write (a |some )?code|debug this|refactor|fix this function|regex for)\b/i },
   { type: "calculate", test: /\b(calculate|compute|how much is)\b|\d+\s*[+\-*/×÷]\s*\d/i },
+  // "15 percent of 240", "15% of 240", "what is 12 times 7": no library page helps ("15 percent of 240" brought
+  // "240 (number)", Montana and Jimmy Carter as sources; the native app's f7717e2b).
+  {
+    type: "calculate",
+    test: /\d+(?:[.,]\d+)?\s*(?:%|percent\b|per cent\b|por cento\b)\s*(?:of|de)\s+\d|\b\d+(?:[.,]\d+)?\s+(?:times|plus|minus|divided by|multiplied by|vezes|mais|menos|dividido por)\s+\d/i,
+  },
   { type: "extract", test: /\b(extract|list all|pull out|find every)\b/i },
   // Explanation/reasoning questions: never a one-sentence lookup, even when
   // short and opening with "what" ("What caused the French Revolution?").
@@ -32,7 +38,7 @@ const PATTERNS: Array<{ type: TaskType; test: RegExp }> = [
 // can you compare X and Y" must NOT classify as greeting overall, but a
 // literal single phrase like "hi" must.
 const GREETING_PHRASE_RE =
-  /^(hi|hello|hey|hey there|yo|sup|wake up|good (morning|afternoon|evening|night)|how(?:'s| is| are) it going|how are you|what'?s up|thanks?( you)?|thank you|bye|goodbye|see ya|see you|ok(ay)?|cool|nice)[!.?~]*$/i;
+  /^(hi|hello|hey|hey there|yo|sup|wake up|good (morning|afternoon|evening|night)|how(?:'s| is| are) it going|how are you|what'?s up|thanks?( you)?|thank you|(thanks|thank you)( (so|very) much| a lot| again)?|many thanks|much appreciated|(i )?appreciate it|that (helps|helped)|that'?s (helpful|great|perfect)|got it|perfect|great|awesome|obrigad[oa]( pela ajuda)?|valeu|merci( beaucoup)?|gracias|danke( sch(o|ö)n)?|bye|goodbye|see ya|see you|ok(ay)?|cool|nice)[!.?~]*$/i;
 
 /**
  * A query counts as a pure greeting if it's made up ENTIRELY of greeting

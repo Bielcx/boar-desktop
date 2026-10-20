@@ -194,7 +194,8 @@ describe("classifyTask Portuguese questions (gate ea5978c)", () => {
     expect(classifyTask("O que é matéria escura?")).toBe("lookup");
     expect(classifyTask("Qual a capital da Austrália?")).toBe("lookup");
     expect(classifyTask("Qual a diferença entre fusão e fissão nuclear?")).toBe("compare");
-    expect(classifyTask("Obrigado pela ajuda")).toBe("chat");
+    // A thank-you is small talk: a short reply (the native app's f7717e2b).
+    expect(classifyTask("Obrigado pela ajuda")).toBe("greeting");
   });
 });
 
@@ -205,7 +206,8 @@ describe("classifyTask yes/no questions (Sextant trv-009)", () => {
   it("not greetings, not statements", () => {
     expect(classifyTask("Is it going well?")).toBe("lookup");
     expect(classifyTask("hi")).toBe("greeting");
-    expect(classifyTask("Obrigado pela ajuda")).toBe("chat");
+    // A thank-you is small talk: a short reply (the native app's f7717e2b).
+    expect(classifyTask("Obrigado pela ajuda")).toBe("greeting");
     // A question to the assistant, answered without the library (the "conversation" type above).
     expect(classifyTask("Can you help me")).toBe("conversation");
   });

@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable, Switch } from "react-native";
 import { colors } from "./theme/colors";
 import { Text, TextInput } from "./components/AppText";
 import { useTranslation } from "react-i18next";
-import { offeredStyles, PersonalityId, MAX_TOKENS_OPTIONS } from "../constants/personalities";
+import { DEFAULT_PERSONALITY_ID, offeredStyles, PersonalityId, MAX_TOKENS_OPTIONS } from "../constants/personalities";
 import {
   getPersonalityId,
   setPersonalityId,
@@ -26,7 +26,7 @@ import {
  */
 export function PersonalitySettings() {
   const { t } = useTranslation();
-  const [personalityId, setPersonalityIdState] = useState<PersonalityId>("succinct");
+  const [personalityId, setPersonalityIdState] = useState<PersonalityId>(DEFAULT_PERSONALITY_ID);
   const [customPrompt, setCustomPromptState] = useState("");
   const [maxTokens, setMaxTokensState] = useState<number | undefined>(undefined); // undefined: Auto
   const [deepResearch, setDeepResearchState] = useState(false);
