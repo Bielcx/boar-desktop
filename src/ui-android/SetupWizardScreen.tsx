@@ -23,7 +23,7 @@ import {
   ANSWER_MODELS,
 } from "../models/manifest";
 import { getActiveModelId, setActiveModelId } from "../models/settings";
-import { answerModelToInstall, heavyForPhone, recommendedAnswerModel } from "./setupModel";
+import { answerModelToInstall, heavyForComputer, recommendedAnswerModel } from "./setupModel";
 import { ModelManager } from "../models/ModelManager";
 import {
   startDownload,
@@ -417,7 +417,7 @@ export function SetupWizardScreen({ onReady, onSkip }: Props) {
 
           {ANSWER_MODELS.map((model) => {
             const isSelected = answerModel?.id === model.id;
-            const heavy = heavyForPhone(model, hardware.totalRamBytes);
+            const heavy = heavyForComputer(model, hardware.totalRamBytes);
             return (
               <Pressable
                 key={model.id}

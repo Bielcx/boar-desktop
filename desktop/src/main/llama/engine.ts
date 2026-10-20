@@ -131,7 +131,7 @@ export async function initContext(params: InitParams, roots: Array<string | unde
     try {
       const opts = {
         contextSize: params.n_ctx ?? 512, // llama.rn's default
-        threads: params.n_threads,
+        threads: params.n_threads || undefined, // 0 or unset: node-llama-cpp uses the CPU's math cores
         batchSize: params.n_batch,
         // Unset or "auto" -> node-llama-cpp's "auto" (on where the backend supports it); only an explicit "off" turns it off.
         flashAttention: params.flash_attn_type === "off" ? false : params.flash_attn_type === "on" ? true : ("auto" as const),

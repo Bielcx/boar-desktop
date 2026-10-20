@@ -213,7 +213,8 @@ export class LlamaEngine {
 
   private async loadNow(modelFilename: string, opts?: LoadOptions): Promise<LoadResult> {
     const nCtx = opts?.nCtx ?? defaultContextSize();
-    const nThreads = opts?.nThreads ?? 4;
+    // 0: the engine picks (node-llama-cpp: the CPU's physical cores), not the phones' fixed 4.
+    const nThreads = opts?.nThreads ?? 0;
 
     // ChatScreen re-mounts (and calls load() again) every time Settings is
     // closed, even if the user didn't touch the model — re-initializing the

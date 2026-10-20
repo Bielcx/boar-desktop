@@ -12,8 +12,8 @@ const EN = {
     step2: {
       subtitle: "It writes the answers on this computer and is downloaded once. You can change it later in Models.",
       models: {
-        default: "Qwen3 4B. Fuller explanations and comparisons, a little slower. Best with 12 GB of RAM or more.",
-        compact: "Qwen2.5 1.5B. Fast and light: answers start in a few seconds. Best with 8 GB of RAM or less.",
+        default: "Qwen3 4B. Fuller, more accurate answers, a little slower. Best with 8 GB of RAM or more.",
+        compact: "Qwen2.5 1.5B. Fast and light: answers start in a few seconds. For computers with less than 8 GB of RAM.",
       },
       onPhone: "ON THIS COMPUTER",
       heavy: "HEAVY FOR THIS COMPUTER",
@@ -44,7 +44,6 @@ const EN = {
     benchmarkBody:
       "BOAR measures every answer on your own computer: model load time, time to first token, tokens/sec, peak memory and which sources were used. Run the built-in evaluation from Execution Telemetry → 🧪 Evaluate to compare any installed model on the same questions.",
   },
-  personalities: { succinct: { description: "Fastest — 2–3 brief paragraphs or bullets, no preamble. The default." } },
   chat: { empty: { tagline: "Answers from this computer, with sources" } },
 };
 
@@ -54,8 +53,8 @@ const PT = {
     step2: {
       subtitle: "Ele escreve as respostas neste computador e é baixado uma vez. Você pode trocá-lo depois em Modelos.",
       models: {
-        default: "Qwen3 4B. Explicações e comparações mais completas, um pouco mais lento. Melhor com 12 GB de RAM ou mais.",
-        compact: "Qwen2.5 1.5B. Rápido e leve: as respostas começam em poucos segundos. Melhor com 8 GB de RAM ou menos.",
+        default: "Qwen3 4B. Respostas mais completas e corretas, um pouco mais lento. Melhor com 8 GB de RAM ou mais.",
+        compact: "Qwen2.5 1.5B. Rápido e leve: as respostas começam em poucos segundos. Para computadores com menos de 8 GB de RAM.",
       },
       onPhone: "NESTE COMPUTADOR",
       heavy: "PESADO PARA ESTE COMPUTADOR",
@@ -86,7 +85,6 @@ const PT = {
     benchmarkBody:
       "O BOAR mede cada resposta no seu próprio computador: tempo de carregamento do modelo, tempo até o primeiro token, tokens/s, pico de memória e quais fontes foram usadas. Rode a avaliação embutida em Telemetria de Execução → 🧪 Avaliar para comparar qualquer modelo instalado nas mesmas perguntas.",
   },
-  personalities: { succinct: { description: "Mais rápido — 2–3 parágrafos curtos ou tópicos, sem introdução. O padrão." } },
   chat: { empty: { tagline: "Respostas deste computador, com fontes" } },
 };
 
