@@ -36,9 +36,9 @@ describe("planAnswer respects the user's model", () => {
 });
 
 describe("planAnswer toggle matrix (answerQuickFirst / answerAlwaysComplete)", () => {
-  it("on/off (default): instant may finish a lookup; other questions get a preview, the fast answer and a deep offer", () => {
+  it("on/off (default): a preview, the fast answer and a deep offer; on a PC the instant never finishes a lookup", () => {
     const lookup = planAnswer(base({ taskType: "lookup" }));
-    expect(lookup.instant).toBe("may-finish");
+    expect(lookup.instant).toBe("preview");
     expect(lookup.generation?.tier).toBe("fast");
     const chat = planAnswer(base({ taskType: "chat" }));
     expect(chat.instant).toBe("preview");
