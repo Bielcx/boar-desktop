@@ -18,6 +18,7 @@ import { register as library_share } from "./library-share";
 import { register as folder_watch } from "./folder-watch";
 import { register as pin_lock } from "./pin-lock";
 import { register as api_server } from "./api-server";
+import { register as expo_network } from "./expo-network";
 
 /**
  * One register() per entry of shared/packages.json (module name -> shim / handler / channel prefix), which metro.config.js
@@ -43,6 +44,7 @@ export const HANDLERS: Record<string, (ctx: HandlerContext) => void> = {
   "folder-watch": folder_watch,
   "pin-lock": pin_lock,
   "api-server": api_server,
+  "expo-network": expo_network,
 };
 
 export function registerAll(ctx: HandlerContext): void {

@@ -17,5 +17,6 @@
   "library-share": "library-share",
   "folder-watch": "folder-watch",
   "pin-lock": "pin-lock",
-  "api-server": "api-server"
+  "api-server": "api-server",
+  "expo-network": "expo-network"
 }
