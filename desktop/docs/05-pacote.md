@@ -44,17 +44,19 @@ para a pasta `app.asar.unpacked/`, ao lado. O Electron redireciona o carregament
 
 ## Por que só alguns binários do node-llama-cpp
 
-O `node-llama-cpp` traz o motor de IA já compilado para **todas** as combinações de sistema e placa de vídeo:
-Windows/Linux/Mac, CPU, Vulkan, CUDA, Metal… São ~685 MB, e um usuário de Windows usa um ou dois. O pacote leva só:
+O `node-llama-cpp` e o `whisper.node` trazem o motor já compilado para **todas** as combinações de sistema e placa
+de vídeo (Windows/Linux/Mac, CPU, Vulkan, CUDA, Metal) como dependências opcionais. O npm instala só as do sistema
+em que roda; o instalador leva, em Windows e Linux:
 
-- `@node-llama-cpp/win-x64-vulkan` (~99 MB): roda na placa de vídeo via **Vulkan**, que funciona em NVIDIA, AMD e
-  Intel. É o que o app escolhe nesta máquina (GTX 1650).
-- `@node-llama-cpp/win-x64` (~47 MB): só CPU, a rede de segurança se a placa não aceitar o Vulkan.
+- `@node-llama-cpp/<sistema>-x64-vulkan` (~80–99 MB): roda na placa de vídeo via **Vulkan**, que funciona em NVIDIA,
+  AMD e Intel. É o que o app escolhe nesta máquina (GTX 1650).
+- `@node-llama-cpp/<sistema>-x64` (~28–47 MB): só CPU, a rede de segurança se a placa não aceitar o Vulkan.
+- `@fugood/node-whisper-<sistema>-x64` (~3 MB): a voz (whisper.cpp) na CPU.
 
-O **CUDA** (~520 MB, só NVIDIA) ficou de fora: o Vulkan já usa a NVIDIA e o ganho não paga o tamanho. Para isso o
-`desktop/.npmrc` tem `omit=optional` (o npm não instala os ~685 MB opcionais em `desktop/node_modules`) e os dois
-pacotes acima entram como dependências normais. Custo em disco no desenvolvimento: ~146 MB a mais em
-`desktop/node_modules`, não 685 MB.
+O **CUDA** (~520 MB, só NVIDIA), as variantes Vulkan/CUDA da voz, o WASM e os outros processadores (ARM, RISC-V)
+ficam de fora pelo `build.files` do `package.json` (`!node_modules/@node-llama-cpp/*-cuda/**` etc.): o Vulkan já usa
+a NVIDIA e o ganho não paga o tamanho. Custo: no desenvolvimento o npm baixa o CUDA do sistema (~640 MB a mais em
+`desktop/node_modules`); o instalador não muda.
 
 Testado no `.exe` empacotado: configuração inicial, modelo carregado e resposta com fonte citada; o processo carregou
 `ggml-vulkan.dll` de `app.asar.unpacked\...\win-x64-vulkan` e listou a GTX 1650 como dispositivo Vulkan.
@@ -78,19 +80,15 @@ o certificado ganha reputação (com certificado EV some na hora).
 No Mac o equivalente é o **Gatekeeper**: sem assinatura **e notarização** da Apple (conta de desenvolvedor, US$ 99/ano),
 o macOS recente simplesmente não abre o app baixado ("está danificado" ou "não pode ser verificado").
 
-## E macOS / Linux?
+## Linux e macOS
 
-O código já é multiplataforma; falta empacotar, e isso precisa ser feito **em cada sistema** (ou num CI com máquinas
-de cada um), porque os binários nativos e o próprio Electron são diferentes:
-
-- **macOS:** rodar `npm run dist` num Mac. Trocar as dependências `@node-llama-cpp/win-*` por `mac-arm64-metal`
-  (Apple Silicon, usa a GPU via Metal) e/ou `mac-x64`; adicionar `"mac": { "target": "dmg" }`, um ícone `.icns` e,
-  para distribuir de verdade, assinatura + notarização.
-- **Linux:** rodar num Linux, com `@node-llama-cpp/linux-x64` + `linux-x64-vulkan` e `"linux": { "target":
-  "AppImage" }` (ou `deb`). Não há aviso de assinatura no Linux.
-
-Como as dependências mudam por sistema, o jeito mais simples quando chegar a hora é um job de CI por sistema
-(GitHub Actions tem Windows, macOS e Linux) instalando o pacote certo antes do `npm run dist`.
+- **Linux (pronto):** `npm run dist` num Linux gera `BOAR-<versão>-x86_64.AppImage` (roda em qualquer distro, sem
+  instalar) e `BOAR-<versão>-amd64.deb` (Ubuntu/Debian), pelo `build.linux` do `package.json`. O release faz isso num
+  job Linux depois do Windows (`.github/workflows/release.yml`). Não há aviso de assinatura no Linux. Diferenças no app:
+  o PIN precisa de um chaveiro do sistema (GNOME Keyring, KWallet), senão fica indisponível; "ler em voz alta" usa o
+  speech-dispatcher (`spd-say`), quando instalado; o selo OFFLINE pergunta ao NetworkManager (`nmcli`).
+- **macOS (falta):** rodar `npm run dist` num Mac (o npm instala `mac-arm64-metal` / `mac-x64` sozinho); adicionar
+  `"mac": { "target": "dmg" }`, um ícone `.icns` e, para distribuir de verdade, assinatura + notarização.
 
 ## Limites conhecidos
 
