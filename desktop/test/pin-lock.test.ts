@@ -5,7 +5,7 @@ import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { backoffSeconds, pinVault, validPin, type DeviceSeal } from "../src/main/handlers/pin-lock";
+import { backoffSeconds, pinVault, sealAvailable, validPin, type DeviceSeal } from "../src/main/handlers/pin-lock";
 
 /** A device key as DPAPI behaves: what one account sealed, another can't open. */
 function device(): DeviceSeal {
@@ -78,5 +78,19 @@ describe("PIN vault", () => {
     expect(validPin("1234") && validPin("12345678")).toBe(true);
     expect(validPin("123") || validPin("12a4") || validPin("123456789") || validPin(1234)).toBe(false);
     expect([backoffSeconds(4), backoffSeconds(5), backoffSeconds(6), backoffSeconds(40)]).toEqual([0, 30, 60, 3600]);
+  });
+});
+
+describe("sealAvailable: a key store that really protects the key", () => {
+  const store = (ok: boolean, backend?: string) => ({ isEncryptionAvailable: () => ok, getSelectedStorageBackend: backend ? () => backend : undefined });
+  it("refuses Linux's basic_text fallback (a key hard-coded in Chromium)", () => {
+    expect(sealAvailable("linux", store(true, "basic_text"))).toBe(false);
+    expect(sealAvailable("linux", store(true, "gnome_libsecret"))).toBe(true);
+    expect(sealAvailable("linux", store(true, "kwallet5"))).toBe(true);
+  });
+  it("trusts DPAPI and the Keychain, and nothing when encryption is off", () => {
+    expect(sealAvailable("win32", store(true))).toBe(true);
+    expect(sealAvailable("darwin", store(true))).toBe(true);
+    expect(sealAvailable("win32", store(false))).toBe(false);
   });
 });
