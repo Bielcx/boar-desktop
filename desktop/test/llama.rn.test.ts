@@ -85,7 +85,8 @@ describe("model path guard", () => {
 
   it("refuses network paths before touching the disk (no SMB connection, no NTLM hash sent)", () => {
     const spy = vi.spyOn(fs, "realpathSync");
-    expect(() => resolveModelPath("file://attacker.example/share/m.gguf", [dataDir])).toThrow(/network or device path/);
+    // Windows turns the host into a UNC path (refused here); Node on Linux and macOS refuses a host in a file URL.
+    expect(() => resolveModelPath("file://attacker.example/share/m.gguf", [dataDir])).toThrow(/network or device path|bad file URI/);
     expect(() => resolveModelPath("file:////attacker.example/share/m.gguf", [dataDir])).toThrow(/network or device path|bad file URI/);
     expect(spy).not.toHaveBeenCalled();
     spy.mockRestore();
