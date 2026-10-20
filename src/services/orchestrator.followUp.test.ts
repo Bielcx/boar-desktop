@@ -212,3 +212,17 @@ describe("conversation recaps and summaries (native app, Oct 16)", () => {
     expect(calls[0].system.startsWith("You plan")).toBe(true);
   });
 });
+
+describe("isConversationRecap: a write-up of the chat (native b62a1566, bae0dee9)", () => {
+  it("reads a report about our conversation as a recap", () => {
+    for (const q of ["Write a report about our conversation", "faça um relatório da nossa conversa", "Create notes on what we discussed"]) {
+      expect(isConversationRecap(q), q).toBe(true);
+    }
+  });
+  it("needs the chat named, and stays fast on long input", () => {
+    expect(isConversationRecap("Write a report on Bitcoin's history so far")).toBe(false);
+    const start = performance.now();
+    isConversationRecap("write, ".repeat(3000));
+    expect(performance.now() - start).toBeLessThan(500);
+  });
+});

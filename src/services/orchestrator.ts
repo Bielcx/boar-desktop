@@ -1,5 +1,6 @@
 import { llamaEngine } from "../inference/LlamaEngine";
 import { retrieve, RetrievedChunk, ConversationHistory } from "../rag/retrieve";
+import { GROUNDING_INSTRUCTION } from "../rag/pure";
 import { compressContext, mergeSources, onTopic } from "../routing/context";
 import { taskRequest } from "../inference/format";
 import { followUpSearch } from "../routing/followUp";
@@ -138,6 +139,22 @@ export const RECAP_EXCHANGES = 12;
 const RECAP_ANSWER_CHARS = 600;
 
 const RECAP_ASK = /\b(summar(y|ize|ise)|recap|tl;?dr|resum[aoeir]*|resumo)\b/i;
+// "Write an artifact about our conversation", "faça um relatório da nossa conversa": a write-up of the chat is a recap
+// too (native b62a1566). The verb, then the document later on the same line: two searches, not one "verb.*document"
+// regex, which retried ".*" from every verb and took seconds on long input (native be170911).
+const WRITE_UP_VERB =
+  /\b(write|make|create|draft|prepare|compile|turn|put|give me|escrev\p{L}*|fa[çc]a|fazer|cri[ae]\p{L}*|mont\p{L}*|ger[ae]\p{L}*|prepar\p{L}*)\b/giu;
+const WRITE_UP_DOC =
+  /\b(report|document|doc|notes|artifact|write-?up|overview|memo|brief|article|outline|relat[óo]rio|documento|notas|artefato|texto|artigo)\b/iu;
+const isWriteUpAsk = (query: string) =>
+  query.split(/[\n\r\u0085\u2028\u2029]/).some((line) => {
+    WRITE_UP_VERB.lastIndex = 0;
+    const verb = WRITE_UP_VERB.exec(line);
+    return verb !== null && WRITE_UP_DOC.test(line.slice(verb.index + verb[0].length));
+  });
+// A write-up must name the chat itself: "a report on Bitcoin's history so far" is about Bitcoin (native bae0dee9).
+const CHAT_REFERENCE =
+  /\b((our|this|my) (whole |entire )?(conversation|chat|discussion|session)|(what )?we('ve| have)? (talked about|discussed|covered)|(nossa|essa|esta) conversa|(o que )?(falamos|conversamos|discutimos))\b/i;
 // This chat, not a conversation named in the question ("the conversation between Kennedy and Khrushchev").
 const RECAP_OBJECT =
   /\b((our|this|my) (whole |entire )?(conversation|chat|discussion|session)|all (of )?(this|that)|(what )?we('ve| have)? (talked about|discussed|covered)|so far|(nossa|essa|esta) conversa|(o que )?(falamos|conversamos|discutimos))\b/i;
@@ -147,7 +164,10 @@ const CITATION = /\s*\[\d{1,4}\]/g;
 
 /** A request to summarize this conversation ("Summarize our conversation in 3 bullet points", "resuma a nossa conversa"). */
 export function isConversationRecap(query: string): boolean {
-  return query.split(/\s+/).filter(Boolean).length <= 14 && RECAP_ASK.test(query) && RECAP_OBJECT.test(query);
+  return (
+    query.split(/\s+/).filter(Boolean).length <= 16 &&
+    ((RECAP_ASK.test(query) && RECAP_OBJECT.test(query)) || (isWriteUpAsk(query) && CHAT_REFERENCE.test(query)))
+  );
 }
 
 /** Earlier recaps and summaries are left out: read back, the next recap copied them instead of the topics. */
@@ -361,7 +381,9 @@ async function synthesize(
     `Compare them, reconcile any conflicts, and write one unified, well-reasoned answer. ` +
     `Keep the source numbers exactly as the perspectives cite them, like [3]; do not renumber or invent sources.` +
     // A Detailed write-up ended with "Synthesis of Perspectives: Perspective 1… 2… 3…" (native app, X6, Oct 14).
-    ` Do this silently: the reader never sees the perspectives, so never mention them, the sub-questions or the research steps, and add no section about them.`;
+    ` Do this silently: the reader never sees the perspectives, so never mention them, the sub-questions or the research steps, and add no section about them.` +
+    // The write-up is the answer the user reads: it gets BOAR's identity as a normal answer does (native 13dda122).
+    ` ${GROUNDING_INSTRUCTION}`;
   const language = answerLanguage?.trim() ? `\n\n(${answerLanguage.trim()})` : "";
   const earlier = followUp
     ? `Previous question: ${followUp.exchange.question}\n\nPrevious answer: ${followUp.exchange.answer}\n\nFollow-up as asked: ${followUp.asked}\n\n`

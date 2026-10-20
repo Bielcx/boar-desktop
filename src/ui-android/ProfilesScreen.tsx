@@ -11,7 +11,7 @@ import { colors } from "./theme/colors";
 import { typography } from "./theme/typography";
 import { spacing, radii } from "./theme/spacing";
 import { AgentProfile, getAgentProfiles, setAgentProfiles } from "../models/settings";
-import { offeredStyles, getPersonality } from "../constants/personalities";
+import { DEFAULT_PERSONALITY_ID, offeredStyles, getPersonality } from "../constants/personalities";
 import { listCustomCollections } from "../services/documentImporter";
 import type { CustomCollection } from "../rag/db";
 import { MASCOT_ART } from "./mascot/art";
@@ -36,7 +36,7 @@ export function ProfilesScreen({ onClose, onStart }: { onClose: () => void; onSt
     await setAgentProfiles(next);
   }, []);
 
-  const blank = (): AgentProfile => ({ id: `p-${Date.now()}`, name: "", personalityId: "succinct", collections: null });
+  const blank = (): AgentProfile => ({ id: `p-${Date.now()}`, name: "", personalityId: DEFAULT_PERSONALITY_ID, collections: null });
   // ponytail: one suggested example, filled into the form; nothing is created until the user saves.
   const example = (): AgentProfile => ({
     ...blank(),

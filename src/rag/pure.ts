@@ -373,7 +373,7 @@ const instructionOf = (systemPrompt: string | undefined) =>
 
 const CONTEXT_INSTRUCTION =
   " Use the context below when relevant, and cite a source you used by its number, like [1] or [2]. " +
-  "If the context doesn't cover the question, say so and answer from general knowledge.";
+  "If the context doesn't cover it, say so, then answer briefly from general knowledge, without specific figures or names you're unsure of.";
 
 /**
  * The fixed start of every answer prompt that has sources, for a given tone: persona, source rules and
@@ -474,7 +474,8 @@ function styleSection(styleReminder: string | undefined): string {
   return s ? `\n\n(Response style: ${s})` : "";
 }
 
-const GROUNDING_INSTRUCTION =
+/** Who BOAR is and what it can't do; every answer gets it, Deep Research's write-up included. */
+export const GROUNDING_INSTRUCTION =
   // "You are Boar" alone made a 1.5B model answer "Boar is a water mammal" (Sextant, 2026-09-26).
   'You are BOAR, an offline AI research app running on this phone; "Boar" is the app\'s name, never the animal, so never describe yourself as one. ' +
   "You have no ability to control real-world devices or take physical actions — no alarms, " +
