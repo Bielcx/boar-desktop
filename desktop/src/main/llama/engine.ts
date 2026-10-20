@@ -84,7 +84,13 @@ export interface InitParams {
   embedding?: boolean;
   devices?: string[];
   flash_attn_type?: "auto" | "on" | "off";
+  cache_type_k?: string;
+  cache_type_v?: string;
 }
+
+// llama.rn's cache_type_k/v ("q8_0") -> node-llama-cpp's GgmlType key ("Q8_0"); anything else stays f16.
+const KV_TYPES = new Set(["F16", "F32", "Q8_0", "Q4_0", "Q4_1", "IQ4_NL", "Q5_0", "Q5_1"]);
+const kvType = (t: string | undefined) => (t && KV_TYPES.has(t.toUpperCase()) ? (t.toUpperCase() as "F16") : undefined);
 
 interface Entry {
   model: LlamaModel;
@@ -135,6 +141,9 @@ export async function initContext(params: InitParams, roots: Array<string | unde
         batchSize: params.n_batch,
         // Unset or "auto" -> node-llama-cpp's "auto" (on where the backend supports it); only an explicit "off" turns it off.
         flashAttention: params.flash_attn_type === "off" ? false : params.flash_attn_type === "on" ? true : ("auto" as const),
+        // A quantized KV cache takes less (video) memory per token of context.
+        ...(kvType(params.cache_type_k) ? { experimentalKvCacheKeyType: kvType(params.cache_type_k) } : {}),
+        ...(kvType(params.cache_type_v) ? { experimentalKvCacheValueType: kvType(params.cache_type_v) } : {}),
       };
       if (params.embedding) {
         return { model, embedder: await model.createEmbeddingContext(opts), wrappers: new Map(), abort: null, running: null };
