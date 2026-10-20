@@ -202,7 +202,7 @@ export const MODEL_CATALOG: CatalogModel[] = [
     sourceUrl: "https://huggingface.co/LiquidAI/LFM2.5-8B-A1B-GGUF/resolve/49c14831707011e64d70b2ebd8462ba08d608434/LFM2.5-8B-A1B-Q4_K_M.gguf",
     license: "LFM Open License v1.0",
     description:
-      "Mixture of experts: 8B total, ~1.5B active per token. Fastest in our benchmark (~15 tok/s) and the best reasoning, but it thinks before answering, so give it a bigger answer budget. ~5.2GB.",
+      "Mixture of experts: 8B total, about 1B active per token. About 13 tok/s on a 12 GB phone (Oct 18) and the best reasoning, but it thinks before answering, so give it a bigger answer budget. ~5.2GB.",
     required: false,
   },
   {

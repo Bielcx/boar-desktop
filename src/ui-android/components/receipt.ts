@@ -15,6 +15,22 @@ export interface Receipt {
   style?: string;
   /** How it was answered: absent for the normal answer, "deep" (Deep Research), "chat" (written from this chat), "adaptive". */
   path?: "deep" | "chat" | "adaptive";
+  /** Why BOAR answered in Succinct when Detailed was picked ("health", "seed"); absent when it used the pick. */
+  styleNote?: "health" | "seed";
+}
+
+/** Why an answer failed, a chatScreen.* key: kept in the message's meta, so it stays under the answer (native fc1711a2). */
+export type ChatError = "errorNoModel" | "errorGeneric" | "errorEmpty";
+
+/** The failure stored with a message; null when it has none. */
+export function errorFromMeta(meta: string | null): ChatError | null {
+  if (!meta) return null;
+  try {
+    const e = JSON.parse(meta)?.error;
+    return e === "errorNoModel" || e === "errorGeneric" || e === "errorEmpty" ? e : null;
+  } catch {
+    return null;
+  }
 }
 
 /** "9.1 s" under a minute, "2 min 5 s" above. */
