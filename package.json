@@ -59,5 +59,11 @@
     "eval:summary": "node scripts/eval-summary.mjs",
     "pack:build": "node scripts/build-knowledge-pack.mjs"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "simple-git": "^4.0.2",
+    "xcode": {
+      "uuid": "^11.1.1"
+    }
+  }
 }

@@ -82,5 +82,8 @@
         "to": "mascot.png"
       }
     ]
+  },
+  "overrides": {
+    "simple-git": "^4.0.2"
   }
 }
