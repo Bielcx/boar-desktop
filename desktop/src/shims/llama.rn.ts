@@ -65,7 +65,12 @@ export type ContextParams = {
   embedding?: boolean;
   devices?: string[];
   flash_attn_type?: "auto" | "on" | "off";
+  /** KV cache types, as llama.rn names them; unset = f16. */
+  cache_type_k?: KvCacheType;
+  cache_type_v?: KvCacheType;
 };
+
+export type KvCacheType = "f16" | "f32" | "q8_0" | "q4_0" | "q4_1" | "iq4_nl" | "q5_0" | "q5_1";
 
 export type RNLlamaOAICompatibleMessage = { role: string; content: string };
 

@@ -78,6 +78,7 @@ vi.mock("llama.rn", async () => {
       if (!p.embedding) {
         p.n_ctx = n(e.BOAR_BENCH_CTX) ?? p.n_ctx;
         p.n_threads = n(e.BOAR_BENCH_THREADS) ?? p.n_threads;
+        if (e.BOAR_BENCH_KV) p.cache_type_k = p.cache_type_v = e.BOAR_BENCH_KV;
         if (n(e.BOAR_GPU_LAYERS) === 0) p.devices = ["CPU"]; // the engine's CPU-only path
       }
       const ctx = await shim.initLlama(p, onProgress);
@@ -141,7 +142,7 @@ const EXPECT: Record<string, "answer" | "decline" | "either"> = {
   "decline-pt-1": "decline",
 };
 const SAYS_UNKNOWN =
-  /(don'?t|do not|didn'?t|did not|couldn'?t|could not|cannot|can'?t) (know|find|have|confirm|provide)|no (information|record|reliable|such)|not (aware|sure|found|available|a real)|(fictional|fictitious|hypothetical|doesn'?t exist|does not exist|hasn'?t (happened|taken place)|has not (happened|taken place)|future)|there is no (known |such )?\w+ (called|named)|não (sei|encontrei|há|existe|tenho|consegui)|(fict[íi]ci|inexistente|ainda não)/i;
+  /(don'?t|do not|didn'?t|did not|couldn'?t|could not|cannot|can'?t) (know|find|have|confirm|provide)|no (information|record|reliable|such)|not (aware|sure|found|available|a real)|(fictional|fictitious|hypothetical|doesn'?t exist|does not exist|hasn'?t (happened|taken place)|has not (happened|taken place)|future)|there is no (known |such )?(\w+ ){1,3}(called|named|referred to as|known as)|no verifiable (record|evidence|source)|cannot be confirmed|não (sei|encontrei|há|existe|tenho|consegui)|(fict[íi]ci|inexistente|ainda não)/i;
 
 const QUICK_QUERIES = ["greeting-1", "factual-1", "explanation-1", "explanation-2", "comparison-1", "reasoning-1", "grounded-2", "no-kb-1"];
 
@@ -412,6 +413,7 @@ it("benchmark", async () => {
         nCtx,
         threads: num(env.BOAR_BENCH_THREADS) ?? "app default (auto)",
         retrieveK: num(env.BOAR_BENCH_K) ?? "app default",
+        kvCache: env.BOAR_BENCH_KV || "app default",
         contextTokens: num(env.BOAR_BENCH_CONTEXT_TOKENS) ?? "app default",
         wikiPack: env.BOAR_BENCH_WIKI === "1" ? path.basename(wikiShard) : null,
         gpuLayers: num(env.BOAR_GPU_LAYERS) ?? "auto",

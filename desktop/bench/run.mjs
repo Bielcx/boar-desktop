@@ -1,4 +1,4 @@
-// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki]
+// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki] [--kv f16|q8_0|q4_0]
 // Runs bench/engine.run.ts (the app's engine in Node, no window) and prints the table. Result: bench/results/<date>-<label>-<mode>.json
 // Models come from BOAR_TEST_MODELS_DIR (default C:/Users/bielc/Dev/boar-shared-models when it exists).
 import { spawnSync } from "node:child_process";
@@ -23,6 +23,7 @@ const { values } = parseArgs({
     threads: { type: "string" },
     seed: { type: "string" },
     k: { type: "string" },
+    kv: { type: "string" }, // KV cache type for keys and values (llama.rn's cache_type_k/v)
     wiki: { type: "boolean" }, // the main bench with one Wikipedia shard installed (BOAR_TEST_MODELS_DIR/corpus)
     "context-tokens": { type: "string" },
   },
@@ -42,7 +43,7 @@ const env = {
   ...(values.wiki ? { BOAR_BENCH_WIKI: "1" } : {}),
   BOAR_TEST_MODELS_DIR: process.env.BOAR_TEST_MODELS_DIR || (fs.existsSync(fallbackModels) ? fallbackModels : ""),
 };
-for (const [flag, name] of [["model", "BOAR_BENCH_MODEL"], ["ctx", "BOAR_BENCH_CTX"], ["gpu-layers", "BOAR_GPU_LAYERS"], ["threads", "BOAR_BENCH_THREADS"], ["seed", "BOAR_BENCH_SEED"], ["k", "BOAR_BENCH_K"], ["context-tokens", "BOAR_BENCH_CONTEXT_TOKENS"]]) {
+for (const [flag, name] of [["model", "BOAR_BENCH_MODEL"], ["ctx", "BOAR_BENCH_CTX"], ["gpu-layers", "BOAR_GPU_LAYERS"], ["threads", "BOAR_BENCH_THREADS"], ["seed", "BOAR_BENCH_SEED"], ["k", "BOAR_BENCH_K"], ["context-tokens", "BOAR_BENCH_CONTEXT_TOKENS"], ["kv", "BOAR_BENCH_KV"]]) {
   if (values[flag] !== undefined) env[name] = values[flag];
 }
 
