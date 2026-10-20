@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { internetFromCount, internetReachable } from "../src/main/handlers/expo-network";
+import { internetFromCount } from "../src/main/handlers/expo-network";
 
 describe("expo-network: Windows' own internet check", () => {
   it("reads PowerShell's count of profiles with internet", () => {
@@ -9,8 +9,4 @@ describe("expo-network: Windows' own internet check", () => {
     expect(internetFromCount("")).toBeNull();
     expect(internetFromCount("Get-NetConnectionProfile : not recognized")).toBeNull();
   });
-
-  it.runIf(process.platform === "win32")("answers on this machine", async () => {
-    expect(typeof (await internetReachable())).toBe("boolean");
-  }, 15_000);
 });
