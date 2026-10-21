@@ -1,0 +1,16 @@
+[
+  { "id": "seguro-1", "doc": "seguro-carro", "query": "Qual é o meu seguro do carro?", "fact": "atl[âa]ntica|7734" },
+  { "id": "seguro-2", "doc": "seguro-carro", "query": "Qual a franquia do meu seguro?", "fact": "3\\.?200" },
+  { "id": "seguro-3", "doc": "seguro-carro", "query": "Quando vence o seguro do carro?", "fact": "14/03/2027|mar[çc]o de 2027" },
+  { "id": "seguro-en", "doc": "seguro-carro", "query": "What is my car insurance policy number?", "fact": "7734-221-09" },
+  { "id": "ipva-1", "doc": "ipva-licenciamento-2026", "query": "Quanto foi o IPVA do meu carro?", "fact": "2\\.?340" },
+  { "id": "vovo-1", "doc": "receita-bolo-fuba-vovo", "query": "Como faz o bolo de fubá da vovó?", "fact": "erva-doce|180" },
+  { "id": "vovo-2", "doc": "receita-bolo-fuba-vovo", "query": "Me passa a receita da vovó", "fact": "fub[áa]|pudim|rabanada" },
+  { "id": "vovo-3", "doc": "receita-pudim-vovo", "query": "Quanto tempo o pudim da vovó fica no forno?", "fact": "1 hora e 30|1h30|90 minutos" },
+  { "id": "vovo-4", "doc": "receitas-natal-vovo", "query": "O que a vovó colocava na farofa de Natal?", "fact": "uva-passa|castanha" },
+  { "id": "saude-1", "doc": "ficha-medica", "query": "Qual é o meu tipo sanguíneo?", "fact": "O negativo|O-" },
+  { "id": "saude-2", "doc": "ficha-medica", "query": "Que remédio eu tomo para pressão?", "fact": "losartana" },
+  { "id": "saude-3", "doc": "exames-2026", "query": "Como estava o meu colesterol no último exame?", "fact": "231|162" },
+  { "id": "saude-4", "doc": "plano-de-saude", "query": "Qual o número da minha carteirinha do plano de saúde?", "fact": "0099 4512 7788 3301" },
+  { "id": "saude-en", "doc": "ficha-medica", "query": "Am I allergic to any medicine?", "fact": "dipirona|dipyrone|metamizole" }
+]

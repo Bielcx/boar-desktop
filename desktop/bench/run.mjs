@@ -1,4 +1,4 @@
-// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki] [--kv f16|q8_0|q4_0] [--repeat n]
+// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki] [--kv f16|q8_0|q4_0] [--repeat n] [--docset name]
 // Runs bench/engine.run.ts (the app's engine in Node, no window) and prints the table. Result: bench/results/<date>-<label>-<mode>.json
 // Models come from BOAR_TEST_MODELS_DIR (default C:/Users/bielc/Dev/boar-shared-models when it exists).
 import { spawnSync } from "node:child_process";
@@ -24,7 +24,8 @@ const { values } = parseArgs({
     seed: { type: "string" },
     k: { type: "string" },
     kv: { type: "string" }, // KV cache type for keys and values (llama.rn's cache_type_k/v)
-    repeat: { type: "string" }, // n runs of the same setup, seeds seed..seed+n-1, then the spread and per-question stability
+    repeat: { type: "string" },
+    docset: { type: "string" }, // with --docs: bench/docsets/<name>/ (files + questions.json) instead of bench/docs // n runs of the same setup, seeds seed..seed+n-1, then the spread and per-question stability
     wiki: { type: "boolean" }, // the main bench with one Wikipedia shard installed (BOAR_TEST_MODELS_DIR/corpus)
     "context-tokens": { type: "string" },
   },
@@ -42,6 +43,7 @@ const env = {
   BOAR_BENCH_LABEL: label,
   ...(values.docs ? { BOAR_BENCH_DOCS: "1" } : {}),
   ...(values.scoped ? { BOAR_BENCH_SCOPED: "1" } : {}),
+  ...(values.docset ? { BOAR_BENCH_DOCSET: values.docset } : {}),
   ...(values.wiki ? { BOAR_BENCH_WIKI: "1" } : {}),
   BOAR_TEST_MODELS_DIR: process.env.BOAR_TEST_MODELS_DIR || (fs.existsSync(fallbackModels) ? fallbackModels : ""),
 };

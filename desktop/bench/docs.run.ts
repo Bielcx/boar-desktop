@@ -51,8 +51,15 @@ const OUT = env.BOAR_BENCH_OUT ?? "";
 const WIKI_SHARD = "boar-wiki-en-00.sqlite";
 const RETRIEVE_K = 6;
 
+/**
+ * --docset <name>: bench/docsets/<name>/ instead of bench/docs, with its questions in questions.json
+ * ([{ id, doc, query, fact }], fact a case-insensitive regex; doc = the file name without its extension).
+ */
+const DOCSET = env.BOAR_BENCH_DOCSET ? path.join(__dirname, "docsets", env.BOAR_BENCH_DOCSET) : "";
+const DOCS_DIR = DOCSET || path.join(__dirname, "docs");
+
 /** Questions on bench/docs/*. The topics overlap Wikipedia on purpose (water, property tax, tetanus, generators). */
-const QUESTIONS: Array<{ id: string; doc: string; query: string; fact: RegExp }> = [
+const BUILTIN_QUESTIONS: Array<{ id: string; doc: string; query: string; fact: RegExp }> = [
   { id: "plan-1", doc: "household-emergency-plan", query: "How much water do we store per person?", fact: /12\s*(l|liters|litres)/i },
   { id: "plan-2", doc: "household-emergency-plan", query: "How many drops of bleach per liter of water?", fact: /\b2\b|two/i },
   { id: "plan-3", doc: "household-emergency-plan", query: "Where is our meeting point if the neighborhood is evacuated?", fact: /parish hall|s[ãa]o jos[ée]/i },
@@ -66,6 +73,10 @@ const QUESTIONS: Array<{ id: string; doc: string; query: string; fact: RegExp }>
   { id: "gen-2", doc: "manual-gerador", query: "Qual óleo usar no gerador?", fact: /10w-?30/i },
   { id: "gen-3", doc: "manual-gerador", query: "Posso ligar o gerador dentro da garagem?", fact: /n[ãa]o|nunca/i },
 ];
+
+const QUESTIONS: Array<{ id: string; doc: string; query: string; fact: RegExp }> = DOCSET
+  ? JSON.parse(fs.readFileSync(path.join(DOCSET, "questions.json"), "utf8")).map((q: any) => ({ ...q, fact: new RegExp(q.fact, "iu") }))
+  : BUILTIN_QUESTIONS;
 
 /** Scoped mode only: asked of a document that doesn't answer them. Honest = declines or says the document doesn't say. */
 const NEGATIVES: Array<{ id: string; doc: string; query: string; wrong: RegExp }> = [
@@ -123,11 +134,12 @@ it("personal documents", async () => {
     // Each document as its own collection, imported the way Settings > Knowledge Base > Import does it.
     const cache = path.join(dataDir, "app-cache");
     const collectionOf: Record<string, string> = {};
-    for (const f of fs.readdirSync(path.join(__dirname, "docs"))) {
+    for (const f of fs.readdirSync(DOCS_DIR).filter((f) => f !== "questions.json")) {
       const p = path.join(cache, f);
-      fs.copyFileSync(path.join(__dirname, "docs", f), p);
-      const doc = f.replace(/\.txt$/, "");
-      const c = await importDocuments([{ uri: pathToFileURL(p).href, name: f, size: fs.statSync(p).size, mimeType: "text/plain" } as any], doc);
+      fs.copyFileSync(path.join(DOCS_DIR, f), p);
+      const doc = f.replace(/\.(txt|md)$/, "");
+      const mimeType = f.endsWith(".md") ? "text/markdown" : "text/plain";
+      const c = await importDocuments([{ uri: pathToFileURL(p).href, name: f, size: fs.statSync(p).size, mimeType } as any], doc);
       collectionOf[doc] = c.id;
     }
 
@@ -210,7 +222,7 @@ it("personal documents", async () => {
       commit = execSync("git rev-parse --short HEAD", { encoding: "utf8" }).trim() + (execSync("git status --porcelain", { encoding: "utf8" }).trim() ? "+dirty" : "");
     } catch {}
     const result = {
-      meta: { label: env.BOAR_BENCH_LABEL || "run", scoped: SCOPED, date: new Date().toISOString(), commit, model: llm.id, wikiPack: withWiki ? WIKI_SHARD : null },
+      meta: { label: env.BOAR_BENCH_LABEL || "run", docset: env.BOAR_BENCH_DOCSET || "docs", scoped: SCOPED, date: new Date().toISOString(), commit, model: llm.id, wikiPack: withWiki ? WIKI_SHARD : null },
       docs: {
         questions: docs.length,
         hitAt1: round(avg(docs.map((d) => (d.rank === 1 ? 1 : 0)))),
