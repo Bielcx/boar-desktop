@@ -77,10 +77,13 @@ export const PERSONALITIES: Personality[] = [
       "shorter correct answer beats a longer one. This rule covers facts only. Always do what the user asks: write " +
       "code, give examples, make tables, and calculate from numbers given in the question.",
     // "Who proposed natural selection?" got the theory and no Darwin under D4 (bench --repeat 3, Oct 21; named on
-    // Oct 8): the 4B dropped even names it knows. The direct answer comes first; unsure names still stay out.
+    // Oct 8): the 4B dropped even names it knows. The direct answer comes first; unsure names still stay out. Worded
+    // as a sentence: "a who-question names the person, a when-question gives the date" came back as "Who: Grandma
+    // Lou When: Sundays" labels on a how-to question.
     styleReminder:
-      "Open with the direct answer to what is asked: a who-question names the person, a when-question gives the date. " +
-      "Then be thorough: 3-5 paragraphs that cover the key points in depth. Leave out figures and names you are not " +
+      "Start with the direct answer to the question; if it asks who, name the person, and if it asks when, give the " +
+      "date. If it names something you don't recognize, say so instead of answering about something with a similar " +
+      "name. Then be thorough: 3-5 paragraphs that cover the key points in depth. Leave out figures and names you are not " +
       "sure of. Don't repeat yourself.",
     systemPromptSmall:
       "You are Boar, an analytical research partner. Provide thorough, structured explanations. Explain in depth what " +
