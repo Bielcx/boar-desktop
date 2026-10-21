@@ -1,0 +1,86 @@
+[
+  {
+    "id": "insurance-1",
+    "doc": "car-insurance",
+    "query": "What is my car insurance?",
+    "fact": "atlantic|7734"
+  },
+  {
+    "id": "insurance-2",
+    "doc": "car-insurance",
+    "query": "What is the deductible on my insurance?",
+    "fact": "1,?000"
+  },
+  {
+    "id": "insurance-3",
+    "doc": "car-insurance",
+    "query": "When does my car insurance expire?",
+    "fact": "march 14, 2027|14 march 2027|3/14/2027"
+  },
+  {
+    "id": "insurance-4",
+    "doc": "car-insurance",
+    "query": "What is my car insurance policy number?",
+    "fact": "7734-221-09"
+  },
+  {
+    "id": "registration-1",
+    "doc": "car-registration-2026",
+    "query": "How much was my car registration fee?",
+    "fact": "268"
+  },
+  {
+    "id": "grandma-1",
+    "doc": "grandma-cornbread",
+    "query": "How do I make grandma's cornbread cake?",
+    "fact": "fennel|350"
+  },
+  {
+    "id": "grandma-2",
+    "doc": "grandma-cornbread",
+    "query": "Give me grandma's recipe",
+    "fact": "cornbread|cornmeal|flan|french toast"
+  },
+  {
+    "id": "grandma-3",
+    "doc": "grandma-flan",
+    "query": "How long does grandma's flan bake?",
+    "fact": "1 hour and 30|1.5 hours|90 minutes|an hour and a half"
+  },
+  {
+    "id": "grandma-4",
+    "doc": "grandma-christmas-recipes",
+    "query": "What did grandma put in the Christmas stuffing?",
+    "fact": "raisin|brazil nut"
+  },
+  {
+    "id": "health-1",
+    "doc": "medical-record",
+    "query": "What is my blood type?",
+    "fact": "O negative|O-"
+  },
+  {
+    "id": "health-2",
+    "doc": "medical-record",
+    "query": "What medicine do I take for blood pressure?",
+    "fact": "lisinopril"
+  },
+  {
+    "id": "health-3",
+    "doc": "blood-test-2026",
+    "query": "How was my cholesterol in the last test?",
+    "fact": "231|162"
+  },
+  {
+    "id": "health-4",
+    "doc": "health-plan",
+    "query": "What is my health plan member ID?",
+    "fact": "0099 4512 7788 3301"
+  },
+  {
+    "id": "health-5",
+    "doc": "medical-record",
+    "query": "Am I allergic to any medicine?",
+    "fact": "penicillin"
+  }
+]
