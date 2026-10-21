@@ -174,6 +174,10 @@ const FILL_MAX_TOKENS = 60;
 
 
 export function compressContext(query: string, chunks: RetrievedChunk[], opts: CompressOptions = {}): CompressedContext {
+  return keepUserDocsWhole(query, chunks, opts, (q, c) => compressSentences(q, c, opts));
+}
+
+function compressSentences(query: string, chunks: RetrievedChunk[], opts: CompressOptions = {}): CompressedContext {
   const budget = opts.tokenBudget ?? 1200;
   const perChunk = opts.maxSentencesPerChunk ?? 4;
   const count = opts.countTokens ?? approxTokens;
@@ -268,6 +272,36 @@ export function compressContext(query: string, chunks: RetrievedChunk[], opts: C
  * chunk retrieved by two sub-questions gets one number. Returns the merged
  * list and, per input list, the global 0-based index of each of its chunks.
  */
+/**
+ * The user's own documents reach the model whole, when they fit PERSONAL_WHOLE_MAX_TOKENS: a short personal file
+ * answers on a line that shares no word with the question ("Policy period: March 15, 2026 to March 14, 2027" for
+ * "When does my car insurance expire?", "## Baking" for "how long does it bake?"), which sentence picking by the
+ * question's words drops (bench --docs --docset personal-en, Oct 21). The rest is compressed as before, within the
+ * same budget; the user's documents come first.
+ */
+export const PERSONAL_WHOLE_MAX_TOKENS = 600;
+
+export function keepUserDocsWhole(
+  query: string,
+  chunks: RetrievedChunk[],
+  opts: { countTokens?: (s: string) => number },
+  compress: (query: string, chunks: RetrievedChunk[]) => CompressedContext
+): CompressedContext {
+  const count = opts.countTokens ?? approxTokens;
+  const size = (c: RetrievedChunk) => count(`${c.title}\n${c.body}`);
+  const wholeIdx = chunks.map((c, i) => (c.collectionId && size(c) <= PERSONAL_WHOLE_MAX_TOKENS ? i : -1)).filter((i) => i >= 0);
+  if (!wholeIdx.length) return compress(query, chunks);
+  const restIdx = chunks.map((_, i) => i).filter((i) => !wholeIdx.includes(i));
+  const rest = compress(query, restIdx.map((i) => chunks[i]));
+  const whole = wholeIdx.map((i) => chunks[i]);
+  return {
+    chunks: [...whole, ...rest.chunks],
+    keptIndices: [...wholeIdx, ...rest.keptIndices.map((k) => restIdx[k])],
+    tokensBefore: chunks.reduce((a, c) => a + size(c), 0),
+    tokensAfter: whole.reduce((a, c) => a + size(c), 0) + rest.tokensAfter,
+  };
+}
+
 export function mergeSources(lists: RetrievedChunk[][]): { sources: RetrievedChunk[]; indexMaps: number[][] } {
   const sources: RetrievedChunk[] = [];
   const byId = new Map<string, number>();
