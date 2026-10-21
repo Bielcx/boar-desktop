@@ -1,7 +1,7 @@
 {
   "name": "boar-desktop",
   "productName": "BOAR",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "private": true,
   "description": "BOAR desktop: the Expo web build of the app inside Electron, native packages served by the main process.",
   "author": "Bielcx",
