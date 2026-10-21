@@ -202,3 +202,23 @@ describe("compressForAnswer (fast-answer budget)", () => {
     expect(compressForAnswer("anything", [], "lookup")).toEqual({ chunks: [], keptIndices: [], tokensBefore: 0, tokensAfter: 0 });
   });
 });
+
+describe("keepUserDocsWhole", () => {
+  const doc = (id: string, body: string, collectionId?: string) =>
+    ({ chunkId: id, docId: id, title: id, body, score: 1, ...(collectionId ? { collectionId } : {}) }) as any;
+
+  it("sends a short user document whole, first, and compresses the rest", () => {
+    const policy = doc("car-insurance", "Insurer: Atlantic Mutual. Policy period: March 15, 2026 to March 14, 2027. Deductible: $1,000.", "custom-1");
+    const wiki = doc("Vehicle insurance", "Vehicle insurance is insurance for cars. It may also cover theft. Many countries require it.");
+    const out = compressContext("When does my car insurance expire?", [wiki, policy], { tokenBudget: 40 });
+    expect(out.chunks[0].body).toBe(policy.body);
+    expect(out.keptIndices[0]).toBe(1);
+    expect(out.chunks.some((c) => c.title === "Vehicle insurance")).toBe(true);
+  });
+
+  it("compresses a user document too long to send whole", () => {
+    const long = doc("notes", "Line about cars. ".repeat(400), "custom-1");
+    const out = compressContext("cars", [long], { tokenBudget: 100 });
+    expect(out.chunks[0].body.length).toBeLessThan(long.body.length);
+  });
+});

@@ -14,6 +14,7 @@
  * instead; this module is the fallback over plain RetrievedChunks.
  */
 import type { RetrievedChunk } from "../rag/retrieve.types";
+import { keepUserDocsWhole } from "../rag/compress";
 
 export interface ScoredSentence {
   chunkIndex: number;
@@ -1364,6 +1365,11 @@ const FILL_MAX_TOKENS = 60;
 const NAMED_ARTICLE_RELEVANCE = 0.75;
 
 export function compressContext(query: string, chunks: RetrievedChunk[], opts: CompressOptions = {}): CompressedContext {
+  // The user's own documents whole, as the chat's compressor does (src/rag/compress.ts keepUserDocsWhole).
+  return keepUserDocsWhole(query, chunks, opts, (q, c) => compressSentences(q, c, opts));
+}
+
+function compressSentences(query: string, chunks: RetrievedChunk[], opts: CompressOptions = {}): CompressedContext {
   const budget = opts.tokenBudget ?? 1200;
   const perChunk = opts.maxSentencesPerChunk ?? 4;
   const count = opts.countTokens ?? approxTokens;
