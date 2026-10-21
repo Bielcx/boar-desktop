@@ -1,7 +1,8 @@
 // Table and comparison for bench result files (desktop/bench/results/*.json).
 //   node bench/report.mjs a.json              one result
 //   node bench/report.mjs a.json b.json       b vs a, with the change in %
-//   node bench/report.mjs a.json b.json c.json ...   side by side, with the spread (CV %) across them: the noise
+//   node bench/report.mjs a.json b.json c.json ...   side by side, with the spread (CV %) across them: the noise,
+//                                                    and each fact question's passes across the runs (stability)
 import fs from "node:fs";
 import { pathToFileURL } from "node:url";
 
@@ -95,11 +96,38 @@ export function table(results) {
   return lines.join("\n");
 }
 
+/**
+ * Each fact-checked question's passes across runs of the same setup: "0/3" is a question the model gets wrong,
+ * "1/3" or "2/3" is noise (GPU timing, sampling). The facts rate's range says how big a change must be to count.
+ */
+export function stability(results) {
+  const n = results.length;
+  const passes = new Map();
+  for (const r of results) for (const a of r.answers ?? []) {
+    if (typeof a.fact !== "boolean") continue;
+    passes.set(a.id, (passes.get(a.id) ?? 0) + (a.fact ? 1 : 0));
+  }
+  const rates = results.map((r) => r.quality?.factsRate).filter((v) => typeof v === "number");
+  const always = [...passes].filter(([, k]) => k === n).map(([id]) => id);
+  const never = [...passes].filter(([, k]) => k === 0).map(([id]) => id);
+  const flaky = [...passes].filter(([, k]) => k > 0 && k < n).map(([id, k]) => `${id} ${k}/${n}`);
+  const mean = rates.reduce((a, b) => a + b, 0) / (rates.length || 1);
+  return [
+    `-- Stability across ${n} runs (${passes.size} fact-checked questions)`,
+    `  facts rate: mean ${mean.toFixed(3)}, range ${Math.min(...rates).toFixed(3)}-${Math.max(...rates).toFixed(3)}`,
+    `  right every run: ${always.length}`,
+    `  wrong every run (the model): ${never.length ? never.join(", ") : "none"}`,
+    `  sometimes (noise): ${flaky.length ? flaky.join(", ") : "none"}`,
+  ].join("\n");
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const files = process.argv.slice(2);
   if (!files.length) {
     console.error("usage: npm run bench:compare -- a.json [b.json ...]");
     process.exit(2);
   }
-  console.log(table(files.map((f) => JSON.parse(fs.readFileSync(f, "utf8")))));
+  const results = files.map((f) => JSON.parse(fs.readFileSync(f, "utf8")));
+  console.log(table(results));
+  if (results.length > 2) console.log(`\n${stability(results)}`);
 }
