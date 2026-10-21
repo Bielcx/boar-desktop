@@ -359,7 +359,7 @@ export function assemblePrompt(
   const hasContext = chunks.length > 0;
   const contextInstruction = hasContext ? CONTEXT_INSTRUCTION : "";
   const contextSection = hasContext
-    ? `Context:\n${chunks.map((c, i) => `[${i + 1}] ${c.title}\n${c.body}`).join("\n\n")}\n\n`
+    ? `Context:\n${contextList(chunks)}\n\n`
     : "";
 
   return `${instruction}${contextInstruction} ${GROUNDING_INSTRUCTION}\n\n` +
@@ -367,6 +367,20 @@ export function assemblePrompt(
     `${contextSection}` +
     `Question: ${userQuery}${styleSection(styleReminder)}\n\nAnswer:`;
 }
+
+/**
+ * The sources, numbered. The user's own documents are marked as theirs, with a note: asked "What is my car
+ * insurance?" with the policy as source [1], the 4B answered "I do not know who you are" (bench --docs --docset
+ * personal-en, Oct 21). After the cached prefix (answerPromptPrefix), so only questions with such a source pay for it.
+ */
+function contextList(chunks: RetrievedChunk[]): string {
+  const list = chunks.map((c, i) => `[${i + 1}] ${c.title}${c.collectionId ? " (the user's own document)" : ""}\n${c.body}`).join("\n\n");
+  return chunks.some((c) => c.collectionId) ? `${list}\n\n${MINE_NOTE}` : list;
+}
+
+const MINE_NOTE =
+  "Sources marked as the user's own document are the user's personal files: \"I\", \"me\" and \"my\" in the question " +
+  "refer to the person in them, so answer from them directly.";
 
 const instructionOf = (systemPrompt: string | undefined) =>
   systemPrompt && systemPrompt.trim().length > 0 ? systemPrompt.trim() : "You are an offline research assistant.";
@@ -419,7 +433,7 @@ export function assembleChatMessages(
   const hasContext = chunks.length > 0;
   const contextInstruction = hasContext ? CONTEXT_INSTRUCTION : "";
   const contextSection = hasContext
-    ? `\n\nContext:\n${chunks.map((c, i) => `[${i + 1}] ${c.title}\n${c.body}`).join("\n\n")}`
+    ? `\n\nContext:\n${contextList(chunks)}`
     : "";
   const summarySection =
     history?.summary && history.summary.trim().length > 0
