@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://github.com/Bielcx/boar-desktop/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/Bielcx/boar-desktop?color=FF7A3D&include_prereleases" /></a>
   <img alt="Beta" src="https://img.shields.io/badge/status-beta-d93a2b" />
-  <img alt="Windows 10/11 x64" src="https://img.shields.io/badge/Windows-10%20%7C%2011%20x64-FFB547" />
+  <img alt="Windows 10/11 and Linux, 64-bit" src="https://img.shields.io/badge/Windows%20%7C%20Linux-x64-FFB547" />
   <img alt="Works offline" src="https://img.shields.io/badge/works-offline-17110D" />
   <a href="./LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/Bielcx/boar-desktop" /></a>
 </p>
@@ -61,20 +61,34 @@ each passage is a numbered source you can open.
 ## Download
 
 > [!WARNING]
-> **Beta.** BOAR for Windows is early software, made for builders who want to try it and help shape it. Expect rough
-> edges, and keep anything important backed up. Bugs and ideas: [issues](https://github.com/Bielcx/boar-desktop/issues).
+> **Beta.** BOAR for desktop (Windows and Linux) is early software, made for builders who want to try it and help
+> shape it. Expect rough edges, and keep anything important backed up. Found a bug?
+> [Open an issue](https://github.com/Bielcx/boar-desktop/issues). A security problem? See [SECURITY.md](SECURITY.md).
 
-1. **[Download BOAR-Setup.exe](https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe)** (about 122 MB), or pick a version on the [releases page](https://github.com/Bielcx/boar-desktop/releases).
+Every version is on the [releases page](https://github.com/Bielcx/boar-desktop/releases/latest), built by GitHub
+Actions from the tagged code, with a `SHA256SUMS.txt` for its files.
+
+**Windows 10 or 11**
+
+1. **[Download BOAR-Setup.exe](https://github.com/Bielcx/boar-desktop/releases/latest/download/BOAR-Setup.exe)** (about 131 MB).
 2. Run it. It installs for your user only (no administrator password) and adds a Start menu shortcut.
 3. The installer isn't code-signed yet, so Windows SmartScreen will warn you: click **More info → Run anyway**.
-4. On first launch, pick a model. BOAR downloads it from Hugging Face (Qwen2.5-1.5B is about 1 GB) and checks
-   its SHA-256. After that you can unplug the network.
 
-**Needs:** Windows 10 or 11, 64-bit, and about 2 GB of disk for the app and the default model, which uses under 2 GB
-of RAM while answering.
-Any GPU that speaks Vulkan (NVIDIA, AMD, Intel) makes it much faster, and without one it runs on the CPU.
+**Linux (64-bit)**
 
-Uninstalling keeps your data (models, documents, chats) in `%APPDATA%\BOAR`; delete that folder to remove it too.
+- `BOAR.AppImage` runs on most distributions without installing: `chmod +x BOAR.AppImage`, then open it.
+- On Ubuntu or Debian, `BOAR.deb` installs it: `sudo apt install ./BOAR.deb`.
+
+**First launch.** BOAR checks your computer and downloads its model from Hugging Face, checking its SHA-256: Qwen3 4B
+(2.5 GB) on computers with 8 GB of RAM or more, Qwen2.5-1.5B (about 1 GB) on lighter ones. After that you can unplug
+the network.
+
+**Needs:** a 64-bit computer with Windows 10 or 11, or Linux; 8 GB of RAM for the default model (it uses about 3 GB
+while answering); about 3.5 GB of disk for the app and the model. Any GPU that speaks Vulkan (NVIDIA, AMD, Intel)
+makes it much faster, and without one it runs on the CPU.
+
+**Uninstall.** Windows: Settings › Apps › BOAR. Linux: delete the AppImage, or `sudo apt remove boar-desktop`. Your data
+(models, documents, chats) stays in `%APPDATA%\BOAR` or `~/.config/BOAR`; delete that folder to remove it too.
 
 ## What it does
 
@@ -90,25 +104,27 @@ Uninstalling keeps your data (models, documents, chats) in `%APPDATA%\BOAR`; del
   downloaded the first time you press the microphone). Answers can be read aloud.
 - **Profiles.** A name, a tone, which collections it may read, and how the boar looks, applied to a whole
   conversation.
-- **Locks with a PIN.** Chats are encrypted on disk with a key sealed by your PIN and by your Windows account.
-- **Brings your own model.** Search Hugging Face for GGUF models from inside the app; Qwen3-4B is a step up if you
-  have the RAM.
+- **Locks with a PIN.** Chats are encrypted on disk with a key sealed by your PIN and by your system account (on
+  Linux, the desktop keyring).
+- **Brings your own model.** Search Hugging Face for GGUF models from inside the app, or switch between Qwen3 4B
+  and the lighter Qwen2.5-1.5B in Settings.
 
 ## Speed
 
-Measured with the app's own benchmark (`npm run bench` in `desktop/`) on a mid-range laptop: GTX 1650 (4 GB),
-Qwen2.5-1.5B Q4_K_M, Vulkan.
+Measured with the app's own benchmark (`npm run bench -- --full --wiki` in `desktop/`) on a mid-range laptop:
+GTX 1650 (4 GB), Qwen3 4B Q4_K_M, Vulkan, an English Wikipedia pack installed. Three runs of the same 26 questions,
+21 October 2026.
 
 | | |
 |---|---|
-| Generation | **62 tok/s** median in answers (67.5 tok/s raw decode) |
-| First word | **0.25 s** median |
-| Whole answer | **under 1 s** median |
-| Library search | 28 ms median |
-| Memory | 1.7 GB RAM, 3 GB of VRAM for the model |
-| Quality | 98/100 on the benchmark's 26 questions, 0 made-up answers to questions it should decline |
+| Quality | **17 of 18** fact checks right in every run, and 0 made-up answers to questions it should decline |
+| Generation | **about 30 tok/s** median in answers (27–30 across the runs) |
+| First word | **1.3–1.5 s** median |
+| Whole answer | 17–19 s median, for full, detailed answers |
+| Library search | 0.2–0.3 s median, in a pack of 390,000 articles |
+| Memory | about 3 GB of RAM, 3.4 GB of VRAM for the model |
 
-Raw runs: [desktop/bench/results](desktop/bench/results).
+Raw runs: [desktop/bench/results](desktop/bench/results) (`2026-10-21-stab-v4-r1..3-full.json`).
 
 ## Connect other apps
 
@@ -141,14 +157,14 @@ Tested with the official OpenAI SDK for Node. Answers carry their sources in `bo
 
 ## Build from source
 
-You need Node.js 24 and Windows x64.
+You need Node.js 24 and a 64-bit Windows 10/11 or Linux.
 
 ```bash
 git clone https://github.com/Bielcx/boar-desktop.git && cd boar-desktop
 npm install                  # the app (run it from PowerShell or cmd, not Git Bash)
 cd desktop && npm install    # Electron and the native Node packages
 npm run dev                  # dev server + Electron, with reload
-npm run dist                 # -> desktop/release/BOAR-Setup-<version>.exe
+npm run dist                 # -> desktop/release/: the installer on Windows, AppImage and .deb on Linux
 ```
 
 Tests: `npm test` at the root and in `desktop/`; `npm run e2e` in `desktop/` drives the real app with Playwright.
