@@ -82,6 +82,8 @@ function makeFake(): Fake {
     deps: null as unknown as AnswerDeps,
   };
   f.deps = {
+    // These fixtures ask fact questions ("capital of Australia") to exercise the model path; FACTS has its own tests.
+    facts: false,
     now: () => (clock += 5),
     engine: {
       async load(filename) {
@@ -1947,5 +1949,36 @@ describe("answer(): a conversation limited to some documents", () => {
     expect(events.some((e) => e.type === "places")).toBe(false);
     expect(result.receipt.reasonCodes).toContain("retrieve:scoped-1");
     expect(f.multipassCalls).toBe(0);
+  });
+});
+
+describe("answer(): CO hazard and FACTS instant answers (ported from mobile expo)", () => {
+  it("CO hazard: a generator in the garage with the door open gets the fixed CDC/CPSC/NHS answer, no model", async () => {
+    const { events, result } = await collect("Can I run my generator in the garage with the door open?");
+    expect(types(events)).toEqual(["token", "done"]);
+    expect(result.receipt.reasonCodes).toEqual(["answer:safety-fact-co-hazard"]);
+    expect(result.text).toMatch(/^No\. Carbon monoxide/);
+    expect(result.text).toMatch(/Sources: CDC.*CPSC.*NHS/);
+    expect(f.loads).toEqual([]);
+    const pt = await collect("Posso usar aquecedor a gás dentro da barraca?");
+    expect(pt.result.receipt.reasonCodes).toEqual(["answer:safety-fact-co-hazard"]);
+    expect(pt.result.text).toMatch(/^Não\. O monóxido de carbono/);
+  });
+  it("FACTS: population and a comparison come from the Wikidata table, with the source line", async () => {
+    f.deps.facts = undefined; // default: on
+    const one = await collect("What is Japan's population in 2025?");
+    expect(one.result.receipt.reasonCodes).toEqual(["answer:facts-population"]);
+    expect(one.result.text).toMatch(/Wikidata/);
+    const cmp = await collect("is Japan's population larger than Nigeria's?");
+    expect(cmp.result.receipt.reasonCodes).toEqual(["answer:facts-population"]);
+    expect(cmp.result.text).toMatch(/^(Yes|No)\./);
+    expect(f.loads).toEqual([]);
+  });
+  it("FACTS: off when deps.facts is false or the question is about health", async () => {
+    f.deps.facts = undefined;
+    expect((await collect("What is the capital of Australia?")).result.receipt.reasonCodes).toEqual(["answer:facts-capital"]);
+    expect((await collect("What is the population of Japan and is ibuprofen safe for my fever?")).result.receipt.reasonCodes).not.toContain("answer:facts-population");
+    f.deps.facts = false;
+    expect((await collect("What is the capital of Australia?")).result.receipt.reasonCodes).not.toContain("answer:facts-capital");
   });
 });

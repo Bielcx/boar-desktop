@@ -19,6 +19,7 @@ import {
   HEALTH_GROUNDING_INSTRUCTION,
   isHealthQuestion,
   isSafetyQuery,
+  isSpanishQuestion,
   isCurrentEventQuery,
   currentEventAnswer,
   mentionsNow,
@@ -71,6 +72,8 @@ import { attributeCitations, checkCitations } from "./citations";
 import { calculate } from "./calculators";
 import { emergencyNumbersAnswer } from "./emergencyNumbers";
 import { isSnakebiteFirstAid, snakebiteFirstAidCard } from "./firstAidCards";
+import { coHazardAnswer, coHazardLanguage } from "./coHazard";
+import { factsAnswer } from "../rag/facts";
 import type { LoadFailureKind } from "../inference/loadError";
 import { DepthModel, planAnswer, resolveDeepModel, AnswerPlan, deepAutoIneligibility } from "./depth";
 import { isCompactModel, pickDefaultAnswerModel, tooBigForLowRam } from "./defaultModel";
@@ -196,6 +199,8 @@ export interface AnswerDeps {
    * jetsam counts and what the "[BOAR mem] footprint_mb" log line shows; Android: VmRSS. 0 or a throw = unknown.
    */
   memoryBytes?(): number;
+  /** FACTS instant tier (src/rag/facts.ts); default on. false = off (model-path tests whose fixtures are fact questions). */
+  facts?: boolean;
 }
 
 /** A generation samples the app's memory every this many tokens (plus load, first token and end). */
@@ -321,7 +326,8 @@ export function createAnswerer(deps: AnswerDeps) {
     let signalStop: () => void = () => {};
     const stopSignal = new Promise<"stopped">((r) => (signalStop = () => r("stopped")));
     // Health, first aid or a disaster: the chat shows the emergency-services line (one classifier: this one).
-    const safety = isSafetyQuery(req.query);
+    const coHazard = coHazardLanguage(req.query);
+    const safety = isSafetyQuery(req.query) || coHazard !== null;
     /** Whether the chat was already told that no strong source backs this answer. */
     let weakSourcesSent = false;
     const emit = (e: AnswerEvent) => {
@@ -587,6 +593,15 @@ export function createAnswerer(deps: AnswerDeps) {
           emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
           return { answerId, tier: "instant", outcome: "success", text: card, sources: [], receipt: r, cited: [] };
         }
+        // CO hazard (EN/PT/ES): a fuel-burning device in a garage, tent or home is never a model answer (ship L3: "yes, with ventilation").
+        if (coHazard) {
+          const text = coHazardAnswer(req.query, coHazard);
+          markVisible();
+          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "Safety facts (CDC)", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: ["answer:safety-fact-co-hazard"] };
+          emit({ type: "token", answerId, tier: "instant", text });
+          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
+          return { answerId, tier: "instant", outcome: "success", text, sources: [], receipt: r, cited: [] };
+        }
         // A country's emergency numbers: a fixed table, never a guess (Sextant trv-001-pt).
         const numbers = emergencyNumbersAnswer(req.query, isPortugueseQuestion(req.query));
         if (numbers) {
@@ -613,6 +628,20 @@ export function createAnswerer(deps: AnswerDeps) {
           emit({ type: "token", answerId, tier: "instant", text: calc.text });
           emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
           return { answerId, tier: "instant", outcome: "success", text: calc.text, sources: [], receipt: r, cited: [] };
+        }
+        // FACTS (coordinator arm, criterion arms/facts 4328960e): a fact from the offline Wikidata table when the question names a
+        // table entity and asks exactly one property (population, area, capital, height, length, depth, dates, plugs/voltage,
+        // host city, award winner); comparisons get a computed verdict. Never on a health or safety message (EN only).
+        const fact =
+          deps.facts === false || isPortugueseQuestion(req.query) || isSpanishQuestion(req.query) || isHealthQuestion(req.query) || isSafetyQuery(req.query)
+            ? null
+            : factsAnswer(req.query);
+        if (fact) {
+          markVisible();
+          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "Offline facts (Wikidata)", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: [`answer:facts-${fact.template}`] };
+          emit({ type: "token", answerId, tier: "instant", text: fact.text });
+          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
+          return { answerId, tier: "instant", outcome: "success", text: fact.text, sources: [], receipt: r, cited: [] };
         }
       }
 
