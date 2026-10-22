@@ -26,10 +26,10 @@ describe("totalManifestBytes", () => {
 });
 
 describe("answer models and the setup set", () => {
-  it("has exactly one default (Qwen3-4B-2507) and one compact (Qwen2.5-1.5B) answer model, neither required", () => {
+  it("has exactly one default (Qwen3-4B-2507) and one compact (Qwen3-1.7B, as the native app) answer model, neither required", () => {
     expect(ANSWER_MODELS.map((m) => [m.id, m.answerTier])).toEqual([
       ["qwen3-4b-instruct-2507-q4km", "default"],
-      ["qwen2.5-1.5b-instruct-q4km", "compact"],
+      ["qwen3-1.7b-q4km", "compact"],
     ]);
     for (const m of ANSWER_MODELS) {
       expect(m.kind).toBe("llm");

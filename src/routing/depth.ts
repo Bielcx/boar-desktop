@@ -253,11 +253,13 @@ export function planAnswer(i: DepthInput): AnswerPlan {
       mode: retrievalIrrelevant ? "single" : "multipass",
       retrieveK: FAST_RETRIEVE_K,
       contextTokens: FAST_CONTEXT_TOKENS,
-      thinking: true,
+      thinking: false,
     };
     reasonCodes.push(`generate:no-deep-model-${generation.mode}-on-${i.fastModel.id}`);
   } else if (i.fastModel) {
-    generation = { tier: "fast", modelId: i.fastModel.id, mode: "single", ...quickBudget(i.taskType), thinking: true };
+    // Thinking off, as the native app since v2.0.0-rc1 (AnswerPipeline.kt, EngineTweaks.thinking off by default): a
+    // hybrid model (Qwen3 1.7B) would spend the answer's budget reasoning first.
+    generation = { tier: "fast", modelId: i.fastModel.id, mode: "single", ...quickBudget(i.taskType), thinking: false };
     reasonCodes.push(`generate:user-model-${i.fastModel.id}`);
   } else {
     reasonCodes.push("generate:no-model");
