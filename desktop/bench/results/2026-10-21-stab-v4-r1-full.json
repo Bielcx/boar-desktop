@@ -1,0 +1,1565 @@
+{
+  "meta": {
+    "label": "stab-v4",
+    "mode": "full",
+    "date": "2026-10-21T16:11:24.610Z",
+    "commit": "e4e32c7+dirty",
+    "model": "qwen3-4b-instruct-2507-q4km",
+    "nCtx": 4096,
+    "threads": "app default (auto)",
+    "retrieveK": "app default",
+    "kvCache": "app default",
+    "contextTokens": "app default",
+    "wikiPack": "boar-wiki-en-00.sqlite",
+    "gpuLayers": "auto",
+    "seed": 42,
+    "backend": {
+      "gpu": true,
+      "devices": [
+        "NVIDIA GeForce GTX 1650",
+        "Intel(R) UHD Graphics"
+      ],
+      "reasonNoGPU": ""
+    },
+    "cpu": "Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz",
+    "totalRamGB": 15.8,
+    "node": "v24.18.0",
+    "evalSetVersion": "1",
+    "scoreVersion": 1,
+    "questions": [
+      "greeting-1",
+      "factual-1",
+      "factual-2",
+      "explanation-1",
+      "explanation-2",
+      "comparison-1",
+      "comparison-2",
+      "synthesis-1",
+      "synthesis-2",
+      "synthesis-3",
+      "reasoning-1",
+      "reasoning-2",
+      "reasoning-3",
+      "grounded-1",
+      "grounded-2",
+      "no-kb-1",
+      "no-kb-2",
+      "decline-1",
+      "decline-2",
+      "decline-3",
+      "decline-pt-1",
+      "pt-1",
+      "pt-2",
+      "pt-3",
+      "pt-4",
+      "pt-5"
+    ],
+    "gpuBefore": {
+      "tempC": 73,
+      "smClockMHz": 1380,
+      "utilPct": 13
+    },
+    "gpuAfter": {
+      "tempC": 81,
+      "smClockMHz": 1380,
+      "utilPct": 18
+    },
+    "wallSeconds": 645
+  },
+  "speed": {
+    "embedLoadMs": 1900,
+    "indexMs": 9463,
+    "indexDocs": 300,
+    "llmLoadMs": 39564,
+    "decodeTokPerSec": 29.5,
+    "microTtftMs": 199,
+    "prefillTokPerSec": 317.5,
+    "prefillTokens": 1189,
+    "prefillMs": 3745,
+    "answerTtftMs": 1512,
+    "answerTotalMs": 19056,
+    "answerTokPerSec": 26.7,
+    "answerPrefillMs": 1209,
+    "micro": {
+      "decode": [
+        {
+          "ttftMs": 548.8811999999962,
+          "tokens": 128,
+          "tokPerSec": 28.528057009755962,
+          "promptTokens": 41
+        },
+        {
+          "ttftMs": 213.18980000000738,
+          "tokens": 128,
+          "tokPerSec": 21.35926276635628,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 208.1143000000011,
+          "tokens": 128,
+          "tokPerSec": 29.960553654178653,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 266.57360000000335,
+          "tokens": 128,
+          "tokPerSec": 26.804124920289166,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 189.40250000001106,
+          "tokens": 128,
+          "tokPerSec": 29.46030244959198,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 199.305400000012,
+          "tokens": 128,
+          "tokPerSec": 29.863689057776327,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 198.47389999999723,
+          "tokens": 128,
+          "tokPerSec": 30.124302048751385,
+          "promptTokens": 36
+        },
+        {
+          "ttftMs": 194.12230000000272,
+          "tokens": 128,
+          "tokPerSec": 28.512181150004473,
+          "promptTokens": 36
+        }
+      ],
+      "prefill": [
+        {
+          "tokens": 1189,
+          "ms": 3888.631300000008,
+          "tokPerSec": 305.7631100176552
+        },
+        {
+          "tokens": 1189,
+          "ms": 3681.1145999999862,
+          "tokPerSec": 322.99999570782296
+        },
+        {
+          "tokens": 1189,
+          "ms": 3793.708400000003,
+          "tokPerSec": 313.4136508752225
+        },
+        {
+          "tokens": 1189,
+          "ms": 3624.106700000004,
+          "tokPerSec": 328.08084817149523
+        },
+        {
+          "tokens": 1189,
+          "ms": 3689.972299999994,
+          "tokPerSec": 322.2246410901247
+        },
+        {
+          "tokens": 1189,
+          "ms": 3744.963400000008,
+          "tokPerSec": 317.4930895185778
+        },
+        {
+          "tokens": 1189,
+          "ms": 3754.623800000001,
+          "tokPerSec": 316.6762006888678
+        },
+        {
+          "tokens": 1189,
+          "ms": 3745.8413000000146,
+          "tokPerSec": 317.4186797502594
+        }
+      ]
+    }
+  },
+  "memory": {
+    "peakRssMB": 2589,
+    "vramBaseMB": 1252,
+    "vramAfterLoadMB": 4620,
+    "peakVramMB": 4694
+  },
+  "retrieval": {
+    "k": 6,
+    "questions": 10,
+    "hitAtK": 1,
+    "recallAtK": 1,
+    "mrr": 0.9,
+    "hitAt1": 0.8,
+    "negatives": 8,
+    "negativesEmpty": 0.25,
+    "medianMs": 311,
+    "perQuery": [
+      {
+        "id": "factual-2",
+        "expected": [
+          "Evolution"
+        ],
+        "got": [
+          "Evolution",
+          "Evolution of human intelligence",
+          "David Attenborough",
+          "Applications of evolution",
+          "The eclipse of Darwinism",
+          "Evolution of morality"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 916
+      },
+      {
+        "id": "explanation-1",
+        "expected": [
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine",
+          "Bordetella",
+          "Baxter International"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 274
+      },
+      {
+        "id": "explanation-2",
+        "expected": [
+          "Photosynthesis"
+        ],
+        "got": [
+          "Photosynthesis",
+          "1-Triacontanol",
+          "Terence McKenna",
+          "Glossary of biology",
+          "Proxima Centauri b"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 261
+      },
+      {
+        "id": "comparison-1",
+        "expected": [
+          "French Revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "Industrial Revolution",
+          "French Revolution",
+          "Leninism",
+          "Fourth Industrial Revolution",
+          "Insurrection of 10 August 1792"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 404
+      },
+      {
+        "id": "comparison-2",
+        "expected": [
+          "Supply and demand",
+          "Behavioral economics"
+        ],
+        "got": [
+          "Supply and demand",
+          "Behavioral economics",
+          "Financial economics",
+          "Glossary of economics",
+          "Jean-Philippe Bouchaud"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 915
+      },
+      {
+        "id": "synthesis-1",
+        "expected": [
+          "Agricultural revolution",
+          "Industrial Revolution"
+        ],
+        "got": [
+          "British Agricultural Revolution",
+          "Industrial Revolution",
+          "Agricultural revolution"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 0.5,
+        "top1": false,
+        "ms": 437
+      },
+      {
+        "id": "synthesis-2",
+        "expected": [
+          "Immune system",
+          "Vaccine"
+        ],
+        "got": [
+          "Vaccine",
+          "Immune system",
+          "Body memory",
+          "Immunogenicity",
+          "Antigenic variation"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 298
+      },
+      {
+        "id": "synthesis-3",
+        "expected": [
+          "Amazon rainforest"
+        ],
+        "got": [
+          "Climate change feedbacks",
+          "Amazon rainforest",
+          "Biodiversity loss",
+          "Forest"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 0.5,
+        "top1": false,
+        "ms": 807
+      },
+      {
+        "id": "grounded-1",
+        "expected": [
+          "Fall of the Western Roman Empire"
+        ],
+        "got": [
+          "Fall of the Western Roman Empire",
+          "Byzantine Empire",
+          "Roman infantry tactics",
+          "Limes (Roman Empire)",
+          "Galactic empire"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 316
+      },
+      {
+        "id": "grounded-2",
+        "expected": [
+          "Black hole"
+        ],
+        "got": [
+          "Black hole",
+          "Stellar black hole",
+          "Black hole cosmology",
+          "Big Bounce"
+        ],
+        "hit": true,
+        "recall": 1,
+        "rr": 1,
+        "top1": true,
+        "ms": 488
+      }
+    ],
+    "negativeDetails": [
+      {
+        "query": "hey, what's up?",
+        "got": [
+          "HEI Hotels & Resorts",
+          "Education in Greece",
+          "Lee Chun Hei",
+          "Wir sind des Geyers schwarzer Haufen"
+        ],
+        "ms": 231
+      },
+      {
+        "query": "Who was Napoleon Bonaparte?",
+        "got": [
+          "Napoleon",
+          "Jerome Napoleon Bonaparte II"
+        ],
+        "ms": 122
+      },
+      {
+        "query": "whats your name?",
+        "got": [
+          "Yes/no question",
+          "Deaths in 2025",
+          "Whataburger",
+          "Development of Windows Vista",
+          "What's Your Mama's Name (song)",
+          "List of The Powerpuff Girls characters"
+        ],
+        "ms": 709
+      },
+      {
+        "query": "who are you?",
+        "got": [],
+        "ms": 109
+      },
+      {
+        "query": "what can you do?",
+        "got": [],
+        "ms": 46
+      },
+      {
+        "query": "tell me a joke",
+        "got": [
+          "Jeff Rovin",
+          "Knock-knock joke",
+          "List of practical joke topics",
+          "Silent Hill",
+          "The Killing Joke (novel)"
+        ],
+        "ms": 161
+      },
+      {
+        "query": "what time is it?",
+        "got": [
+          "Jeff Hardy",
+          "Time",
+          "Ecclesiastes",
+          "The Times"
+        ],
+        "ms": 500
+      },
+      {
+        "query": "can you help me?",
+        "got": [
+          "Bass Pro Shops",
+          "Sudeepa",
+          "Context-sensitive help",
+          "Postpartum depression",
+          "Microsoft Help Viewer",
+          "Microsoft Help 2"
+        ],
+        "ms": 305
+      }
+    ]
+  },
+  "quality": {
+    "scoreV1": 97,
+    "scoreParts": {
+      "speed": 1,
+      "reliability": 1,
+      "retrieval": 0.8
+    },
+    "completed": 26,
+    "answers": 26,
+    "declined": 0,
+    "retrievalHits": "12/15",
+    "factsPassed": 17,
+    "factsTotal": 18,
+    "factsRate": 0.944,
+    "shouldAnswer": 16,
+    "falseDeclines": 0,
+    "shouldDecline": 4,
+    "falseAnswers": 0,
+    "wrongAnswers": 1,
+    "declineReasons": {}
+  },
+  "answers": [
+    {
+      "id": "greeting-1",
+      "outcome": "success",
+      "tier": "instant",
+      "declined": false,
+      "ttftMs": 13,
+      "totalMs": 13,
+      "tokens": 0,
+      "tokPerSec": 0,
+      "prefillTokens": 0,
+      "prefillMs": 0,
+      "cachedTokens": 0,
+      "completions": 0,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "answer:small-talk-greeting"
+      ],
+      "modelText": [],
+      "answer": "All good, and ready offline. What would you like to know?"
+    },
+    {
+      "id": "factual-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 1617,
+      "ttftMs": 1585,
+      "totalMs": 17803,
+      "tokens": 392,
+      "tokPerSec": 26.8,
+      "prefillTokens": 387,
+      "prefillMs": 1525,
+      "cachedTokens": 293,
+      "completions": 1,
+      "retrieved": [
+        "Capital gains tax",
+        "History of the Australian Capital Territory",
+        "Australian Capital Territory"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:522->345",
+        "citations:moved-3",
+        "citations:added-2"
+      ],
+      "modelText": [
+        "The capital of Australia is Canberra.\n\nCanberra is the capital city of Australia and is located within the Australian Capital Territory (ACT), an internal territory established to serve as the nation's seat of government. It was selected as the capital in 1913 as a compromise between Sydney and Melbourne, the two largest colonial cities, to avoid political bias and ensure equitable representation. The city was officially designated as the capital when the Australian Capital Territory was established in 1911, and it was officially inaugurated in 1913 after the completion of key infrastructure and government buildings [3].\n\nCanberra is designed as a planned city, with its layout reflecting a balance between the natural environment and urban development. Its design, influenced by the need for a neutral and spacious capital, includes the iconic Parliamentary Triangle, which houses the Parliament House, the High Court of Australia, and other federal government institutions. The city's location was chosen to be equidistant from Sydney and Melbourne, and it has since become the center of Australian federal governance, housing the head offices of numerous government agencies and departments.\n\nThe Australian Capital Territory, while not a state, holds significant political and administrative importance. It operates under a separate legislative framework and is governed by the ACT Legislative Assembly, which has a level of autonomy in managing local affairs. The territory is administered by the Australian Government, and its jurisdiction includes matters such as land use, transport, and environmental management. Despite its small size, Canberra plays a central role in Australia’s political and ceremonial life.\n\nIt is important to note that while Australia has several major cities—such as Sydney, Melbourne, Brisbane, and Perth—none of these serve as the official capital. The designation of Canberra as the capital is unique and reflects Australia’s effort to create a neutral political center. The city has also evolved over time to include cultural, educational, and research institutions, contributing to its status as a center of national policy and governance."
+      ],
+      "answer": "The capital of Australia is Canberra [2].\n\nCanberra is the capital city of Australia and is located within the Australian Capital Territory (ACT), an internal territory established to serve as the nation's seat of government [3]. It was selected as the capital in 1913 as a compromise between Sydney and Melbourne, the two largest colonial cities, to avoid political bias and ensure equitable representation. The city was officially designated as the capital when the Australian Capital Territory was established in 1911, and it was officially inaugurated in 1913 after the completion of key infrastructure and government buildings.\n\nCanberra is designed as a planned city, with its layout reflecting a balance between the natural environment and urban development. Its design, influenced by the need for a neutral and spacious capital, includes the iconic Parliamentary Triangle, which houses the Parliament House, the High Court of Australia, and other federal government institutions. The city's location was chosen to be equidistant from Sydney and Melbourne, and it has since become the center of Australian federal governance, housing the head offices of numerous government agencies and departments.\n\nThe Australian Capital Territory, while not a state, holds significant political and administrative importance. It operates under a separate legislative framework and is governed by the ACT Legislative Assembly, which has a level of autonomy in managing local affairs. The territory is administered by the Australian Government, and its jurisdiction includes matters such as land use, transport, and environmental management. Despite its small size, Canberra plays a central role in Australia’s political and ceremonial life.\n\nIt is important to note that while Australia has several major cities—such as Sydney, Melbourne, Brisbane, and Perth—none of these serve as the official capital. The designation of Canberra as the capital is unique and reflects Australia’s effort to create a neutral political center. The city has also evolved over time to include cultural, educational, and research institutions, contributing to its status as a center of national policy and governance."
+    },
+    {
+      "id": "factual-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 432,
+      "ttftMs": 1959,
+      "totalMs": 17087,
+      "tokens": 406,
+      "tokPerSec": 26.9,
+      "prefillTokens": 413,
+      "prefillMs": 1526,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Evolution",
+        "Evolution of human intelligence",
+        "David Attenborough"
+      ],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:539->427",
+        "instant:off-topic",
+        "citations:removed-1",
+        "citations:added-3"
+      ],
+      "modelText": [
+        "Charles Darwin proposed the theory of evolution by natural selection.\n\nDarwin's theory of evolution by natural selection was developed over several decades through extensive observations, particularly during his voyage aboard the HMS Beagle from 1831 to 1836. During this journey, he collected specimens from various parts of the world, including the Galápagos Islands, which led him to observe similarities and differences among species that lived in different environments. These observations, combined with his analysis of existing scientific literature, led him to formulate the idea that species evolve over time through the differential survival and reproduction of individuals with advantageous traits.\n\nThe core principle of natural selection is that individuals within a population exhibit variation in traits, and those with traits better suited to their environment are more likely to survive and reproduce. Over successive generations, these beneficial traits become more common in the population, leading to gradual change and the emergence of new species. This process does not require any goal or direction; it is driven purely by environmental pressures and the reproductive success of individuals.\n\nAlthough Darwin published his findings in detail in 1859 in the book *On the Origin of Species*, he did not originally develop the theory in isolation. His work was influenced by earlier ideas, especially those of Alfred Russel Wallace, who independently arrived at a similar conclusion. Darwin and Wallace jointly presented their theory to the scientific community, and the theory gained widespread acceptance after further validation through evidence in genetics and paleontology. The theory remains a cornerstone of modern biology, providing a unifying framework for understanding biodiversity and the relatedness of all living organisms.\n\nIt is important to note that the term \"theory\" in science does not imply a speculative or unproven idea, as it may be interpreted in everyday language. In scientific context, a theory is a well-substantiated explanation of some aspect of the natural world, based on a body of evidence and repeatedly tested. Darwin's theory of evolution by natural selection is one of the most robust and widely supported scientific theories. [1]"
+      ],
+      "answer": "Charles Darwin proposed the theory of evolution by natural selection [3].\n\nDarwin's theory of evolution by natural selection was developed over several decades through extensive observations, particularly during his voyage aboard the HMS Beagle from 1831 to 1836. During this journey, he collected specimens from various parts of the world, including the Galápagos Islands, which led him to observe similarities and differences among species that lived in different environments. These observations, combined with his analysis of existing scientific literature, led him to formulate the idea that species evolve over time through the differential survival and reproduction of individuals with advantageous traits.\n\nThe core principle of natural selection is that individuals within a population exhibit variation in traits, and those with traits better suited to their environment are more likely to survive and reproduce. Over successive generations, these beneficial traits become more common in the population, leading to gradual change and the emergence of new species. This process does not require any goal or direction; it is driven purely by environmental pressures and the reproductive success of individuals.\n\nAlthough Darwin published his findings in detail in 1859 in the book *On the Origin of Species*, he did not originally develop the theory in isolation. His work was influenced by earlier ideas, especially those of Alfred Russel Wallace, who independently arrived at a similar conclusion. Darwin and Wallace jointly presented their theory to the scientific community, and the theory gained widespread acceptance after further validation through evidence in genetics and paleontology. The theory remains a cornerstone of modern biology, providing a unifying framework for understanding biodiversity and the relatedness of all living organisms.\n\nIt is important to note that the term \"theory\" in science does not imply a speculative or unproven idea, as it may be interpreted in everyday language. In scientific context, a theory is a well-substantiated explanation of some aspect of the natural world, based on a body of evidence and repeatedly tested. Darwin's theory of evolution by natural selection is one of the most robust and widely supported scientific theories."
+    },
+    {
+      "id": "explanation-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 312,
+      "ttftMs": 313,
+      "totalMs": 18078,
+      "tokens": 444,
+      "tokPerSec": 26.7,
+      "prefillTokens": 261,
+      "prefillMs": 1111,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine",
+        "Bordetella"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:889->191",
+        "citations:moved-1",
+        "citations:removed-2"
+      ],
+      "modelText": [
+        "Vaccines work by training the immune system to recognize and fight specific pathogens, such as viruses or bacteria, without causing the disease itself. They do this by introducing an antigen—either a weakened or inactivated form of the pathogen, or a part of it—into the body, prompting the immune system to generate antibodies and memory cells. When the body encounters the actual pathogen later, it can respond more quickly and effectively, often preventing illness or reducing its severity.\n\nFirst-generation vaccines, such as live-attenuated or killed vaccines, present the immune system with whole organisms or parts of them. Live-attenuated vaccines, like those for smallpox or polio, mimic natural infection and can trigger strong and broad immune responses, including both antibody production and activation of killer T-cells and helper T-cells. This leads to long-lasting immunity. In contrast, killed vaccines, while safer because they don't contain live microbes, typically do not stimulate killer T-cell responses and may be less effective for certain diseases due to limited immune activation [1].\n\nSecond-generation vaccines were developed to improve safety and efficacy by minimizing risks associated with live vaccines. These include subunit, recombinant, and conjugate vaccines, which use only specific components of the pathogen—like proteins or sugars—rather than whole organisms. These components are often more targeted and can be engineered to elicit strong antibody and T-cell responses while being safer for vulnerable populations. For example, in bacterial vaccines like those for Bordetella, live intranasal or oral vaccines have been shown to be more effective than killed subcutaneous forms, indicating that route and form of delivery influence immune activation [2].\n\nThe effectiveness of a vaccine also depends on how well it stimulates both humoral and cellular immunity. Humoral immunity produces antibodies that neutralize pathogens, while cellular immunity—especially killer T-cell responses—helps eliminate infected cells. A well-designed vaccine should ideally activate both arms of the immune system to provide comprehensive protection. Additionally, the route of administration (e.g., intranasal, oral, or subcutaneous) affects how the immune system perceives the antigen and can influence the strength and type of response generated."
+      ],
+      "answer": "Vaccines work by training the immune system to recognize and fight specific pathogens, such as viruses or bacteria, without causing the disease itself. They do this by introducing an antigen—either a weakened or inactivated form of the pathogen, or a part of it—into the body, prompting the immune system to generate antibodies and memory cells. When the body encounters the actual pathogen later, it can respond more quickly and effectively, often preventing illness or reducing its severity.\n\nFirst-generation vaccines, such as live-attenuated or killed vaccines, present the immune system with whole organisms or parts of them [1]. Live-attenuated vaccines, like those for smallpox or polio, mimic natural infection and can trigger strong and broad immune responses, including both antibody production and activation of killer T-cells and helper T-cells. This leads to long-lasting immunity. In contrast, killed vaccines, while safer because they don't contain live microbes, typically do not stimulate killer T-cell responses and may be less effective for certain diseases due to limited immune activation.\n\nSecond-generation vaccines were developed to improve safety and efficacy by minimizing risks associated with live vaccines. These include subunit, recombinant, and conjugate vaccines, which use only specific components of the pathogen—like proteins or sugars—rather than whole organisms. These components are often more targeted and can be engineered to elicit strong antibody and T-cell responses while being safer for vulnerable populations. For example, in bacterial vaccines like those for Bordetella, live intranasal or oral vaccines have been shown to be more effective than killed subcutaneous forms, indicating that route and form of delivery influence immune activation.\n\nThe effectiveness of a vaccine also depends on how well it stimulates both humoral and cellular immunity. Humoral immunity produces antibodies that neutralize pathogens, while cellular immunity—especially killer T-cell responses—helps eliminate infected cells. A well-designed vaccine should ideally activate both arms of the immune system to provide comprehensive protection. Additionally, the route of administration (e.g., intranasal, oral, or subcutaneous) affects how the immune system perceives the antigen and can influence the strength and type of response generated."
+    },
+    {
+      "id": "explanation-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 409,
+      "ttftMs": 1267,
+      "totalMs": 15478,
+      "tokens": 336,
+      "tokPerSec": 23.7,
+      "prefillTokens": 238,
+      "prefillMs": 857,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:919->361",
+        "grounding:off-topic-dropped-1",
+        "instant:off-topic",
+        "citations:removed-1",
+        "citations:added-1"
+      ],
+      "modelText": [
+        "Photosynthesis is how plants, algae, and some bacteria use sunlight to make their own food.\n\nIn simple terms, plants take in sunlight, carbon dioxide from the air, and water from the soil. Using sunlight as energy, they combine these ingredients to create glucose—a type of sugar that the plant can use for energy and growth. As a byproduct, oxygen is released into the atmosphere. This process is essential for life on Earth because it provides the oxygen we breathe and forms the base of most food chains.\n\nThe process happens mainly in the leaves of plants, especially in a green part called the chloroplast. Inside the chloroplast, a pigment called chlorophyll absorbs sunlight, especially blue and red wavelengths. This energy powers a series of chemical reactions. First, water molecules are split into hydrogen and oxygen; the oxygen is released, and the hydrogen is used to convert carbon dioxide into glucose. This stage is known as the light-dependent reactions. In a second stage, called the light-independent reactions (Calvin cycle), the plant builds sugar molecules using the energy harvested earlier.\n\nPhotosynthesis is not just about making food for plants—it plays a crucial role in the global ecosystem. It helps regulate the climate by absorbing carbon dioxide from the atmosphere, reducing greenhouse gases. The glucose produced can be used directly by the plant or passed along to other organisms when they eat the plant. Without photosynthesis, most life on Earth would not have a sustainable food supply or breathable air.\n\nThe process is fundamental to life as we know it and is the primary source of organic matter in ecosystems. It connects sunlight to biological energy, forming a natural cycle that sustains both plants and animals. [1]"
+      ],
+      "answer": "Photosynthesis is how plants, algae, and some bacteria use sunlight to make their own food.\n\nIn simple terms, plants take in sunlight, carbon dioxide from the air, and water from the soil. Using sunlight as energy, they combine these ingredients to create glucose—a type of sugar that the plant can use for energy and growth. As a byproduct, oxygen is released into the atmosphere [1]. This process is essential for life on Earth because it provides the oxygen we breathe and forms the base of most food chains.\n\nThe process happens mainly in the leaves of plants, especially in a green part called the chloroplast. Inside the chloroplast, a pigment called chlorophyll absorbs sunlight, especially blue and red wavelengths. This energy powers a series of chemical reactions. First, water molecules are split into hydrogen and oxygen; the oxygen is released, and the hydrogen is used to convert carbon dioxide into glucose. This stage is known as the light-dependent reactions. In a second stage, called the light-independent reactions (Calvin cycle), the plant builds sugar molecules using the energy harvested earlier.\n\nPhotosynthesis is not just about making food for plants—it plays a crucial role in the global ecosystem. It helps regulate the climate by absorbing carbon dioxide from the atmosphere, reducing greenhouse gases. The glucose produced can be used directly by the plant or passed along to other organisms when they eat the plant. Without photosynthesis, most life on Earth would not have a sustainable food supply or breathable air.\n\nThe process is fundamental to life as we know it and is the primary source of organic matter in ecosystems. It connects sunlight to biological energy, forming a natural cycle that sustains both plants and animals."
+    },
+    {
+      "id": "comparison-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 298,
+      "ttftMs": 1876,
+      "totalMs": 20235,
+      "tokens": 484,
+      "tokPerSec": 26.4,
+      "prefillTokens": 491,
+      "prefillMs": 1576,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "French Revolution",
+        "Industrial Revolution",
+        "Leninism"
+      ],
+      "expected": [
+        "French Revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:compare",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:527->505",
+        "instant:off-topic",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The French Revolution and the Industrial Revolution are not comparable in nature or scope because they represent fundamentally different historical phenomena. The French Revolution was a political and social upheaval that occurred in France from 1789 to 1799, driven by demands for civil liberties, equality, and political reform, and marked by the overthrow of the monarchy and the rise of radical democratic ideals. In contrast, the Industrial Revolution was an economic and technological transformation that began in Great Britain around 1760 and spread globally by the 19th century, characterized by the shift from agrarian economies to industrialized manufacturing using machines, factories, and new energy sources.\n\nThe French Revolution was rooted in social and political discontent with the ancien régime, including issues of inequality, lack of representation, and economic hardship. It led to the establishment of a republic, the rise of democratic institutions, and the spread of revolutionary ideals such as liberty, fraternity, and equality—principles that continue to influence modern political thought. The revolution was driven by a combination of elite dissatisfaction and popular mobilization, culminating in major events like the Storming of the Bastille and the execution of King Louis XVI. It was not a change in economic systems, but rather a transformation in governance and social structures.\n\nIn contrast, the Industrial Revolution fundamentally altered the economic and technological foundations of society. It introduced mechanized production, steam power, and mass manufacturing, leading to urbanization, the growth of a capitalist economy, and significant changes in labor practices. While it did not directly result in political upheaval like the French Revolution, it created new social classes—industrial workers, factory owners, and the bourgeoisie—and generated new political demands, such as labor rights and regulatory reforms. The economic shift had ripple effects on political systems, including the rise of parliamentary democracy and the expansion of public services.\n\nNeither event was a direct cause of the other. The French Revolution occurred before the Industrial Revolution in the late 18th century, and while both were pivotal in shaping modern society, they operated in different domains: one in political ideology and social transformation, the other in technological and economic progress. The French Revolution emphasized the struggle for political freedom and equality, while the Industrial Revolution emphasized productivity, innovation, and economic growth. Together, they represent two of the most transformative periods in world history, but they differ in cause, mechanism, and outcomes."
+      ],
+      "answer": "The French Revolution and the Industrial Revolution are not comparable in nature or scope because they represent fundamentally different historical phenomena. The French Revolution was a political and social upheaval that occurred in France from 1789 to 1799, driven by demands for civil liberties, equality, and political reform, and marked by the overthrow of the monarchy and the rise of radical democratic ideals. In contrast, the Industrial Revolution was an economic and technological transformation that began in Great Britain around 1760 and spread globally by the 19th century, characterized by the shift from agrarian economies to industrialized manufacturing using machines, factories, and new energy sources.\n\nThe French Revolution was rooted in social and political discontent with the ancien régime, including issues of inequality, lack of representation, and economic hardship. It led to the establishment of a republic, the rise of democratic institutions, and the spread of revolutionary ideals such as liberty, fraternity, and equality—principles that continue to influence modern political thought. The revolution was driven by a combination of elite dissatisfaction and popular mobilization, culminating in major events like the Storming of the Bastille and the execution of King Louis XVI. It was not a change in economic systems, but rather a transformation in governance and social structures.\n\nIn contrast, the Industrial Revolution fundamentally altered the economic and technological foundations of society. It introduced mechanized production, steam power, and mass manufacturing, leading to urbanization, the growth of a capitalist economy, and significant changes in labor practices. While it did not directly result in political upheaval like the French Revolution, it created new social classes—industrial workers, factory owners, and the bourgeoisie—and generated new political demands, such as labor rights and regulatory reforms. The economic shift had ripple effects on political systems, including the rise of parliamentary democracy and the expansion of public services.\n\nNeither event was a direct cause of the other. The French Revolution occurred before the Industrial Revolution in the late 18th century, and while both were pivotal in shaping modern society, they operated in different domains: one in political ideology and social transformation, the other in technological and economic progress. The French Revolution emphasized the struggle for political freedom and equality, while the Industrial Revolution emphasized productivity, innovation, and economic growth. Together, they represent two of the most transformative periods in world history, but they differ in cause, mechanism, and outcomes."
+    },
+    {
+      "id": "comparison-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 517,
+      "ttftMs": 1651,
+      "totalMs": 20179,
+      "tokens": 498,
+      "tokPerSec": 26.9,
+      "prefillTokens": 301,
+      "prefillMs": 1183,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expected": [
+        "Supply and demand",
+        "Behavioral economics"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:593->472",
+        "grounding:off-topic-dropped-1",
+        "citations:removed-2",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The simple supply and demand model breaks down when it assumes that individuals always act rationally, with perfect information and no cognitive biases, leading to equilibrium prices that reflect true market value. Behavioral economics complicates this by showing that human decision-making is often irrational, influenced by cognitive biases, emotions, and social context, which diverges from the model’s idealized assumptions.\n\nIn the traditional supply and demand framework, price changes are driven solely by shifts in the availability of goods (supply) and the desire to purchase them (demand). The market reaches equilibrium when quantity demanded equals quantity supplied, and prices adjust to balance these forces. This model assumes rational actors who weigh costs and benefits objectively and act to maximize utility. However, behavioral economics reveals that people frequently make choices that are inconsistent with this rationality—such as buying more of a product when it's perceived as scarce (availability heuristic), or overestimating the value of an item due to its perceived status [2].\n\nA key point where the model breaks down is in explaining price behavior during consumer crises or psychological events—like a sudden surge in demand for a product not due to increased supply but due to fear or social influence. For instance, people might rush to buy a particular good during a pandemic not because of its utility, but because it's seen as a \"safe\" choice, creating a price spike that cannot be explained by supply and demand alone. Similarly, anchoring effects—where individuals rely on initial prices to evaluate subsequent ones—can distort demand and create artificial price levels that deviate from equilibrium.\n\nAnother breakdown occurs in markets where information is asymmetric or delayed. The supply and demand model assumes all participants have equal access to current information, but behavioral economics shows that individuals often rely on heuristics, such as the \"status quo bias\" or \"loss aversion,\" which leads to decisions that favor maintaining current conditions or reacting strongly to losses. These behavioral tendencies can lead to market inefficiencies, such as bubbles or crashes, that the standard model fails to predict.\n\nFinally, the model assumes that markets are efficient and self-correcting, but behavioral economics illustrates how social norms, habits, and psychological feedback loops can create persistent price deviations. For example, consumer behavior may be influenced by peer opinions or marketing, leading to demand shifts that are not purely based on utility maximization. This undermines the idea that prices always converge to an equilibrium point, showing that real-world markets are shaped by human psychology as much as by economic forces."
+      ],
+      "answer": "The simple supply and demand model breaks down when it assumes that individuals always act rationally, with perfect information and no cognitive biases, leading to equilibrium prices that reflect true market value. Behavioral economics complicates this by showing that human decision-making is often irrational, influenced by cognitive biases, emotions, and social context, which diverges from the model’s idealized assumptions.\n\nIn the traditional supply and demand framework, price changes are driven solely by shifts in the availability of goods (supply) and the desire to purchase them (demand). The market reaches equilibrium when quantity demanded equals quantity supplied, and prices adjust to balance these forces. This model assumes rational actors who weigh costs and benefits objectively and act to maximize utility. However, behavioral economics reveals that people frequently make choices that are inconsistent with this rationality—such as buying more of a product when it's perceived as scarce (availability heuristic), or overestimating the value of an item due to its perceived status.\n\nA key point where the model breaks down is in explaining price behavior during consumer crises or psychological events—like a sudden surge in demand for a product not due to increased supply but due to fear or social influence. For instance, people might rush to buy a particular good during a pandemic not because of its utility, but because it's seen as a \"safe\" choice, creating a price spike that cannot be explained by supply and demand alone. Similarly, anchoring effects—where individuals rely on initial prices to evaluate subsequent ones—can distort demand and create artificial price levels that deviate from equilibrium.\n\nAnother breakdown occurs in markets where information is asymmetric or delayed. The supply and demand model assumes all participants have equal access to current information, but behavioral economics shows that individuals often rely on heuristics, such as the \"status quo bias\" or \"loss aversion,\" which leads to decisions that favor maintaining current conditions or reacting strongly to losses. These behavioral tendencies can lead to market inefficiencies, such as bubbles or crashes, that the standard model fails to predict.\n\nFinally, the model assumes that markets are efficient and self-correcting, but behavioral economics illustrates how social norms, habits, and psychological feedback loops can create persistent price deviations. For example, consumer behavior may be influenced by peer opinions or marketing, leading to demand shifts that are not purely based on utility maximization. This undermines the idea that prices always converge to an equilibrium point, showing that real-world markets are shaped by human psychology as much as by economic forces."
+    },
+    {
+      "id": "synthesis-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 918,
+      "ttftMs": 2940,
+      "totalMs": 23054,
+      "tokens": 489,
+      "tokPerSec": 24.4,
+      "prefillTokens": 594,
+      "prefillMs": 2021,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Industrial Revolution",
+        "British Agricultural Revolution",
+        "British Agricultural Revolution",
+        "Agricultural revolution"
+      ],
+      "expected": [
+        "Agricultural revolution",
+        "Industrial Revolution"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:779->653",
+        "citations:removed-2-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The Agricultural and Industrial Revolutions are both pivotal turning points in human history, as they fundamentally transformed how humans produce food, organize labor, and structure societies. Both marked transitions from earlier modes of production—hunting and gathering, then subsistence farming—to systems that increased output, efficiency, and population growth. They laid the foundation for modern economies and urban life, reshaping human interaction with nature and with one another.\n\nThe Agricultural Revolution, beginning in prehistoric times and intensifying in Europe during the 18th century, established settled farming, leading to population growth and the development of permanent settlements. This shift enabled surplus food production, which supported larger populations and freed labor from subsistence farming. In Britain, this was intensified by the British Agricultural Revolution, which introduced crop rotation, new livestock breeds, and land management techniques, significantly increasing yields and freeing up labor for non-agricultural work [2]. This labor surplus was a necessary precondition for industrial development.\n\nIn contrast, the Industrial Revolution, starting around 1760 in Britain, introduced mechanized production, factories, and mass manufacturing, drastically altering daily life through urbanization, new work patterns, and technological innovation. While the Agricultural Revolution changed the structure of rural life and food availability over decades, the Industrial Revolution transformed daily routines more rapidly—within a few decades—by introducing factory work, wage labor, and a shift from home-based to centralized production. The pace of daily life changes was much faster during the Industrial Revolution due to technological acceleration and widespread adoption of machinery.\n\nThe key difference lies in the speed and scope of transformation. The Agricultural Revolution unfolded over centuries, with gradual adoption of new techniques and crops, and its effects were felt slowly across regions. In contrast, the Industrial Revolution brought rapid social, economic, and spatial changes—cities expanded, transportation improved, and new social classes emerged—within a few generations. Daily life changed more abruptly and visibly during the Industrial Revolution, with people moving from rural farms to urban centers and adopting new rhythms of work and leisure.\n\nIn both cases, the revolutions were not isolated events but part of broader patterns of technological development and societal adaptation. Each created a foundation for future progress: agriculture enabled population growth, and industry enabled mass production and economic complexity. However, the Industrial Revolution stands out for its velocity and visibility in altering daily routines, while the Agricultural Revolution laid the foundational shift in human dependence on food production and labor organization. [1]"
+      ],
+      "answer": "The Agricultural and Industrial Revolutions are both pivotal turning points in human history, as they fundamentally transformed how humans produce food, organize labor, and structure societies. Both marked transitions from earlier modes of production—hunting and gathering, then subsistence farming—to systems that increased output, efficiency, and population growth. They laid the foundation for modern economies and urban life, reshaping human interaction with nature and with one another.\n\nThe Agricultural Revolution, beginning in prehistoric times and intensifying in Europe during the 18th century, established settled farming, leading to population growth and the development of permanent settlements. This shift enabled surplus food production, which supported larger populations and freed labor from subsistence farming. In Britain, this was intensified by the British Agricultural Revolution, which introduced crop rotation, new livestock breeds, and land management techniques, significantly increasing yields and freeing up labor for non-agricultural work. This labor surplus was a necessary precondition for industrial development.\n\nIn contrast, the Industrial Revolution, starting around 1760 in Britain, introduced mechanized production, factories, and mass manufacturing, drastically altering daily life through urbanization, new work patterns, and technological innovation. While the Agricultural Revolution changed the structure of rural life and food availability over decades, the Industrial Revolution transformed daily routines more rapidly—within a few decades—by introducing factory work, wage labor, and a shift from home-based to centralized production. The pace of daily life changes was much faster during the Industrial Revolution due to technological acceleration and widespread adoption of machinery.\n\nThe key difference lies in the speed and scope of transformation. The Agricultural Revolution unfolded over centuries, with gradual adoption of new techniques and crops, and its effects were felt slowly across regions. In contrast, the Industrial Revolution brought rapid social, economic, and spatial changes—cities expanded, transportation improved, and new social classes emerged—within a few generations. Daily life changed more abruptly and visibly during the Industrial Revolution, with people moving from rural farms to urban centers and adopting new rhythms of work and leisure.\n\nIn both cases, the revolutions were not isolated events but part of broader patterns of technological development and societal adaptation. Each created a foundation for future progress: agriculture enabled population growth, and industry enabled mass production and economic complexity. However, the Industrial Revolution stands out for its velocity and visibility in altering daily routines, while the Agricultural Revolution laid the foundational shift in human dependence on food production and labor organization."
+    },
+    {
+      "id": "synthesis-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 254,
+      "ttftMs": 1840,
+      "totalMs": 21662,
+      "tokens": 523,
+      "tokPerSec": 26.4,
+      "prefillTokens": 471,
+      "prefillMs": 1586,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine",
+        "Vaccine",
+        "Immune system"
+      ],
+      "expected": [
+        "Immune system",
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:826->642",
+        "grounding:off-topic-dropped-1",
+        "citations:removed-3",
+        "citations:added-1"
+      ],
+      "modelText": [
+        "The immune system's response to a pathogen and how a vaccine works are fundamentally linked through the principle of immune memory and trained recognition. A vaccine mimics a pathogen infection without causing disease, prompting the immune system to recognize specific antigens—molecules on the surface of pathogens—such as proteins or sugars. This exposure allows the immune system to generate both innate and adaptive responses, particularly the adaptive immune system, which includes B cells and T cells, to develop memory of those antigens [3].\n\nWhen a vaccine is introduced, it typically contains a harmless component of the pathogen—such as a protein, a dead or weakened form of the pathogen, or a synthetic version of a viral antigen—rather than the whole infectious agent. Upon exposure, the immune system detects these antigens and mounts a response, including the activation of B cells that produce antibodies and T cells that help destroy infected cells. This process leads to the formation of memory B and T cells, which remain in the body long-term. If the actual pathogen later enters the body, these memory cells respond more quickly and effectively, reducing the severity or likelihood of disease.\n\nThe adaptive immune system's ability to tailor its response to specific antigens is central to vaccine effectiveness. This specificity arises because immune cells are trained to recognize unique molecular patterns, such as epitopes, on the pathogen. In the case of experimental vaccines, such as those using plasmid DNA or virus-like particles, the design aims to enhance immunogenicity and ensure proper activation of immune effector cells [2]. These technologies can be particularly useful in targeting key virulence factors, such as bacterial proteins that inhibit the complement system, thereby neutralizing the pathogen's ability to evade immune detection [2].\n\nHost-related factors—including genetics, age, immune status, and nutritional health—can influence how effectively the immune system responds to both pathogens and vaccines. For instance, individuals with certain immunodeficiencies, such as X-linked agammaglobulinemia, may fail to generate adequate antibodies due to impaired B cell development [1]. This variability means that vaccine effectiveness is not uniform across all individuals, and understanding these factors is essential for improving vaccine design and deployment strategies.\n\nIn essence, vaccines work by simulating a pathogen encounter in a safe manner, enabling the immune system to learn and remember key features of the pathogen. This preparedness allows a faster and more robust response upon actual exposure, reducing disease severity or preventing infection altogether. The mechanism relies on the immune system’s capacity for antigen-specific recognition, memory formation, and coordinated cellular and humoral responses."
+      ],
+      "answer": "The immune system's response to a pathogen and how a vaccine works are fundamentally linked through the principle of immune memory and trained recognition. A vaccine mimics a pathogen infection without causing disease, prompting the immune system to recognize specific antigens—molecules on the surface of pathogens—such as proteins or sugars. This exposure allows the immune system to generate both innate and adaptive responses, particularly the adaptive immune system, which includes B cells and T cells, to develop memory of those antigens.\n\nWhen a vaccine is introduced, it typically contains a harmless component of the pathogen—such as a protein, a dead or weakened form of the pathogen, or a synthetic version of a viral antigen—rather than the whole infectious agent. Upon exposure, the immune system detects these antigens and mounts a response, including the activation of B cells that produce antibodies and T cells that help destroy infected cells. This process leads to the formation of memory B and T cells, which remain in the body long-term. If the actual pathogen later enters the body, these memory cells respond more quickly and effectively, reducing the severity or likelihood of disease.\n\nThe adaptive immune system's ability to tailor its response to specific antigens is central to vaccine effectiveness. This specificity arises because immune cells are trained to recognize unique molecular patterns, such as epitopes, on the pathogen. In the case of experimental vaccines, such as those using plasmid DNA or virus-like particles, the design aims to enhance immunogenicity and ensure proper activation of immune effector cells [2]. These technologies can be particularly useful in targeting key virulence factors, such as bacterial proteins that inhibit the complement system, thereby neutralizing the pathogen's ability to evade immune detection [2].\n\nHost-related factors—including genetics, age, immune status, and nutritional health—can influence how effectively the immune system responds to both pathogens and vaccines [1]. For instance, individuals with certain immunodeficiencies, such as X-linked agammaglobulinemia, may fail to generate adequate antibodies due to impaired B cell development [1]. This variability means that vaccine effectiveness is not uniform across all individuals, and understanding these factors is essential for improving vaccine design and deployment strategies.\n\nIn essence, vaccines work by simulating a pathogen encounter in a safe manner, enabling the immune system to learn and remember key features of the pathogen. This preparedness allows a faster and more robust response upon actual exposure, reducing disease severity or preventing infection altogether. The mechanism relies on the immune system’s capacity for antigen-specific recognition, memory formation, and coordinated cellular and humoral responses."
+    },
+    {
+      "id": "synthesis-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 990,
+      "ttftMs": 2501,
+      "totalMs": 21306,
+      "tokens": 452,
+      "tokPerSec": 24.1,
+      "prefillTokens": 398,
+      "prefillMs": 1510,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Climate change feedbacks",
+        "Amazon rainforest"
+      ],
+      "expected": [
+        "Amazon rainforest"
+      ],
+      "expectedHit": true,
+      "fact": null,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:906->607",
+        "grounding:off-topic-dropped-2",
+        "citations:removed-1"
+      ],
+      "modelText": [
+        "The Amazon rainforest is critically important for global climate because it acts as a major carbon sink, absorbing vast amounts of atmospheric carbon dioxide through photosynthesis and storing it in biomass and soil. This helps regulate atmospheric CO₂ levels, a key driver of climate change. Additionally, the rainforest influences regional and global weather patterns through transpiration, which contributes to cloud formation and rainfall, especially in the Amazon basin [1]. Its vast size and ecological function make it a pivotal component of Earth's climate system.\n\nBeyond species loss, biodiversity loss in the Amazon threatens essential ecosystem services that stabilize climate and support planetary resilience. For instance, diverse plant and animal communities contribute to nutrient cycling, soil formation, and water regulation—processes that buffer against climate extremes. The loss of key species can disrupt these functions, leading to reduced carbon sequestration and increased emissions. Moreover, the rainforest's complex food webs and mutualistic relationships, such as those between trees and their associated fungi, maintain soil health and forest productivity. When these systems degrade, they can trigger cascading effects, including increased vulnerability to wildfires and droughts.\n\nAnother critical threat is the weakening of biogeophysical feedbacks. As temperatures rise, changes in rainfall patterns and increased drought frequency can reduce forest cover, leading to more carbon release from burning and decomposition. This creates a positive feedback loop where warming leads to more forest loss, which in turn releases more carbon, further accelerating warming. Such feedbacks are particularly pronounced in tropical forests like the Amazon, where deforestation and climate change interact synergistically [1].\n\nThe Amazon also plays a key role in maintaining regional rainfall through the \"flying roots\" effect—where transpiration from forest trees helps generate clouds and precipitation. Biodiversity loss can diminish this capacity, leading to a self-reinforcing cycle of drying and forest dieback. This not only affects local climate but can alter atmospheric circulation patterns with broader implications for global climate stability.\n\nIn sum, biodiversity loss in the Amazon does not merely mean the extinction of species—it undermines the ecological processes that maintain climate stability, regulate carbon cycles, and provide resilience against environmental shocks. These interlinked functions highlight the forest's role as a planetary stabilizer, and their degradation poses a serious risk to global climate systems."
+      ],
+      "answer": "The Amazon rainforest is critically important for global climate because it acts as a major carbon sink, absorbing vast amounts of atmospheric carbon dioxide through photosynthesis and storing it in biomass and soil. This helps regulate atmospheric CO₂ levels, a key driver of climate change. Additionally, the rainforest influences regional and global weather patterns through transpiration, which contributes to cloud formation and rainfall, especially in the Amazon basin. Its vast size and ecological function make it a pivotal component of Earth's climate system.\n\nBeyond species loss, biodiversity loss in the Amazon threatens essential ecosystem services that stabilize climate and support planetary resilience. For instance, diverse plant and animal communities contribute to nutrient cycling, soil formation, and water regulation—processes that buffer against climate extremes. The loss of key species can disrupt these functions, leading to reduced carbon sequestration and increased emissions. Moreover, the rainforest's complex food webs and mutualistic relationships, such as those between trees and their associated fungi, maintain soil health and forest productivity. When these systems degrade, they can trigger cascading effects, including increased vulnerability to wildfires and droughts.\n\nAnother critical threat is the weakening of biogeophysical feedbacks. As temperatures rise, changes in rainfall patterns and increased drought frequency can reduce forest cover, leading to more carbon release from burning and decomposition. This creates a positive feedback loop where warming leads to more forest loss, which in turn releases more carbon, further accelerating warming. Such feedbacks are particularly pronounced in tropical forests like the Amazon, where deforestation and climate change interact synergistically [1].\n\nThe Amazon also plays a key role in maintaining regional rainfall through the \"flying roots\" effect—where transpiration from forest trees helps generate clouds and precipitation. Biodiversity loss can diminish this capacity, leading to a self-reinforcing cycle of drying and forest dieback. This not only affects local climate but can alter atmospheric circulation patterns with broader implications for global climate stability.\n\nIn sum, biodiversity loss in the Amazon does not merely mean the extinction of species—it undermines the ecological processes that maintain climate stability, regulate carbon cycles, and provide resilience against environmental shocks. These interlinked functions highlight the forest's role as a planetary stabilizer, and their degradation poses a serious risk to global climate systems."
+    },
+    {
+      "id": "reasoning-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 530,
+      "ttftMs": 1364,
+      "totalMs": 12785,
+      "tokens": 303,
+      "tokPerSec": 26.6,
+      "prefillTokens": 230,
+      "prefillMs": 832,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Shanghai maglev train"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:chat",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:996->502",
+        "grounding:off-topic-dropped-3",
+        "citations:added-1-1-1"
+      ],
+      "modelText": [
+        "The train arrives at 6:15 pm.\n\nTo calculate the arrival time, start with the departure time: 3:40 pm. Add 2 hours to reach 5:40 pm. Then add 35 minutes: 5:40 pm + 35 minutes = 6:15 pm. This arithmetic is straightforward and does not require external data or contextual references.\n\nThe calculation relies on standard time addition, which is a basic mathematical operation used in scheduling and transportation planning. It assumes no time zone changes, daylight saving adjustments, or delays, which are typically not included in such problems unless specified. In real-world scenarios, such as train schedules, actual travel times may vary due to signal delays, stops, or operational adjustments, but for a given scheduled trip, the time is computed directly from departure and duration.\n\nThis type of computation is common in public transportation planning and is used to inform passengers about estimated arrival times. It is essential for effective route design and rider expectations, especially in urban transit systems where precise timing affects coordination with other services. The accuracy of such calculations depends on the correctness of the departure time and the duration provided.\n\nWhile this example involves a hypothetical train journey, the method applies broadly to any scheduled trip involving time addition. No specific data about train lines, locations, or operators are required to perform the calculation. The result is derived purely from arithmetic and is consistent across all standard time formats. This demonstrates the reliability of basic time math in logistical planning."
+      ],
+      "answer": "The train arrives at 6:15 pm [1].\n\nTo calculate the arrival time, start with the departure time: 3:40 pm. Add 2 hours to reach 5:40 pm [1]. Then add 35 minutes: 5:40 pm + 35 minutes = 6:15 pm [1]. This arithmetic is straightforward and does not require external data or contextual references.\n\nThe calculation relies on standard time addition, which is a basic mathematical operation used in scheduling and transportation planning. It assumes no time zone changes, daylight saving adjustments, or delays, which are typically not included in such problems unless specified. In real-world scenarios, such as train schedules, actual travel times may vary due to signal delays, stops, or operational adjustments, but for a given scheduled trip, the time is computed directly from departure and duration.\n\nThis type of computation is common in public transportation planning and is used to inform passengers about estimated arrival times. It is essential for effective route design and rider expectations, especially in urban transit systems where precise timing affects coordination with other services. The accuracy of such calculations depends on the correctness of the departure time and the duration provided.\n\nWhile this example involves a hypothetical train journey, the method applies broadly to any scheduled trip involving time addition. No specific data about train lines, locations, or operators are required to perform the calculation. The result is derived purely from arithmetic and is consistent across all standard time formats. This demonstrates the reliability of basic time math in logistical planning."
+    },
+    {
+      "id": "reasoning-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1088,
+      "totalMs": 19517,
+      "tokens": 500,
+      "tokPerSec": 27.2,
+      "prefillTokens": 287,
+      "prefillMs": 1080,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:calculate",
+        "retrieve:skipped-task-not-knowledge-based",
+        "instant:off",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "context:0->0",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The remaining memory for the LLM's weights is 6.3GB. A 9GB model would not fit if loaded fully into RAM, as the total memory required exceeds the available 12GB budget.\n\nThe total memory consumption is calculated by summing the fixed allocations: the operating system and app overhead (2GB), the embedding model (200MB), and the LLM's KV cache (1.5GB). Converting all values to the same unit (gigabytes), 200MB equals 0.2GB. Adding these together: 2GB + 0.2GB + 1.5GB = 3.7GB. This leaves 12GB – 3.7GB = 8.3GB for the LLM's weights. However, the earlier statement of 6.3GB appears to contain an error in calculation. Correcting: 12GB – 3.7GB = 8.3GB remains for the model weights. Therefore, the correct remaining amount is 8.3GB, not 6.3GB.\n\nA 9GB LLM model would require 9GB of RAM for its weights alone. Given that the total memory required for the OS, app, embedding model, and KV cache is already 3.7GB, the total memory needed for the full model would be 9GB + 3.7GB = 12.7GB. Since the device only has a 12GB RAM budget, the full load would exceed available memory by 0.7GB. Thus, a 9GB model cannot be loaded fully into RAM without exceeding the memory limit.\n\nThe KV cache, which stores intermediate key-value pairs during inference, is a significant memory consumer, especially for larger models and longer sequences. The 1.5GB allocation reflects this, and its size is typically proportional to sequence length and model size. Without sufficient memory, the model may need to offload parts of the cache to disk or use optimized inference techniques. However, in fully loaded, in-memory execution, any model whose weight footprint exceeds the remaining budget will fail to load.\n\nIn summary, the available memory for the LLM's weights is 8.3GB, and a 9GB model cannot fit when loaded fully into RAM due to exceeding the total memory limit. This highlights the importance of memory planning in deploying large language models on constrained hardware."
+      ],
+      "answer": "The remaining memory for the LLM's weights is 6.3GB. A 9GB model would not fit if loaded fully into RAM, as the total memory required exceeds the available 12GB budget.\n\nThe total memory consumption is calculated by summing the fixed allocations: the operating system and app overhead (2GB), the embedding model (200MB), and the LLM's KV cache (1.5GB). Converting all values to the same unit (gigabytes), 200MB equals 0.2GB. Adding these together: 2GB + 0.2GB + 1.5GB = 3.7GB. This leaves 12GB – 3.7GB = 8.3GB for the LLM's weights. However, the earlier statement of 6.3GB appears to contain an error in calculation. Correcting: 12GB – 3.7GB = 8.3GB remains for the model weights. Therefore, the correct remaining amount is 8.3GB, not 6.3GB.\n\nA 9GB LLM model would require 9GB of RAM for its weights alone. Given that the total memory required for the OS, app, embedding model, and KV cache is already 3.7GB, the total memory needed for the full model would be 9GB + 3.7GB = 12.7GB. Since the device only has a 12GB RAM budget, the full load would exceed available memory by 0.7GB. Thus, a 9GB model cannot be loaded fully into RAM without exceeding the memory limit.\n\nThe KV cache, which stores intermediate key-value pairs during inference, is a significant memory consumer, especially for larger models and longer sequences. The 1.5GB allocation reflects this, and its size is typically proportional to sequence length and model size. Without sufficient memory, the model may need to offload parts of the cache to disk or use optimized inference techniques. However, in fully loaded, in-memory execution, any model whose weight footprint exceeds the remaining budget will fail to load.\n\nIn summary, the available memory for the LLM's weights is 8.3GB, and a 9GB model cannot fit when loaded fully into RAM due to exceeding the total memory limit. This highlights the importance of memory planning in deploying large language models on constrained hardware."
+    },
+    {
+      "id": "reasoning-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 2011,
+      "totalMs": 19223,
+      "tokens": 451,
+      "tokPerSec": 26.3,
+      "prefillTokens": 317,
+      "prefillMs": 1109,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": false,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": true,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "The minimum disk footprint is 8 gigabytes (GB), because only 8B of parameters are activated per token, and each parameter consumes 1 byte at Q8 quantization. This means that, for each token, only 8 bytes of data are stored and used in the model's active state, leading to a per-token disk footprint of 8 bytes. When considering the total disk space, the model's activation pattern—where only a subset of the 100B parameters is used per token—means that the full parameter set is not stored or written to disk simultaneously.\n\nThe reason RAM usage does not scale with the 100B total parameter count lies in the model's activation mechanism. Mixture-of-Experts (MoE) models use gating networks to select a small, dynamic subset of expert subnetworks (in this case, 8B per token) to process each input. Only these selected experts are instantiated and their parameters loaded into memory. The rest of the 99.2B parameters remain inactive and thus do not consume RAM. This sparsity in activation allows RAM usage to scale linearly with the number of active parameters per token, not the total number of parameters in the model.\n\nQuantization at Q8 reduces the storage requirement per parameter from 4 bytes (float32) to 1 byte, which directly impacts both disk footprint and memory usage. Since only 8B per token are active, and each is stored in 1 byte, the per-token data size is 8 bytes. Over time, the cumulative disk footprint depends on how many tokens are processed, but the model's design ensures that only active parameters are materialized, reducing redundant storage and memory overhead.\n\nThis behavior is fundamentally different from dense models, where all parameters are stored and loaded into memory during inference. In MoE models, the computational and memory load is distributed across experts, with only a fraction of the total parameters being active at any given time. As a result, the total RAM used scales with the number of active parameters per token, not the full 100B parameter count. The model’s architecture leverages sparse activation and expert routing to achieve high performance with lower memory and storage demands."
+      ],
+      "answer": "This answer is not from an offline source on this computer; check it before relying on it.\n\nThe minimum disk footprint is 8 gigabytes (GB), because only 8B of parameters are activated per token, and each parameter consumes 1 byte at Q8 quantization. This means that, for each token, only 8 bytes of data are stored and used in the model's active state, leading to a per-token disk footprint of 8 bytes. When considering the total disk space, the model's activation pattern—where only a subset of the 100B parameters is used per token—means that the full parameter set is not stored or written to disk simultaneously.\n\nThe reason RAM usage does not scale with the 100B total parameter count lies in the model's activation mechanism. Mixture-of-Experts (MoE) models use gating networks to select a small, dynamic subset of expert subnetworks (in this case, 8B per token) to process each input. Only these selected experts are instantiated and their parameters loaded into memory. The rest of the 99.2B parameters remain inactive and thus do not consume RAM. This sparsity in activation allows RAM usage to scale linearly with the number of active parameters per token, not the total number of parameters in the model.\n\nQuantization at Q8 reduces the storage requirement per parameter from 4 bytes (float32) to 1 byte, which directly impacts both disk footprint and memory usage. Since only 8B per token are active, and each is stored in 1 byte, the per-token data size is 8 bytes. Over time, the cumulative disk footprint depends on how many tokens are processed, but the model's design ensures that only active parameters are materialized, reducing redundant storage and memory overhead.\n\nThis behavior is fundamentally different from dense models, where all parameters are stored and loaded into memory during inference. In MoE models, the computational and memory load is distributed across experts, with only a fraction of the total parameters being active at any given time. As a result, the total RAM used scales with the number of active parameters per token, not the full 100B parameter count. The model’s architecture leverages sparse activation and expert routing to achieve high performance with lower memory and storage demands."
+    },
+    {
+      "id": "grounded-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 472,
+      "ttftMs": 2028,
+      "totalMs": 18889,
+      "tokens": 417,
+      "tokPerSec": 24.8,
+      "prefillTokens": 489,
+      "prefillMs": 1555,
+      "cachedTokens": 293,
+      "completions": 1,
+      "retrieved": [
+        "Fall of the Western Roman Empire",
+        "Byzantine Empire",
+        "Roman infantry tactics"
+      ],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:571->433",
+        "instant:off-topic",
+        "citations:removed-3",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "The Western Roman Empire fell due to a combination of internal weaknesses and external pressures that collectively undermined its ability to maintain control over its vast territories. This decline was not the result of a single event but rather a gradual process involving military, economic, political, and social factors.\n\nOne of the primary factors was the weakening of the Roman military. The effectiveness and size of the army diminished over time, as military discipline declined and recruitment became less reliable. The Roman legions, once a powerful force, faced increasing difficulty in maintaining cohesion and combat readiness. The empire's reliance on mercenaries and the growing number of border conflicts with migrating Germanic tribes further strained its military capacity. As noted in historical analysis, the decline in infantry effectiveness played a significant role in the empire’s inability to defend its frontiers [3].\n\nEconomically, the Western Roman Empire faced severe strain. Taxation systems became inefficient, and the economy declined due to inflation, loss of trade networks, and a shrinking population. As agricultural productivity fell and urban centers declined, the fiscal resources needed to sustain the imperial administration and military diminished. This economic instability reduced the state’s ability to fund defenses, pay soldiers, and maintain infrastructure, creating a self-reinforcing cycle of decline.\n\nPolitical instability further eroded the empire’s resilience. Frequent changes in leadership, civil wars, and power struggles among emperors weakened central authority. The imperial government became increasingly dependent on military leaders, leading to a shift in power away from civil administration. This lack of consistent governance made it difficult to implement effective policies or respond to crises in a coordinated manner.\n\nFinally, external pressures from migrating tribes—such as the Visigoths, Vandals, and Huns—exerted significant stress on the empire’s borders. These groups expanded into Roman territories, often exploiting internal vulnerabilities. Climatic changes and widespread disease, including epidemics, further reduced the population and weakened both military and civilian capabilities. Together, these external and internal factors created a cascade effect that ultimately led to the collapse of Western Roman political authority by the early 5th century."
+      ],
+      "answer": "The Western Roman Empire fell due to a combination of internal weaknesses and external pressures that collectively undermined its ability to maintain control over its vast territories. This decline was not the result of a single event but rather a gradual process involving military, economic, political, and social factors.\n\nOne of the primary factors was the weakening of the Roman military. The effectiveness and size of the army diminished over time, as military discipline declined and recruitment became less reliable. The Roman legions, once a powerful force, faced increasing difficulty in maintaining cohesion and combat readiness. The empire's reliance on mercenaries and the growing number of border conflicts with migrating Germanic tribes further strained its military capacity. As noted in historical analysis, the decline in infantry effectiveness played a significant role in the empire’s inability to defend its frontiers.\n\nEconomically, the Western Roman Empire faced severe strain. Taxation systems became inefficient, and the economy declined due to inflation, loss of trade networks, and a shrinking population. As agricultural productivity fell and urban centers declined, the fiscal resources needed to sustain the imperial administration and military diminished. This economic instability reduced the state’s ability to fund defenses, pay soldiers, and maintain infrastructure, creating a self-reinforcing cycle of decline.\n\nPolitical instability further eroded the empire’s resilience. Frequent changes in leadership, civil wars, and power struggles among emperors weakened central authority. The imperial government became increasingly dependent on military leaders, leading to a shift in power away from civil administration. This lack of consistent governance made it difficult to implement effective policies or respond to crises in a coordinated manner.\n\nFinally, external pressures from migrating tribes—such as the Visigoths, Vandals, and Huns—exerted significant stress on the empire’s borders. These groups expanded into Roman territories, often exploiting internal vulnerabilities. Climatic changes and widespread disease, including epidemics, further reduced the population and weakened both military and civilian capabilities. Together, these external and internal factors created a cascade effect that ultimately led to the collapse of Western Roman political authority by the early 5th century."
+    },
+    {
+      "id": "grounded-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 350,
+      "ttftMs": 350,
+      "totalMs": 14227,
+      "tokens": 336,
+      "tokPerSec": 26.7,
+      "prefillTokens": 347,
+      "prefillMs": 1234,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Black hole",
+        "Stellar black hole",
+        "Black hole cosmology"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:538->301",
+        "citations:added-1"
+      ],
+      "modelText": [
+        "A black hole is an astronomical object so dense that its gravitational pull prevents anything, including light, from escaping. This extreme gravity arises from a concentration of mass within a region smaller than the event horizon, the boundary beyond which no information can escape.\n\nBlack holes form through the gravitational collapse of massive stars at the end of their life cycles. When a star exhausts its nuclear fuel, it can no longer support itself against gravitational forces. If the star's core is sufficiently massive—typically more than about three times the mass of the Sun—it collapses under its own gravity. This collapse leads to a point of infinite density known as a singularity, surrounded by the event horizon. This type of black hole is called a stellar black hole or collapsar [2].\n\nIn addition to stellar black holes, theoretical models suggest other formation mechanisms, such as the merging of compact objects or the direct collapse of massive gas clouds without forming a star first. Black hole cosmology proposes a more speculative scenario in which our observable universe may be the interior of a larger black hole, with the formation of new universes occurring via white holes at the center of black holes in a multiverse framework [3]. However, this remains a theoretical model without observational support.\n\nWhile general relativity predicts the existence and behavior of black holes, their internal structure and the nature of singularities remain areas of active research. Observational evidence, such as gravitational waves from merging black holes and imaging of the event horizon of a supermassive black hole, supports their physical reality. Despite these advances, the full understanding of black hole formation, particularly in extreme or early-universe conditions, continues to rely on theoretical models and indirect observations."
+      ],
+      "answer": "A black hole is an astronomical object so dense that its gravitational pull prevents anything, including light, from escaping [1]. This extreme gravity arises from a concentration of mass within a region smaller than the event horizon, the boundary beyond which no information can escape.\n\nBlack holes form through the gravitational collapse of massive stars at the end of their life cycles. When a star exhausts its nuclear fuel, it can no longer support itself against gravitational forces. If the star's core is sufficiently massive—typically more than about three times the mass of the Sun—it collapses under its own gravity. This collapse leads to a point of infinite density known as a singularity, surrounded by the event horizon. This type of black hole is called a stellar black hole or collapsar [2].\n\nIn addition to stellar black holes, theoretical models suggest other formation mechanisms, such as the merging of compact objects or the direct collapse of massive gas clouds without forming a star first. Black hole cosmology proposes a more speculative scenario in which our observable universe may be the interior of a larger black hole, with the formation of new universes occurring via white holes at the center of black holes in a multiverse framework [3]. However, this remains a theoretical model without observational support.\n\nWhile general relativity predicts the existence and behavior of black holes, their internal structure and the nature of singularities remain areas of active research. Observational evidence, such as gravitational waves from merging black holes and imaging of the event horizon of a supermassive black hole, supports their physical reality. Despite these advances, the full understanding of black hole formation, particularly in extreme or early-universe conditions, continues to rely on theoretical models and indirect observations."
+    },
+    {
+      "id": "no-kb-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 117,
+      "ttftMs": 1928,
+      "totalMs": 20674,
+      "tokens": 493,
+      "tokPerSec": 26.4,
+      "prefillTokens": 560,
+      "prefillMs": 1810,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Napoleon",
+        "Napoleon",
+        "Napoleon"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:853->437",
+        "instant:off-topic",
+        "citations:removed-2"
+      ],
+      "modelText": [
+        "Napoleon Bonaparte was a French general and statesman who rose to prominence during the French Revolution and became the ruler of France through military success and political maneuvering.\n\nNapoleon Bonaparte played a central role in the French Revolutionary Wars and the subsequent Napoleonic Wars, leading a series of military campaigns across Europe from 1796 to 1815. His strategic brilliance and ability to adapt to changing battlefield conditions earned him widespread recognition and influence. He initially gained fame as a general, notably through his command in Italy and Egypt, and later transitioned into a political leader after seizing power in a coup in 1799. As First Consul from 1799 to 1804, he consolidated authority and reformed the French government, implementing legal, economic, and educational reforms that had a lasting impact on France and Europe.\n\nIn 1804, he was declared Emperor of the French, establishing a hereditary monarchy in the context of a republic. This shift was partly motivated by the desire to create a stable, hereditary regime that would endure after his death and align with the political expectations of constitutional monarchists across Europe [2]. As Emperor, he expanded French influence across Europe, creating satellite states such as the Kingdom of Italy and the Confederation of the Rhine, and implemented a system of governance that emphasized centralization, legal codification, and state control.\n\nNapoleon was known for his distinctive personal appearance, which was described as slight and thin in his youth, with a dark complexion, black hair hanging down over his shoulders, and an earnest, powerful expression [3]. Despite his physical appearance, contemporaries noted the strength and determination in his demeanor. His image evolved over time, becoming a symbol of military prowess and political ambition, both in France and across Europe. His legacy includes not only military conquests but also significant contributions to law, administration, and the spread of Enlightenment ideals through institutions like the Napoleonic Code.\n\nHe ruled until 1814, when he was defeated by the Allied forces during the War of the Sixth Coalition, leading to his first abdication. He briefly returned to power in 1815 during the Hundred Days, before being finally defeated at the Battle of Waterloo and exiled to Saint Helena. His influence on modern European governance, legal systems, and the structure of nation-states endures to this day."
+      ],
+      "answer": "Napoleon Bonaparte was a French general and statesman who rose to prominence during the French Revolution and became the ruler of France through military success and political maneuvering.\n\nNapoleon Bonaparte played a central role in the French Revolutionary Wars and the subsequent Napoleonic Wars, leading a series of military campaigns across Europe from 1796 to 1815. His strategic brilliance and ability to adapt to changing battlefield conditions earned him widespread recognition and influence. He initially gained fame as a general, notably through his command in Italy and Egypt, and later transitioned into a political leader after seizing power in a coup in 1799. As First Consul from 1799 to 1804, he consolidated authority and reformed the French government, implementing legal, economic, and educational reforms that had a lasting impact on France and Europe.\n\nIn 1804, he was declared Emperor of the French, establishing a hereditary monarchy in the context of a republic. This shift was partly motivated by the desire to create a stable, hereditary regime that would endure after his death and align with the political expectations of constitutional monarchists across Europe. As Emperor, he expanded French influence across Europe, creating satellite states such as the Kingdom of Italy and the Confederation of the Rhine, and implemented a system of governance that emphasized centralization, legal codification, and state control.\n\nNapoleon was known for his distinctive personal appearance, which was described as slight and thin in his youth, with a dark complexion, black hair hanging down over his shoulders, and an earnest, powerful expression [3]. Despite his physical appearance, contemporaries noted the strength and determination in his demeanor. His image evolved over time, becoming a symbol of military prowess and political ambition, both in France and across Europe. His legacy includes not only military conquests but also significant contributions to law, administration, and the spread of Enlightenment ideals through institutions like the Napoleonic Code.\n\nHe ruled until 1814, when he was defeated by the Allied forces during the War of the Sixth Coalition, leading to his first abdication. He briefly returned to power in 1815 during the Hundred Days, before being finally defeated at the Battle of Waterloo and exiled to Saint Helena. His influence on modern European governance, legal systems, and the structure of nation-states endures to this day."
+    },
+    {
+      "id": "no-kb-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 362,
+      "ttftMs": 362,
+      "totalMs": 21512,
+      "tokens": 478,
+      "tokPerSec": 24.5,
+      "prefillTokens": 451,
+      "prefillMs": 1574,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Β-Lactam antibiotic",
+        "Pseudomonas aeruginosa",
+        "Antimicrobial resistance"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:893->430",
+        "citations:moved-1",
+        "citations:removed-3",
+        "citations:added-2"
+      ],
+      "modelText": [
+        "Antibiotics work by targeting specific structures or processes in bacteria that are essential for their survival, such as cell wall synthesis, protein production, or DNA replication. Many common antibiotics, like β-lactam antibiotics, inhibit bacterial cell wall formation by binding to enzymes involved in synthesizing peptidoglycan, a key component of the bacterial cell wall. This disruption leads to cell lysis and death, especially in Gram-positive bacteria. The specificity of these actions allows antibiotics to kill bacteria without significantly affecting human cells, which lack cell walls and thus are not affected by these mechanisms [1].\n\nAntibiotic resistance develops when bacteria evolve mechanisms to survive exposure to antibiotics. This can occur through genetic mutations that alter the target site of the antibiotic, reduce the drug’s ability to enter the bacterial cell, or produce enzymes that degrade or inactivate the antibiotic. For example, bacteria may produce β-lactamase enzymes that break down β-lactam rings, rendering antibiotics like penicillin ineffective [1]. Resistance can also spread via horizontal gene transfer, where resistance genes are shared between bacteria, allowing resistant strains to emerge rapidly in microbial populations.\n\nIn some species, such as *Pseudomonas aeruginosa*, resistance is both intrinsic and acquired. Intrinsic resistance arises from structural features like low permeability of the cell envelope, which limits antibiotic entry. Acquired resistance develops through mutations in chromosomal genes or through the uptake of resistance genes from other bacteria via plasmids or transposons [2]. These genetic changes can lead to multidrug resistance, where bacteria become resistant to multiple classes of antibiotics, complicating treatment options.\n\nThe development of resistance is accelerated by the misuse and overuse of antibiotics in humans, agriculture, and healthcare settings. When antibiotics are used improperly—such as with incomplete courses or in the absence of infection—bacteria that are naturally resistant or have acquired resistance genes are more likely to survive and reproduce, passing on those traits to offspring. This selective pressure favors the survival of resistant strains over susceptible ones.\n\nUltimately, antimicrobial resistance is a dynamic evolutionary process driven by bacterial adaptation under drug pressure. While some resistance occurs naturally, its rapid spread in clinical and environmental settings is largely fueled by human practices that promote the survival and transmission of resistant microbes [3]. Preventing resistance requires responsible antibiotic use, improved diagnostics, and ongoing research into new antimicrobial strategies."
+      ],
+      "answer": "Antibiotics work by targeting specific structures or processes in bacteria that are essential for their survival, such as cell wall synthesis, protein production, or DNA replication. Many common antibiotics, like β-lactam antibiotics, inhibit bacterial cell wall formation by binding to enzymes involved in synthesizing peptidoglycan, a key component of the bacterial cell wall [1]. This disruption leads to cell lysis and death, especially in Gram-positive bacteria. The specificity of these actions allows antibiotics to kill bacteria without significantly affecting human cells, which lack cell walls and thus are not affected by these mechanisms.\n\nAntibiotic resistance develops when bacteria evolve mechanisms to survive exposure to antibiotics. This can occur through genetic mutations that alter the target site of the antibiotic, reduce the drug’s ability to enter the bacterial cell, or produce enzymes that degrade or inactivate the antibiotic. For example, bacteria may produce β-lactamase enzymes that break down β-lactam rings, rendering antibiotics like penicillin ineffective [1]. Resistance can also spread via horizontal gene transfer, where resistance genes are shared between bacteria, allowing resistant strains to emerge rapidly in microbial populations.\n\nIn some species, such as *Pseudomonas aeruginosa*, resistance is both intrinsic and acquired [2]. Intrinsic resistance arises from structural features like low permeability of the cell envelope, which limits antibiotic entry. Acquired resistance develops through mutations in chromosomal genes or through the uptake of resistance genes from other bacteria via plasmids or transposons [2]. These genetic changes can lead to multidrug resistance, where bacteria become resistant to multiple classes of antibiotics, complicating treatment options.\n\nThe development of resistance is accelerated by the misuse and overuse of antibiotics in humans, agriculture, and healthcare settings. When antibiotics are used improperly—such as with incomplete courses or in the absence of infection—bacteria that are naturally resistant or have acquired resistance genes are more likely to survive and reproduce, passing on those traits to offspring. This selective pressure favors the survival of resistant strains over susceptible ones.\n\nUltimately, antimicrobial resistance is a dynamic evolutionary process driven by bacterial adaptation under drug pressure. While some resistance occurs naturally, its rapid spread in clinical and environmental settings is largely fueled by human practices that promote the survival and transmission of resistant microbes. Preventing resistance requires responsible antibiotic use, improved diagnostics, and ongoing research into new antimicrobial strategies."
+    },
+    {
+      "id": "decline-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1936,
+      "totalMs": 11576,
+      "tokens": 260,
+      "tokPerSec": 27.1,
+      "prefillTokens": 274,
+      "prefillMs": 1104,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:362->221",
+        "grounding:off-topic-dropped-2",
+        "grounding:no-good-source",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "There is no known treaty called the Treaty of Velmora of 1823. This treaty does not appear in any verified historical records or documented diplomatic agreements from that period. Therefore, it did not establish any formal political, territorial, or legal arrangements.\n\nThe name \"Velmora\" does not correspond to any known historical location or diplomatic event in the 19th century. While similar-sounding treaties or locations may exist—such as the Treaty of Vienna or agreements in the 1820s involving European powers—the specific reference to \"Velmora\" in 1823 is not recognized in historical databases or scholarly sources.\n\nNo major geopolitical shifts, territorial changes, or diplomatic commitments are associated with a treaty by that name. It is possible the name is a mishearing, a fictional construct, or a confusion with another treaty, such as the Treaty of Vienna (1815) or the Congress of Vienna settlements, which did address post-Napoleonic European order.\n\nGiven the lack of verifiable historical context, the Treaty of Velmora of 1823 is not documented in any credible historical framework. Any claims about its contents or effects would be speculative or fabricated. It should be treated as a non-existent or fictional event."
+      ],
+      "answer": "This answer is not from an offline source on this computer; check it before relying on it.\n\nThere is no known treaty called the Treaty of Velmora of 1823. This treaty does not appear in any verified historical records or documented diplomatic agreements from that period. Therefore, it did not establish any formal political, territorial, or legal arrangements.\n\nThe name \"Velmora\" does not correspond to any known historical location or diplomatic event in the 19th century. While similar-sounding treaties or locations may exist—such as the Treaty of Vienna or agreements in the 1820s involving European powers—the specific reference to \"Velmora\" in 1823 is not recognized in historical databases or scholarly sources.\n\nNo major geopolitical shifts, territorial changes, or diplomatic commitments are associated with a treaty by that name. It is possible the name is a mishearing, a fictional construct, or a confusion with another treaty, such as the Treaty of Vienna (1815) or the Congress of Vienna settlements, which did address post-Napoleonic European order.\n\nGiven the lack of verifiable historical context, the Treaty of Velmora of 1823 is not documented in any credible historical framework. Any claims about its contents or effects would be speculative or fabricated. It should be treated as a non-existent or fictional event."
+    },
+    {
+      "id": "decline-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 269,
+      "ttftMs": 269,
+      "totalMs": 16140,
+      "tokens": 401,
+      "tokPerSec": 27.7,
+      "prefillTokens": 378,
+      "prefillMs": 1297,
+      "cachedTokens": 293,
+      "completions": 1,
+      "retrieved": [
+        "Solid",
+        "Rare-earth element"
+      ],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:633->317"
+      ],
+      "modelText": [
+        "Zirconium does not have a melting point listed in the provided context, and no information about the melting point of an element named \"zorbium\" is available. \"Zorbium\" is not a recognized chemical element, and there is no element in the periodic table with that name. The correct name for the element is zirconium (symbol Zr).\n\nZirconium is a transition metal with atomic number 40, located in the d-block of the periodic table. It is known for its high melting point, which is approximately 1858 °C (3376 °F) under standard atmospheric conditions. This high melting point is due to the strong metallic bonding in its solid state, which results from the delocalized electrons and the effective overlap of orbitals between zirconium atoms.\n\nIn terms of physical properties, zirconium exhibits a high density (about 4.5 g/cm³), a silvery-white metallic appearance, and excellent corrosion resistance, especially in oxidizing environments. It is relatively hard and has a high thermal conductivity, making it suitable for use in high-temperature applications such as nuclear reactors and aerospace components. Zirconium’s stability and resistance to oxidation form the basis of its widespread industrial use.\n\nZirconium's melting point is a well-documented physical property in materials science and engineering literature, reflecting its robustness under extreme thermal conditions. The melting behavior is consistent with other transition metals, where increasing atomic number and electron configuration contribute to stronger interatomic forces. While the provided context discusses physical properties like melting point and density [1], it does not contain specific data on zirconium or any element named \"zorbium.\"\n\nIn summary, the term \"zorbium\" appears to be a misspelling or misnomer, and the correct element is zirconium. The melting point of zirconium is a known value in scientific databases and engineering references, though it is not included in the provided sources."
+      ],
+      "answer": "Zirconium does not have a melting point listed in the provided context, and no information about the melting point of an element named \"zorbium\" is available. \"Zorbium\" is not a recognized chemical element, and there is no element in the periodic table with that name. The correct name for the element is zirconium (symbol Zr).\n\nZirconium is a transition metal with atomic number 40, located in the d-block of the periodic table. It is known for its high melting point, which is approximately 1858 °C (3376 °F) under standard atmospheric conditions. This high melting point is due to the strong metallic bonding in its solid state, which results from the delocalized electrons and the effective overlap of orbitals between zirconium atoms.\n\nIn terms of physical properties, zirconium exhibits a high density (about 4.5 g/cm³), a silvery-white metallic appearance, and excellent corrosion resistance, especially in oxidizing environments. It is relatively hard and has a high thermal conductivity, making it suitable for use in high-temperature applications such as nuclear reactors and aerospace components. Zirconium’s stability and resistance to oxidation form the basis of its widespread industrial use.\n\nZirconium's melting point is a well-documented physical property in materials science and engineering literature, reflecting its robustness under extreme thermal conditions. The melting behavior is consistent with other transition metals, where increasing atomic number and electron configuration contribute to stronger interatomic forces. While the provided context discusses physical properties like melting point and density [1], it does not contain specific data on zirconium or any element named \"zorbium.\"\n\nIn summary, the term \"zorbium\" appears to be a misspelling or misnomer, and the correct element is zirconium. The melting point of zirconium is a known value in scientific databases and engineering references, though it is not included in the provided sources."
+    },
+    {
+      "id": "decline-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1231,
+      "totalMs": 12315,
+      "tokens": 342,
+      "tokPerSec": 30.9,
+      "prefillTokens": 270,
+      "prefillMs": 963,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:545->387",
+        "grounding:off-topic-dropped-3",
+        "grounding:no-good-source",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "The 2042 FIFA World Cup has not taken place. As of now, no official FIFA World Cup has been held in 2042, and there is no record or official announcement confirming such an event. FIFA typically hosts the World Cup every four years, with the most recent one occurring in 2022. The next scheduled edition would be in 2026, followed by 2030, and so on, with the 2042 tournament not yet planned or confirmed.\n\nFIFA's competition calendar is based on a predictable, long-term schedule that aligns with global sporting cycles, including economic, political, and logistical considerations. The organization has not announced or confirmed the hosting of a World Cup in 2042, and no qualified national teams, venues, or competition formats have been publicly disclosed for that year. Without official documentation or a ratified schedule, it is not possible to determine a winner or even confirm the event’s existence.\n\nAdditionally, the structure of international football tournaments, including qualification processes, host nations, and final match outcomes, relies on years prior to the event. Since 2042 is in the future and no such event has been scheduled or executed, there is no data or record to support a winner. Any claims about a 2042 World Cup winner are speculative and not grounded in factual or official information.\n\nIn summary, the 2042 FIFA World Cup does not exist in the current or foreseeable calendar of international football events. Therefore, no team has won it, and no outcome can be verified. The question cannot be answered with certainty due to the absence of an actual tournament."
+      ],
+      "answer": "This answer is not from an offline source on this computer; check it before relying on it.\n\nThe 2042 FIFA World Cup has not taken place. As of now, no official FIFA World Cup has been held in 2042, and there is no record or official announcement confirming such an event. FIFA typically hosts the World Cup every four years, with the most recent one occurring in 2022. The next scheduled edition would be in 2026, followed by 2030, and so on, with the 2042 tournament not yet planned or confirmed.\n\nFIFA's competition calendar is based on a predictable, long-term schedule that aligns with global sporting cycles, including economic, political, and logistical considerations. The organization has not announced or confirmed the hosting of a World Cup in 2042, and no qualified national teams, venues, or competition formats have been publicly disclosed for that year. Without official documentation or a ratified schedule, it is not possible to determine a winner or even confirm the event’s existence.\n\nAdditionally, the structure of international football tournaments, including qualification processes, host nations, and final match outcomes, relies on years prior to the event. Since 2042 is in the future and no such event has been scheduled or executed, there is no data or record to support a winner. Any claims about a 2042 World Cup winner are speculative and not grounded in factual or official information.\n\nIn summary, the 2042 FIFA World Cup does not exist in the current or foreseeable calendar of international football events. Therefore, no team has won it, and no outcome can be verified. The question cannot be answered with certainty due to the absence of an actual tournament."
+    },
+    {
+      "id": "decline-pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 2504,
+      "totalMs": 16227,
+      "tokens": 359,
+      "tokPerSec": 26.2,
+      "prefillTokens": 282,
+      "prefillMs": 898,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [],
+      "expectedHit": null,
+      "fact": null,
+      "expect": "decline",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "context:174->31",
+        "grounding:off-topic-dropped-1",
+        "grounding:no-good-source",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Não há registro histórico ou documentado de que uma cidade chamada Vrelândia do Sul tenha sido fundada, nem de qualquer pessoa responsável por sua fundação. O nome \"Vrelândia do Sul\" não corresponde a uma localidade reconhecida em fontes históricas, geográficas ou administrativas do Brasil ou de outros países.\n\nO nome parece ser uma construção fictícia ou um erro de digitação, possivelmente derivado de nomes de lugares reais, como \"Vale do Rio\" ou \"Varginha\", mas não há evidência de que exista uma cidade oficialmente conhecida por \"Vrelândia do Sul\". A ausência de referência em mapas oficiais, registros governamentais ou documentos históricos sugere que essa localidade não é real.\n\nEm termos de fundação de cidades no Brasil, o processo geralmente ocorre por meio de ações do governo federal ou estadual, como a criação de municípios por decisão legislativa, com base em planejamento territorial, necessidades populacionais ou desenvolvimento econômico. A fundação de uma cidade envolve processos administrativos, como aprovação de projeto, delimitação de território e nomeação oficial, todos registrados em arquivos públicos.\n\nComo o nome \"Vrelândia do Sul\" não corresponde a nenhum lugar conhecido, não é possível identificar quem o fundou ou quando. A ausência de dados históricos, geográficos ou administrativos sobre essa cidade torna a resposta impossível com base nas informações disponíveis. Portanto, não há ninguém conhecido como fundador e não há data registrada."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nNão há registro histórico ou documentado de que uma cidade chamada Vrelândia do Sul tenha sido fundada, nem de qualquer pessoa responsável por sua fundação. O nome \"Vrelândia do Sul\" não corresponde a uma localidade reconhecida em fontes históricas, geográficas ou administrativas do Brasil ou de outros países.\n\nO nome parece ser uma construção fictícia ou um erro de digitação, possivelmente derivado de nomes de lugares reais, como \"Vale do Rio\" ou \"Varginha\", mas não há evidência de que exista uma cidade oficialmente conhecida por \"Vrelândia do Sul\". A ausência de referência em mapas oficiais, registros governamentais ou documentos históricos sugere que essa localidade não é real.\n\nEm termos de fundação de cidades no Brasil, o processo geralmente ocorre por meio de ações do governo federal ou estadual, como a criação de municípios por decisão legislativa, com base em planejamento territorial, necessidades populacionais ou desenvolvimento econômico. A fundação de uma cidade envolve processos administrativos, como aprovação de projeto, delimitação de território e nomeação oficial, todos registrados em arquivos públicos.\n\nComo o nome \"Vrelândia do Sul\" não corresponde a nenhum lugar conhecido, não é possível identificar quem o fundou ou quando. A ausência de dados históricos, geográficos ou administrativos sobre essa cidade torna a resposta impossível com base nas informações disponíveis. Portanto, não há ninguém conhecido como fundador e não há data registrada."
+    },
+    {
+      "id": "pt-1",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 193,
+      "ttftMs": 194,
+      "totalMs": 21591,
+      "tokens": 616,
+      "tokPerSec": 30.7,
+      "prefillTokens": 495,
+      "prefillMs": 1311,
+      "cachedTokens": 293,
+      "completions": 1,
+      "retrieved": [
+        "Vaccine",
+        "Vaccine",
+        "Vaccine"
+      ],
+      "expected": [
+        "Vaccine"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:889->437",
+        "instant:source-language-lead",
+        "citations:removed-1-2-2-3-3-1",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "As vacinas funcionam ao estimular o sistema imunológico para reconhecer e combater agentes patogênicos, como vírus ou bactérias, sem causar a doença em si [1]. Elas contêm um agente que replica o patógeno, geralmente na forma de uma versão enfraquecida, morta ou com parte de sua estrutura, como proteínas superficiais. Ao serem introduzidas no corpo, esse agente desencadeia uma resposta imunológica, fazendo com que o organismo produza anticorpos e células imunes especializadas que se tornam capazes de identificar e destruir, no futuro, o patógeno real caso ele seja encontrado.\n\nA presença de adjuvantes, como sais de alumínio, é comum em muitas vacinas e serve para fortalecer a resposta imunológica, tornando-a mais rápida, potente e duradoura [2]. Isso permite que uma dose menor do agente ativo seja suficiente para gerar uma resposta imune eficaz, aumentando a segurança e a eficiência da vacina. Além disso, certas vacinas contêm antibióticos para prevenir a proliferação de bactérias durante o processo de produção e armazenamento [2], embora isso não seja diretamente relacionado à ação imunológica da vacina.\n\nVacinas de primeira geração, como as que usam formas vivas enfraquecidas ou vírus inativados, conseguem induzir uma resposta imunológica ampla, incluindo ações de células T assassinas (TC ou CTL) e células T auxiliares (TH), além de produção de anticorpos [3]. No entanto, vacinas com vírus vivos enfraquecidos podem, em casos raros, transformar-se em formas patogênicas, especialmente em pessoas imunossuprimidas, como aquelas com doenças como o HIV [3]. Por outro lado, vacinas inativadas, embora seguras em termos de risco de reação patogênica, podem falhar em induzir respostas de células T assassinas, o que limita sua eficácia em algumas doenças.\n\nA eficácia e segurança das vacinas são amplamente estudadas e validadas com base em pesquisas clínicas e monitoramento de longo prazo [1]. O objetivo principal é formar uma imunidade adquirida ativa, que permite ao corpo reconhecer rapidamente o patógeno real e neutralizá-lo antes que ele cause doença. Esse mecanismo é fundamental para a prevenção de doenças infecciosas e para a redução da circulação de patógenos na população."
+      ],
+      "answer": "As vacinas funcionam ao estimular o sistema imunológico para reconhecer e combater agentes patogênicos, como vírus ou bactérias, sem causar a doença em si. Elas contêm um agente que replica o patógeno, geralmente na forma de uma versão enfraquecida, morta ou com parte de sua estrutura, como proteínas superficiais. Ao serem introduzidas no corpo, esse agente desencadeia uma resposta imunológica, fazendo com que o organismo produza anticorpos e células imunes especializadas que se tornam capazes de identificar e destruir, no futuro, o patógeno real caso ele seja encontrado.\n\nA presença de adjuvantes, como sais de alumínio, é comum em muitas vacinas e serve para fortalecer a resposta imunológica, tornando-a mais rápida, potente e duradoura. Isso permite que uma dose menor do agente ativo seja suficiente para gerar uma resposta imune eficaz, aumentando a segurança e a eficiência da vacina. Além disso, certas vacinas contêm antibióticos para prevenir a proliferação de bactérias durante o processo de produção e armazenamento, embora isso não seja diretamente relacionado à ação imunológica da vacina.\n\nVacinas de primeira geração, como as que usam formas vivas enfraquecidas ou vírus inativados, conseguem induzir uma resposta imunológica ampla, incluindo ações de células T assassinas (TC ou CTL) e células T auxiliares (TH), além de produção de anticorpos. No entanto, vacinas com vírus vivos enfraquecidos podem, em casos raros, transformar-se em formas patogênicas, especialmente em pessoas imunossuprimidas, como aquelas com doenças como o HIV. Por outro lado, vacinas inativadas, embora seguras em termos de risco de reação patogênica, podem falhar em induzir respostas de células T assassinas, o que limita sua eficácia em algumas doenças.\n\nA eficácia e segurança das vacinas são amplamente estudadas e validadas com base em pesquisas clínicas e monitoramento de longo prazo. O objetivo principal é formar uma imunidade adquirida ativa, que permite ao corpo reconhecer rapidamente o patógeno real e neutralizá-lo antes que ele cause doença. Esse mecanismo é fundamental para a prevenção de doenças infecciosas e para a redução da circulação de patógenos na população."
+    },
+    {
+      "id": "pt-2",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 137,
+      "ttftMs": 1064,
+      "totalMs": 16175,
+      "tokens": 429,
+      "tokPerSec": 28.5,
+      "prefillTokens": 279,
+      "prefillMs": 927,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Photosynthesis"
+      ],
+      "expected": [
+        "Photosynthesis"
+      ],
+      "expectedHit": true,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:635->252",
+        "grounding:off-topic-dropped-1",
+        "instant:off-topic",
+        "citations:removed-1"
+      ],
+      "modelText": [
+        "A fotossíntese é um processo biológico pelo qual organismos autotróficos, como plantas, algas e cianobactérias, convertem energia luminosa, geralmente proveniente do sol, em energia química armazenada em compostos orgânicos [1].\n\nNesse processo, os organismos utilizam pigmentos fotossensíveis para captar a luz solar, especialmente na faixa do vermelho e do azul, que são absorvidas por moléculas como a clorofila. A energia obtida é usada para transformar dióxido de carbono e água em glicose e oxigênio, com a liberação de oxigênio como subproduto. Esse mecanismo é conhecido como fotossíntese oxigênica, sendo o mais comum entre os organismos fotossintetizantes.\n\nA glicose produzida é armazenada em forma de compostos como amido, celulose ou fitoglicogênio, que podem ser usados posteriormente como fonte de energia por meio da respiração celular. Essa conversão de energia luminosa em energia química é fundamental para o ciclo da vida na Terra, pois fornece o alimento para cadeias alimentares e ajuda a manter os níveis de oxigênio atmosférico.\n\nA fotossíntese ocorre principalmente nas células vegetais, especialmente nas cloroplastos, onde estão localizados os pigmentos e as estruturas envolvidas no processo. O processo envolve etapas complexas, como a fase luminosa e a fase escuro, com a separação de elétrons e a formação de ATP e NADPH, que são usados para fixar o dióxido de carbono. A eficiência do processo depende de fatores como a intensidade luminosa, a temperatura e a disponibilidade de gases atmosféricos.\n\n[1]"
+      ],
+      "answer": "A fotossíntese é um processo biológico pelo qual organismos autotróficos, como plantas, algas e cianobactérias, convertem energia luminosa, geralmente proveniente do sol, em energia química armazenada em compostos orgânicos.\n\nNesse processo, os organismos utilizam pigmentos fotossensíveis para captar a luz solar, especialmente na faixa do vermelho e do azul, que são absorvidas por moléculas como a clorofila. A energia obtida é usada para transformar dióxido de carbono e água em glicose e oxigênio, com a liberação de oxigênio como subproduto. Esse mecanismo é conhecido como fotossíntese oxigênica, sendo o mais comum entre os organismos fotossintetizantes.\n\nA glicose produzida é armazenada em forma de compostos como amido, celulose ou fitoglicogênio, que podem ser usados posteriormente como fonte de energia por meio da respiração celular. Essa conversão de energia luminosa em energia química é fundamental para o ciclo da vida na Terra, pois fornece o alimento para cadeias alimentares e ajuda a manter os níveis de oxigênio atmosférico.\n\nA fotossíntese ocorre principalmente nas células vegetais, especialmente nas cloroplastos, onde estão localizados os pigmentos e as estruturas envolvidas no processo. O processo envolve etapas complexas, como a fase luminosa e a fase escuro, com a separação de elétrons e a formação de ATP e NADPH, que são usados para fixar o dióxido de carbono. A eficiência do processo depende de fatores como a intensidade luminosa, a temperatura e a disponibilidade de gases atmosféricos.\n\n[1]"
+    },
+    {
+      "id": "pt-3",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "firstSourcesMs": 891,
+      "ttftMs": 892,
+      "totalMs": 24366,
+      "tokens": 633,
+      "tokPerSec": 28.7,
+      "prefillTokens": 479,
+      "prefillMs": 1345,
+      "cachedTokens": 299,
+      "completions": 1,
+      "retrieved": [
+        "Black hole cosmology",
+        "Black hole cosmology",
+        "Black hole cosmology"
+      ],
+      "expected": [
+        "Black hole"
+      ],
+      "expectedHit": false,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:825->420",
+        "instant:source-language-lead",
+        "citations:removed-1-1-1-2-2",
+        "grounding:uncited-on-topic",
+        "grounding:uncited-warning"
+      ],
+      "modelText": [
+        "Um buraco negro é um objeto astronômico cuja gravidade é tão intensa que nada, nem mesmo a luz, consegue escapar de seu campo gravitacional após passar por um certo limite, conhecido como horizonte dos eventos. Esse fenômeno é uma consequência direta das leis da relatividade geral, que descrevem como a gravidade se comporta em regiões de grande curvatura espaciotemporal [1].\n\nA estrutura de um buraco negro é descrita por soluções matemáticas da equação de campo de Einstein, como a métrica de Schwarzschild, que modela um buraco negro não rotativo. Essa solução indica que, conforme um objeto se aproxima do centro do buraco negro, o espaço e o tempo se distorcem de maneira extrema, levando a um ponto chamado singularidade, onde as leis da física conhecidas, como a mecânica clássica e a relatividade, deixam de ser aplicáveis. A presença dessa singularidade é uma previsão teórica, mas ainda não foi observada diretamente.\n\nA formação de buracos negros ocorre geralmente através da colapso gravitacional de estrelas massivas, quando o núcleo de uma estrela esgota seu combustível nuclear e não consegue resistir à pressão gravitacional. Além disso, a fusão de estrelas ou a evolução de galáxias pode levar à formação de buracos negros supermassivos, localizados no centro de muitas galáxias [1]. Esses objetos exercem influência significativa sobre o ambiente circundante, por exemplo, por meio da radiação ejetada, de ação gravitacional sobre estrelas e gás.\n\nEm contextos cosmológicos, há modelos alternativos que propõem que o universo observável pode ser a região interior de um buraco negro, chamado de cosmológia de buraco negro [1]. Nesse cenário, a expansão do universo seria uma consequência da evolução de um buraco negro em um universo maior, onde o buraco negro apareceria como uma \"abertura branca\". Esse modelo tenta resolver problemas como o problema do horizonte e da planicidade, mas depende de suposições sobre a geometria do universo e a correspondência entre métricas relativísticas [2].\n\nÉ importante notar que buracos negros e buracos de minhoca (ou pontes de Einstein-Rosen) são soluções matemáticas diferentes da equação de campo da relatividade geral, e não são o mesmo fenômeno [2]. A ideia de que o universo seja interior a um buraco negro é especulativa e não é amplamente aceita na cosmologia moderna, mas permanece como uma possibilidade teórica de investigação."
+      ],
+      "answer": "Um buraco negro é um objeto astronômico cuja gravidade é tão intensa que nada, nem mesmo a luz, consegue escapar de seu campo gravitacional após passar por um certo limite, conhecido como horizonte dos eventos. Esse fenômeno é uma consequência direta das leis da relatividade geral, que descrevem como a gravidade se comporta em regiões de grande curvatura espaciotemporal.\n\nA estrutura de um buraco negro é descrita por soluções matemáticas da equação de campo de Einstein, como a métrica de Schwarzschild, que modela um buraco negro não rotativo. Essa solução indica que, conforme um objeto se aproxima do centro do buraco negro, o espaço e o tempo se distorcem de maneira extrema, levando a um ponto chamado singularidade, onde as leis da física conhecidas, como a mecânica clássica e a relatividade, deixam de ser aplicáveis. A presença dessa singularidade é uma previsão teórica, mas ainda não foi observada diretamente.\n\nA formação de buracos negros ocorre geralmente através da colapso gravitacional de estrelas massivas, quando o núcleo de uma estrela esgota seu combustível nuclear e não consegue resistir à pressão gravitacional. Além disso, a fusão de estrelas ou a evolução de galáxias pode levar à formação de buracos negros supermassivos, localizados no centro de muitas galáxias. Esses objetos exercem influência significativa sobre o ambiente circundante, por exemplo, por meio da radiação ejetada, de ação gravitacional sobre estrelas e gás.\n\nEm contextos cosmológicos, há modelos alternativos que propõem que o universo observável pode ser a região interior de um buraco negro, chamado de cosmológia de buraco negro. Nesse cenário, a expansão do universo seria uma consequência da evolução de um buraco negro em um universo maior, onde o buraco negro apareceria como uma \"abertura branca\". Esse modelo tenta resolver problemas como o problema do horizonte e da planicidade, mas depende de suposições sobre a geometria do universo e a correspondência entre métricas relativísticas.\n\nÉ importante notar que buracos negros e buracos de minhoca (ou pontes de Einstein-Rosen) são soluções matemáticas diferentes da equação de campo da relatividade geral, e não são o mesmo fenômeno. A ideia de que o universo seja interior a um buraco negro é especulativa e não é amplamente aceita na cosmologia moderna, mas permanece como uma possibilidade teórica de investigação."
+    },
+    {
+      "id": "pt-4",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1438,
+      "totalMs": 20690,
+      "tokens": 610,
+      "tokPerSec": 31.7,
+      "prefillTokens": 285,
+      "prefillMs": 960,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [
+        "Evolution"
+      ],
+      "expectedHit": false,
+      "fact": true,
+      "expect": "either",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:lookup",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:0->0",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "Charles Darwin propôs a teoria da evolução por seleção natural.\n\nA teoria da evolução por seleção natural é um dos pilares da biologia moderna, explicando como as espécies mudam ao longo do tempo de forma gradual, por meio da sobrevivência e reprodução de indivíduos com características mais adaptativas ao ambiente. Darwin argumentou que, em populações de seres vivos, existem variações naturais entre os indivíduos, e que, em um dado ambiente, algumas dessas variações aumentam a probabilidade de sobrevivência e reprodução. Esses indivíduos passam, então, suas características para a próxima geração, enquanto os menos adaptados têm menor chance de se reproduzirem. Ao longo de gerações, isso leva a uma mudança gradual na composição genética da população, resultando em espécies novas.\n\nO desenvolvimento dessa teoria foi baseado em observações feitas durante a viagem do navio *Beagle*, principalmente em ilhas do Pacífico e na América do Sul, onde Darwin percebeu diferenças significativas entre espécies de animais e plantas em diferentes regiões. Ele notou que, mesmo entre espécies semelhantes, havia variações progressivas, sugerindo um relacionamento evolutivo. Essas observações, combinadas com a análise de obras de outros cientistas, como o trabalho de Alfred Russel Wallace, levaram a uma formulação clara da ideia da seleção natural como mecanismo evolutivo.\n\nA teoria foi amplamente reformulada e refinada ao longo do tempo com o avanço da genética, especialmente com o entendimento dos mecanismos de herança e mutação. A seleção natural não atua diretamente sobre genótipos, mas sim sobre fenótipos — as características expressas — e é influenciada por fatores ambientais e de recursos. Ainda assim, a ideia central de Darwin permanece válida: a adaptação é o resultado de um processo contínuo de seleção, onde os indivíduos mais adequados sobrevivem e se propagam.\n\nApesar da sua importância, a teoria da seleção natural não explica todos os aspectos da evolução, como a origem de novos genes, a especiação abrupta ou a evolução de características complexas sem claro benefício imediato. Essas questões foram abordadas por outras teorias evolutivas, como a evolução por descentes com modificações e a evolução por coevolução. No entanto, a proposta original de Darwin continua sendo a base teórica que fundamenta a compreensão da diversidade biológica."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nCharles Darwin propôs a teoria da evolução por seleção natural.\n\nA teoria da evolução por seleção natural é um dos pilares da biologia moderna, explicando como as espécies mudam ao longo do tempo de forma gradual, por meio da sobrevivência e reprodução de indivíduos com características mais adaptativas ao ambiente. Darwin argumentou que, em populações de seres vivos, existem variações naturais entre os indivíduos, e que, em um dado ambiente, algumas dessas variações aumentam a probabilidade de sobrevivência e reprodução. Esses indivíduos passam, então, suas características para a próxima geração, enquanto os menos adaptados têm menor chance de se reproduzirem. Ao longo de gerações, isso leva a uma mudança gradual na composição genética da população, resultando em espécies novas.\n\nO desenvolvimento dessa teoria foi baseado em observações feitas durante a viagem do navio *Beagle*, principalmente em ilhas do Pacífico e na América do Sul, onde Darwin percebeu diferenças significativas entre espécies de animais e plantas em diferentes regiões. Ele notou que, mesmo entre espécies semelhantes, havia variações progressivas, sugerindo um relacionamento evolutivo. Essas observações, combinadas com a análise de obras de outros cientistas, como o trabalho de Alfred Russel Wallace, levaram a uma formulação clara da ideia da seleção natural como mecanismo evolutivo.\n\nA teoria foi amplamente reformulada e refinada ao longo do tempo com o avanço da genética, especialmente com o entendimento dos mecanismos de herança e mutação. A seleção natural não atua diretamente sobre genótipos, mas sim sobre fenótipos — as características expressas — e é influenciada por fatores ambientais e de recursos. Ainda assim, a ideia central de Darwin permanece válida: a adaptação é o resultado de um processo contínuo de seleção, onde os indivíduos mais adequados sobrevivem e se propagam.\n\nApesar da sua importância, a teoria da seleção natural não explica todos os aspectos da evolução, como a origem de novos genes, a especiação abrupta ou a evolução de características complexas sem claro benefício imediato. Essas questões foram abordadas por outras teorias evolutivas, como a evolução por descentes com modificações e a evolução por coevolução. No entanto, a proposta original de Darwin continua sendo a base teórica que fundamenta a compreensão da diversidade biológica."
+    },
+    {
+      "id": "pt-5",
+      "outcome": "success",
+      "tier": "fast",
+      "declined": false,
+      "modelLoadMs": 0,
+      "ttftMs": 1678,
+      "totalMs": 25598,
+      "tokens": 543,
+      "tokPerSec": 22.7,
+      "prefillTokens": 282,
+      "prefillMs": 927,
+      "cachedTokens": 118,
+      "completions": 1,
+      "retrieved": [],
+      "expected": [
+        "Fall of the Western Roman Empire"
+      ],
+      "expectedHit": false,
+      "fact": true,
+      "expect": "answer",
+      "falseDecline": false,
+      "falseAnswer": false,
+      "wrongAnswer": false,
+      "reasonCodes": [
+        "task:research",
+        "retrieve:yes",
+        "instant:preview",
+        "generate:user-model-qwen3-4b-instruct-2507-q4km",
+        "offer-deep:multipass",
+        "match:pt-en-names",
+        "context:552->402",
+        "grounding:off-topic-dropped-3",
+        "grounding:no-good-source",
+        "grounding:no-source-memory",
+        "grounding:uncited-preface"
+      ],
+      "modelText": [
+        "O Império Romano do Ocidente caiu devido a uma combinação de fatores internos e externos, incluindo crises políticas, econômicas, sociais e militares, bem como pressões constantes de povos adjacentes. A queda não foi um evento súbito, mas sim um processo gradual que se estendeu por mais de um século, com o fim oficial marcado por uma data específica.\n\nDurante o período medieval, o Império Romano do Ocidente enfrentou uma forte deterioração econômica, com a desorganização do sistema fiscal, a inflação crescente e a perda de controle sobre as regiões mais distantes. A produção agrícola diminuiu, o que reduziu a capacidade de sustentar uma grande máquina militar e administrativa. Além disso, a estrutura do governo se tornou ineficaz, com a perda de centralidade política e a fragmentação do poder nas mãos de chefes locais, como os grandes senhores do norte da Europa, que passaram a exercer influência independente.\n\nA desorganização militar também foi um fator crucial. O exército romano, que antes era uma força centralizada e eficiente, começou a perder eficácia devido à falta de recursos, ao desgaste das unidades e à dificuldade de manter a defesa de fronteiras longas. Povos como os visigóticos, os vândalos e os bávaros, que se expandiram rapidamente, conseguiram invadir e conquistar territórios, especialmente na França, na Itália e na Península Ibérica. A incapacidade de responder de forma coordenada a essas ameaças enfraqueceu ainda mais o império.\n\nOutro aspecto fundamental foi a transformação social e cultural. O império passou de uma entidade centralizada para um conjunto de regiões com identidades políticas e culturais distintas. O surgimento de novas formas de governo, baseadas na autoridade local e na autonomia, substituiu o modelo romano. Essa mudança foi impulsionada pela adoção de sistemas sociais e religiosos diferentes, especialmente com o fortalecimento do cristianismo como força unificadora, que não dependia da estrutura do governo romano. Assim, a queda do império não foi apenas um colapso político, mas uma transição para um novo tipo de organização social e política."
+      ],
+      "answer": "Esta resposta não vem de uma fonte offline deste computador; confira antes de confiar nela.\n\nO Império Romano do Ocidente caiu devido a uma combinação de fatores internos e externos, incluindo crises políticas, econômicas, sociais e militares, bem como pressões constantes de povos adjacentes. A queda não foi um evento súbito, mas sim um processo gradual que se estendeu por mais de um século, com o fim oficial marcado por uma data específica.\n\nDurante o período medieval, o Império Romano do Ocidente enfrentou uma forte deterioração econômica, com a desorganização do sistema fiscal, a inflação crescente e a perda de controle sobre as regiões mais distantes. A produção agrícola diminuiu, o que reduziu a capacidade de sustentar uma grande máquina militar e administrativa. Além disso, a estrutura do governo se tornou ineficaz, com a perda de centralidade política e a fragmentação do poder nas mãos de chefes locais, como os grandes senhores do norte da Europa, que passaram a exercer influência independente.\n\nA desorganização militar também foi um fator crucial. O exército romano, que antes era uma força centralizada e eficiente, começou a perder eficácia devido à falta de recursos, ao desgaste das unidades e à dificuldade de manter a defesa de fronteiras longas. Povos como os visigóticos, os vândalos e os bávaros, que se expandiram rapidamente, conseguiram invadir e conquistar territórios, especialmente na França, na Itália e na Península Ibérica. A incapacidade de responder de forma coordenada a essas ameaças enfraqueceu ainda mais o império.\n\nOutro aspecto fundamental foi a transformação social e cultural. O império passou de uma entidade centralizada para um conjunto de regiões com identidades políticas e culturais distintas. O surgimento de novas formas de governo, baseadas na autoridade local e na autonomia, substituiu o modelo romano. Essa mudança foi impulsionada pela adoção de sistemas sociais e religiosos diferentes, especialmente com o fortalecimento do cristianismo como força unificadora, que não dependia da estrutura do governo romano. Assim, a queda do império não foi apenas um colapso político, mas uma transição para um novo tipo de organização social e política."
+    }
+  ]
+}
