@@ -391,7 +391,8 @@ const MORE: Partial<Record<FactTemplate, string>> = { population: "has more peop
 const LESS: Partial<Record<FactTemplate, string>> = { population: "has fewer people than", area: "is smaller by area than", height: "is lower than", length: "is shorter than", depth: "is shallower than" };
 
 function source(asOf: number | null): string {
-  return `\n\nSource: Wikidata (CC0), offline table as of ${T.snapshot}${asOf ? `; figure dated ${asOf}` : ""}.`;
+  // "From", not "Source:": the chat drops a trailing "Source:" list as model-invented (services/citations.ts).
+  return `\n\nFrom Wikidata (CC0), offline table as of ${T.snapshot}${asOf ? `; figure dated ${asOf}` : ""}.`;
 }
 
 /** One entity, one template → the value line; null when the entity has no value for it. */

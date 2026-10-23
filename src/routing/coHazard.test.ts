@@ -100,7 +100,7 @@ describe("coHazardAnswer", () => {
   it("leads with No. on a yes/no planning question only, and ends with sources and the emergency line", () => {
     const yesNo = coHazardAnswer("Can I run my generator in the garage?");
     expect(yesNo).toMatch(/^No\. Carbon monoxide/);
-    expect(yesNo).toMatch(/Sources: CDC/);
+    expect(yesNo).toMatch(/Based on: CDC/);
     expect(yesNo).toMatch(/emergency/i);
     expect(coHazardAnswer("Where should I put the generator, garage or outside?")).toMatch(/^Carbon monoxide/);
   });

@@ -1958,7 +1958,7 @@ describe("answer(): CO hazard and FACTS instant answers (ported from mobile expo
     expect(types(events)).toEqual(["token", "done"]);
     expect(result.receipt.reasonCodes).toEqual(["answer:safety-fact-co-hazard"]);
     expect(result.text).toMatch(/^No\. Carbon monoxide/);
-    expect(result.text).toMatch(/Sources: CDC.*CPSC.*NHS/);
+    expect(result.text).toMatch(/Based on: CDC.*CPSC.*NHS/);
     expect(f.loads).toEqual([]);
     const pt = await collect("Posso usar aquecedor a gás dentro da barraca?");
     expect(pt.result.receipt.reasonCodes).toEqual(["answer:safety-fact-co-hazard"]);

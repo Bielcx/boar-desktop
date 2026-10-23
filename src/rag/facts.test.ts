@@ -30,7 +30,7 @@ describe("FACTS: the step-1 target items (bench v0.1, dev)", () => {
     expect(text("What plug type and voltage does Brazil use?")).toMatch(/Type C .*Type N .*127 V \/ 220 V/);
   });
   it("every answer carries the source line", () => {
-    expect(text("What is the capital of Kenya?")).toMatch(/The capital of Kenya is Nairobi\.\n\nSource: Wikidata \(CC0\), offline table as of 2026-10-06\./);
+    expect(text("What is the capital of Kenya?")).toMatch(/The capital of Kenya is Nairobi\.\n\nFrom Wikidata \(CC0\), offline table as of 2026-10-06\./);
   });
 });
 
@@ -262,7 +262,7 @@ describe("FACTS asset r8: emergency numbers and snapshot-year population fix (20
 
 describe("FACTS desktop: possessive names", () => {
   it("reads Japan's as Japan, for one value and a comparison", () => {
-    expect(text("What is Japan's population in 2025?")).toMatch(/^Japan \(.*\): population [\d.]+ million \(\d{4}\)\.\n\nSource: Wikidata/);
+    expect(text("What is Japan's population in 2025?")).toMatch(/^Japan \(.*\): population [\d.]+ million \(\d{4}\)\.\n\nFrom Wikidata/);
     expect(text("is Japan's population larger than Nigeria's?")).toMatch(/^No\. Nigeria has more people than Japan/);
     expect(text("What's France's capital?")).toMatch(/^The capital of France is Paris\./);
   });
