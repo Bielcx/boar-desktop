@@ -80,7 +80,7 @@ Actions from the tagged code, with a `SHA256SUMS.txt` for its files.
 - On Ubuntu or Debian, `BOAR.deb` installs it: `sudo apt install ./BOAR.deb`.
 
 **First launch.** BOAR checks your computer and downloads its model from Hugging Face, checking its SHA-256: Qwen3 4B
-(2.5 GB) on computers with 8 GB of RAM or more, Qwen2.5-1.5B (about 1 GB) on lighter ones. After that you can unplug
+(2.5 GB) on computers with 8 GB of RAM or more, Qwen3 1.7B (1.1 GB) on lighter ones. After that you can unplug
 the network.
 
 **Needs:** a 64-bit computer with Windows 10 or 11, or Linux; 8 GB of RAM for the default model (it uses about 3 GB
@@ -107,7 +107,7 @@ makes it much faster, and without one it runs on the CPU.
 - **Locks with a PIN.** Chats are encrypted on disk with a key sealed by your PIN and by your system account (on
   Linux, the desktop keyring).
 - **Brings your own model.** Search Hugging Face for GGUF models from inside the app, or switch between Qwen3 4B
-  and the lighter Qwen2.5-1.5B in Settings.
+  and the lighter Qwen3 1.7B in Settings.
 
 ## Speed
 
