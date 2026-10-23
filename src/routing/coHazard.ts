@@ -158,8 +158,9 @@ export const CO_HAZARD_EN =
   "Have a battery-powered CO alarm, but an alarm does not make it safe to run these indoors. " +
   "If anyone gets a headache, dizziness, weakness, tiredness, nausea, vomiting, chest pain or confusion, or passes out, get everyone out into fresh air right away, call emergency services, and don't go back inside until you're told it's safe.";
 
+// "Based on", not "Sources:": the chat drops a trailing "Sources:" list as model-invented (services/citations.ts).
 export const CO_HAZARD_SOURCES_EN =
-  "Sources: CDC, Power Outage and Carbon Monoxide guidance; US CPSC, Portable Generator Hazards and Generators and Engine-Driven Tools; NHS, Carbon monoxide poisoning.";
+  "Based on: CDC, Power Outage and Carbon Monoxide guidance; US CPSC, Portable Generator Hazards and Generators and Engine-Driven Tools; NHS, Carbon monoxide poisoning.";
 
 
 // Portuguese and Spanish (native Labs, Oct 18; android-native engine/routing/CoHazard.kt): "Posso usar aquecedor a gás

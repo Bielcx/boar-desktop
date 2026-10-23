@@ -76,6 +76,7 @@ import {
   setSessionScope,
 } from "../services/chatHistory";
 import { answer as answerInScope } from "../routing/answerService";
+import { instantAnswer } from "../routing/instantAnswer";
 import type { AnswerHandle } from "../routing/events";
 import { listCustomCollections } from "../services/documentImporter";
 import { generateSessionTitle, summarizeConversation } from "../services/summarize";
@@ -755,8 +756,16 @@ export function ChatScreen({
       let adaptiveTelemetry: Partial<QueryStats> | null = null;
       // How the answer was written, for its receipt's Mode row.
       let answerPath: Receipt["path"];
+      // First aid, CO, emergency numbers, small talk, calculators, Wikidata facts: the same fixed answers answer() gives,
+      // for the whole-library chat too (it routes on its own and never went through them). Not in Deep Research.
+      const instant = !scope && !deepResearchModeRef.current ? instantAnswer(query) : null;
 
-      if (scope) {
+      if (instant) {
+        assistantText = instant.text;
+        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, text: instant.text } : m)));
+        chunks = [];
+        adaptiveTelemetry = { reasonCodes: instant.reasonCodes, retrievalUsed: false };
+      } else if (scope) {
         // Asked of some documents only: the answer pipeline with its grounding rules (src/routing/answer.ts), the
         // one bench/docs.run.ts measures, never Deep Research or the routing preset (their searches read everything).
         const h = answerInScope(

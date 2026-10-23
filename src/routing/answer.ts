@@ -69,11 +69,8 @@ import { englishNamesIn } from "../rag/ptLexicon";
 import { ptLexicon } from "../rag/ptLexiconAsset";
 import { cleanPlaceName } from "../rag/poiPack";
 import { attributeCitations, checkCitations } from "./citations";
-import { calculate } from "./calculators";
-import { emergencyNumbersAnswer } from "./emergencyNumbers";
-import { isSnakebiteFirstAid, snakebiteFirstAidCard } from "./firstAidCards";
-import { coHazardAnswer, coHazardLanguage } from "./coHazard";
-import { factsAnswer } from "../rag/facts";
+import { coHazardLanguage } from "./coHazard";
+import { instantAnswer } from "./instantAnswer";
 import type { LoadFailureKind } from "../inference/loadError";
 import { DepthModel, planAnswer, resolveDeepModel, AnswerPlan, deepAutoIneligibility } from "./depth";
 import { isCompactModel, pickDefaultAnswerModel, tooBigForLowRam } from "./defaultModel";
@@ -116,7 +113,6 @@ import type { MemoryFit } from "../inference/memoryFit";
 import type { AnswerSettings } from "../models/settings";
 import type { ResearchOptions, ResearchProgress, ResearchResult } from "../services/orchestrator";
 import type { ExecutionOutcome, ExecutionTelemetryRecord, ModelResidency } from "../services/executionTelemetry.pure";
-import { smallTalkReply } from "./smallTalk";
 
 /** Development builds log each answer's checks to Metro ([ANSWER] lines); never in a release build or a test. */
 const DEV_LOG = typeof __DEV__ !== "undefined" && __DEV__ && process.env.NODE_ENV !== "test";
@@ -584,64 +580,14 @@ export function createAnswerer(deps: AnswerDeps) {
       // exactly, before anything else: "Minha conta do jantar deu 2.450 baht…" is a sum, not a restaurant
       // search (Sextant 3ccf7c0, mth-003-pt went to task:places).
       if (!req.reuseSources && req.tier !== "deep") {
-        // Snakebite first aid: a fixed card from the WHO text, never a pack passage (Boar, after 3ffd7e0).
-        if (isSnakebiteFirstAid(req.query)) {
-          const card = snakebiteFirstAidCard(req.query, isPortugueseQuestion(req.query));
+        // First aid, CO, emergency numbers, small talk, calculators, Wikidata facts: one list, shared with the chat (instantAnswer.ts).
+        const instant = instantAnswer(req.query, { facts: deps.facts, now: new Date() });
+        if (instant) {
           markVisible();
-          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "First aid (WHO)", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: ["answer:first-aid-card-snakebite"] };
-          emit({ type: "token", answerId, tier: "instant", text: card });
+          const r: AnswerReceipt = { modelId: instant.modelId, modelLabel: instant.modelLabel, tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: instant.reasonCodes };
+          emit({ type: "token", answerId, tier: "instant", text: instant.text });
           emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text: card, sources: [], receipt: r, cited: [] };
-        }
-        // CO hazard (EN/PT/ES): a fuel-burning device in a garage, tent or home is never a model answer (ship L3: "yes, with ventilation").
-        if (coHazard) {
-          const text = coHazardAnswer(req.query, coHazard);
-          markVisible();
-          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "Safety facts (CDC)", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: ["answer:safety-fact-co-hazard"] };
-          emit({ type: "token", answerId, tier: "instant", text });
-          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text, sources: [], receipt: r, cited: [] };
-        }
-        // A country's emergency numbers: a fixed table, never a guess (Sextant trv-001-pt).
-        const numbers = emergencyNumbersAnswer(req.query, isPortugueseQuestion(req.query));
-        if (numbers) {
-          markVisible();
-          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "Offline library", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: ["answer:emergency-numbers"] };
-          emit({ type: "token", answerId, tier: "instant", text: numbers });
-          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text: numbers, sources: [], receipt: r, cited: [] };
-        }
-        // Small talk ("hi", "valeu", "who are you", "what time is it"): a fixed reply, no model load, no search.
-        const chat = smallTalkReply(req.query, isPortugueseQuestion(req.query), new Date());
-        if (chat) {
-          markVisible();
-          const r: AnswerReceipt = { modelId: "small-talk", modelLabel: "BOAR", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: [`answer:small-talk-${chat.kind}`] };
-          emit({ type: "token", answerId, tier: "instant", text: chat.text });
-          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text: chat.text, sources: [], receipt: r, cited: [] };
-        }
-        const calc = calculate(req.query, isPortugueseQuestion(req.query));
-        if (calc) {
-          markVisible();
-          const codes = [`answer:${calc.kind === "temperature" ? "temperature-conversion" : `calculator-${calc.kind}`}`];
-          const r: AnswerReceipt = { modelId: "calculator", modelLabel: "Calculator", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: codes };
-          emit({ type: "token", answerId, tier: "instant", text: calc.text });
-          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text: calc.text, sources: [], receipt: r, cited: [] };
-        }
-        // FACTS (coordinator arm, criterion arms/facts 4328960e): a fact from the offline Wikidata table when the question names a
-        // table entity and asks exactly one property (population, area, capital, height, length, depth, dates, plugs/voltage,
-        // host city, award winner); comparisons get a computed verdict. Never on a health or safety message (EN only).
-        const fact =
-          deps.facts === false || isPortugueseQuestion(req.query) || isSpanishQuestion(req.query) || isHealthQuestion(req.query) || isSafetyQuery(req.query)
-            ? null
-            : factsAnswer(req.query);
-        if (fact) {
-          markVisible();
-          const r: AnswerReceipt = { modelId: "grounding-guard", modelLabel: "Offline facts (Wikidata)", tokens: 0, tokPerSec: 0, ttftMs: deps.now() - t0, totalMs: deps.now() - t0, reasonCodes: [`answer:facts-${fact.template}`] };
-          emit({ type: "token", answerId, tier: "instant", text: fact.text });
-          emit({ type: "done", answerId, tier: "instant", outcome: "success", receipt: r, cited: [] });
-          return { answerId, tier: "instant", outcome: "success", text: fact.text, sources: [], receipt: r, cited: [] };
+          return { answerId, tier: "instant", outcome: "success", text: instant.text, sources: [], receipt: r, cited: [] };
         }
       }
 
