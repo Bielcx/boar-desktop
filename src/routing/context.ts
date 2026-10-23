@@ -877,6 +877,17 @@ export function isPortugueseQuestion(query: string): boolean {
   return strong >= 2 || (strong >= 1 && accent);
 }
 
+/**
+ * A Spanish question (no ES path elsewhere): inverted marks, or three distinct words Portuguese and English don't use.
+ * Words that are also Portuguese ("está", "se", "grave") are not in the list: three of them made a Portuguese question
+ * ("…e está inchando, se piorar é grave?") Spanish. Ported from the mobile expo branch.
+ */
+const ES_ONLY = /(?<![\p{L}])(qué|cómo|cuándo|dónde|hago|hijo|hija|niño|niña|niños|bebé|mi|una|tragó|picó|mordió|ayuda|ayudarlo|ayudarla|pila|alacrán|peligroso|es|muy|tiene|puedo|debo|hacer)(?![\p{L}])/giu;
+export function isSpanishQuestion(query: string): boolean {
+  if (/[¿¡]/.test(query)) return true;
+  return new Set((query.match(ES_ONLY) ?? []).map((w) => w.toLowerCase())).size >= 3;
+}
+
 /** Next to a PT question: answer in Portuguese even with English sources (the sources' language pulls the model). */
 // And the citation, with an example (gate 1724fd5: with the language line alone the models stopped writing [n]).
 export const PT_ANSWER_LANGUAGE =
