@@ -134,6 +134,23 @@ export const MODEL_CATALOG: CatalogModel[] = [
     capabilities: { roles: ["embedding"] },
   },
   {
+    id: "qwen3-1.7b-q4km",
+    kind: "llm",
+    label: "Qwen3-1.7B (Q4_K_M)",
+    displayName: "Qwen3 1.7B",
+    filename: "models/qwen3-1.7b-q4km.gguf",
+    // The mobile app's compact model since v2.0.0-rc1 (its catalog.json); sha256 checked against a download on 2026-10-22.
+    sizeBytes: 1107409472,
+    sha256: "b139949c5bd74937ad8ed8c8cf3d9ffb1e99c866c823204dc42c0d91fa181897",
+    sourceUrl:
+      "https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/resolve/d7f544eead698dbd1f15126ef60b45a1e1933222/Qwen3-1.7B-Q4_K_M.gguf",
+    license: "Apache-2.0",
+    description: "1.7B dense, light, thinking off. The compact answer model for computers with less memory. ~1.1GB.",
+    required: false,
+    answerTier: "compact",
+    capabilities: { roles: ["fast"], usesChatTemplate: true },
+  },
+  {
     id: "qwen3-4b-instruct-2507-q4km",
     kind: "llm",
     label: "Qwen3-4B-Instruct-2507 (Q4_K_M)",
@@ -162,9 +179,8 @@ export const MODEL_CATALOG: CatalogModel[] = [
     sourceUrl:
       "https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/9eadc66189c7641e1ddd226b8267a9119b2ce2d4/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf",
     license: "Apache-2.0",
-    description: "1.5B dense, fast (~11-18 tok/s) and light. ~1.0GB. Compact answer model for computers with little RAM.",
+    description: "1.5B dense, fast and light. ~1.0GB. The compact model before Qwen3 1.7B; still listed.",
     required: false,
-    answerTier: "compact",
     // Real-device Phase 9 test ("whats up?" -> a long, rambling,
     // free-associated multi-question response) traced to the app's
     // hand-built "Question: ...\n\nAnswer:" prompt shape being outside
