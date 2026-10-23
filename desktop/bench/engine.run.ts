@@ -213,7 +213,7 @@ it("benchmark", async () => {
   }
   // --wiki: one English Wikipedia shard installed next to the bundled corpus (as bench/docs.run.ts does), so retrieval
   // finds what a user with a pack gets: more sources, and longer ones, for the context budget to cut.
-  const wikiShard = path.join(MODELS_DIR, "corpus", "boar-wiki-en-00.sqlite");
+  const wikiShard = path.join(MODELS_DIR, "corpus", env.BOAR_BENCH_PACK || "boar-wiki-en-00.sqlite");
   if (env.BOAR_BENCH_WIKI === "1") {
     if (!fs.existsSync(wikiShard)) throw new Error(`--wiki: missing ${wikiShard}`);
     fs.mkdirSync(path.join(dataDir, "documents", "corpus"), { recursive: true });
@@ -348,7 +348,16 @@ it("benchmark", async () => {
     const { runAnswerEvaluation } = await import("../../src/eval/answerEval");
     const { expectedKbHit } = await import("../../src/eval/evalHarness.pure");
     const { scoreRun, SCORE_VERSION } = await import("../../src/eval/score.pure");
-    const set = MODE === "full" ? [...EVAL_SET, ...EXTRA_SET] : EVAL_SET.filter((q) => QUICK_QUERIES.includes(q.id));
+    // --questions: someone else's question list (e.g. a judge's), through the same pipeline; no expected titles or facts.
+    const custom = env.BOAR_BENCH_QUESTIONS
+      ? (JSON.parse(fs.readFileSync(env.BOAR_BENCH_QUESTIONS, "utf8")) as Array<{ id: string; query: string; category?: string }>).map((q) => ({
+          id: q.id,
+          query: q.query,
+          category: q.category ?? "custom",
+          expectedKbTitles: [] as string[],
+        }))
+      : undefined;
+    const set = custom ?? (MODE === "full" ? [...EVAL_SET, ...EXTRA_SET] : EVAL_SET.filter((q) => QUICK_QUERIES.includes(q.id)));
     const run = await runAnswerEvaluation({
       questions: set.map((q) => ({ id: q.id, query: q.query, category: q.category })),
       evalSetVersion: EVAL_SET_VERSION,
@@ -357,7 +366,7 @@ it("benchmark", async () => {
     state.tag = "done";
     // The answer rows leave expected titles empty (any dataset); EVAL_SET has them, so fill them in as evalHarness does.
     const rows = run.rows.map((r) => {
-      const q = [...EVAL_SET, ...EXTRA_SET].find((x) => x.id === r.queryId)!;
+      const q = [...(custom ?? []), ...EVAL_SET, ...EXTRA_SET].find((x) => x.id === r.queryId)!;
       return { ...r, expectedKbTitles: q.expectedKbTitles, expectedKbHit: expectedKbHit(q.expectedKbTitles, r.retrievedTitles) };
     });
     const [score] = scoreRun(rows);

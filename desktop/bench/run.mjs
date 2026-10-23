@@ -1,4 +1,4 @@
-// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki] [--kv f16|q8_0|q4_0] [--repeat n] [--docset name]
+// npm run bench -- [--docs [--scoped]] [--quick | --full] [--label name] [--model id] [--ctx n] [--gpu-layers n] [--threads n] [--seed n] [--k n] [--context-tokens n] [--wiki [--pack file]] [--questions file.json] [--kv f16|q8_0|q4_0] [--repeat n] [--docset name]
 // Runs bench/engine.run.ts (the app's engine in Node, no window) and prints the table. Result: bench/results/<date>-<label>-<mode>.json
 // Models come from BOAR_TEST_MODELS_DIR (default C:/Users/bielc/Dev/boar-shared-models when it exists).
 import { spawnSync } from "node:child_process";
@@ -27,6 +27,8 @@ const { values } = parseArgs({
     repeat: { type: "string" },
     docset: { type: "string" }, // with --docs: bench/docsets/<name>/ (files + questions.json) instead of bench/docs // n runs of the same setup, seeds seed..seed+n-1, then the spread and per-question stability
     wiki: { type: "boolean" }, // the main bench with one Wikipedia shard installed (BOAR_TEST_MODELS_DIR/corpus)
+    pack: { type: "string" }, // with --wiki: the pack file in BOAR_TEST_MODELS_DIR/corpus (default boar-wiki-en-00.sqlite)
+    questions: { type: "string" }, // a JSON file of [{id, query, category?}] run instead of the eval set
     "context-tokens": { type: "string" },
   },
 });
@@ -45,6 +47,8 @@ const env = {
   ...(values.scoped ? { BOAR_BENCH_SCOPED: "1" } : {}),
   ...(values.docset ? { BOAR_BENCH_DOCSET: values.docset } : {}),
   ...(values.wiki ? { BOAR_BENCH_WIKI: "1" } : {}),
+  ...(values.pack ? { BOAR_BENCH_PACK: values.pack } : {}),
+  ...(values.questions ? { BOAR_BENCH_QUESTIONS: path.resolve(values.questions) } : {}),
   BOAR_TEST_MODELS_DIR: process.env.BOAR_TEST_MODELS_DIR || (fs.existsSync(fallbackModels) ? fallbackModels : ""),
 };
 for (const [flag, name] of [["model", "BOAR_BENCH_MODEL"], ["ctx", "BOAR_BENCH_CTX"], ["gpu-layers", "BOAR_GPU_LAYERS"], ["threads", "BOAR_BENCH_THREADS"], ["seed", "BOAR_BENCH_SEED"], ["k", "BOAR_BENCH_K"], ["context-tokens", "BOAR_BENCH_CONTEXT_TOKENS"], ["kv", "BOAR_BENCH_KV"]]) {
