@@ -132,6 +132,12 @@ describe("attributeCitations (the inverse of CT-1)", () => {
     expect(attributeCitations("Monsoon.", [MONSOON]).added).toEqual([]);
     expect(attributeCitations("A monsoon is a seasonal reversing wind [1].", [MONSOON]).text).toBe("A monsoon is a seasonal reversing wind [1].");
   });
+
+  it("never puts a [n] inside a decimal number", () => {
+    const everest = src("Mount Everest", "Mount Everest is Earth's highest mountain above sea level. Its elevation of 8,848.86 m was most recently established in 2020.");
+    const r = attributeCitations("Mount Everest has an elevation of 8,848.86 m above sea level.", [everest]);
+    expect(r.text).toBe("Mount Everest has an elevation of 8,848.86 m above sea level [1].");
+  });
 });
 
 describe("dedupeCitations (Prism CIT-2)", () => {

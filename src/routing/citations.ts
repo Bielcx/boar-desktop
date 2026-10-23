@@ -8,6 +8,12 @@
 import type { RetrievedChunk } from "../rag/retrieve.types";
 import { tokenizeTerms } from "./context";
 
+/**
+ * A sentence: up to its end mark. A "." followed by a digit is not one: "8.0 billion" split at the dot got
+ * its citation inside the number ("8 [1].0 billion"; desktop bench on Vitalik's questions, 21/10).
+ */
+const SENTENCE = /(?:[^.!?\n]|\.(?=\d))+[.!?]*/g;
+
 /** Share of a cited sentence's key words the source must contain. */
 export const CITATION_MIN_SUPPORT = 0.5;
 /** Sentences with fewer key words than this are too short to judge: the citation stays. */
@@ -90,7 +96,7 @@ function relocate(segment: string, n: number, source: RetrievedChunk): string | 
   const from = Math.max(segment.lastIndexOf("\n"), segment.lastIndexOf("]")) + 1;
   const title = terms(source.title);
   let best: { at: number; end: number; support: number } | null = null;
-  for (const m of segment.slice(from).matchAll(/[^.!?\n]+[.!?]*/g)) {
+  for (const m of segment.slice(from).matchAll(SENTENCE)) {
     const key = keyTerms(m[0]);
     // A sentence too short to judge (support 1 by definition) never takes a citation it didn't carry, and the
     // one that does names the source's subject: half the words of "The element with atomic number 50 is tin"
@@ -161,7 +167,7 @@ export const ATTRIBUTION_MIN_SUPPORT = 0.75;
 export function attributeCitations(answer: string, sources: RetrievedChunk[]): AttributedCitations {
   const added: number[] = [];
   if (!sources.length) return { text: answer, added };
-  const text = answer.replace(/[^.!?\n]+[.!?]*/g, (sentence: string, at: number) => {
+  const text = answer.replace(SENTENCE, (sentence: string, at: number) => {
     if (/\[\d+\]/.test(sentence)) return sentence;
     // A citation right after the sentence's punctuation ("… Zone. [1]") is its own (Prism CIT-2: "[1]. [1]").
     if (/^\s*\[\d+\]/.test(answer.slice(at + sentence.length))) return sentence;
